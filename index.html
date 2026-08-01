@@ -470,7 +470,7 @@ $("collectBtn").addEventListener("click", async () => {
     const custodian = new ethers.Contract(addr, CUSTODIAN_ABI, signer);
     const tx = await custodian.collect();
     await tx.wait();
-    setStatus(el, "Fees collected to the FeeSplitter ✅ — now click "Split 50/50".", "ok");
+    setStatus(el, "Fees collected to the FeeSplitter ✅ — now click \"Split 50/50\".", "ok");
   }catch(e){
     setStatus(el, "Error: " + (e.reason || e.message || e), "err");
   }
