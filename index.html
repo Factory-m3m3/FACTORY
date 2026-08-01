@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meme Coin Factory — Robinhood Chain</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.15.0/ethers.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0b0d12; --panel:#12151c; --panel2:#171b24; --border:#232838;
+    --text:#e8eaf0; --muted:#8890a3; --accent:#7c5cff; --accent2:#00e5a0;
+    --danger:#ff5c7a; --warn:#ffb84d;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(1200px 800px at 80% -10%, #1b1440 0%, transparent 60%),
+    radial-gradient(1000px 700px at -10% 110%, #0a2a2a 0%, transparent 55%), var(--bg);
+    color:var(--text); font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:32px 20px 80px; position:relative; z-index:1;}
+  header{display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; gap:12px; flex-wrap:wrap;}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:20px;}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent2); box-shadow:0 0 12px var(--accent2);}
+  button{cursor:pointer; font-family:inherit;}
+  .wallet-btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:10px 16px; border-radius:10px; font-size:14px; font-weight:600;
+  }
+  .wallet-btn:hover{border-color:var(--accent);}
+  .banner{
+    background:linear-gradient(90deg, rgba(255,184,77,.12), rgba(255,184,77,.03));
+    border:1px solid rgba(255,184,77,.35); color:#ffd9a0; padding:12px 16px;
+    border-radius:12px; font-size:13px; margin-bottom:20px; line-height:1.5;
+  }
+  .card{
+    background:linear-gradient(180deg, var(--panel), var(--panel2));
+    border:1px solid var(--border); border-radius:18px; padding:26px;
+    margin-bottom:20px; box-shadow:0 20px 60px -30px rgba(0,0,0,.6);
+  }
+  .card h2{margin:0 0 4px; font-size:16px;}
+  .card .sub{color:var(--muted); font-size:13px; margin-bottom:20px;}
+  label{display:block; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:6px; font-weight:600;}
+  .field{margin-bottom:18px;}
+  input[type=text], input[type=number]{
+    width:100%; background:#0d1017; border:1px solid var(--border); color:var(--text);
+    padding:12px 14px; border-radius:10px; font-size:15px; outline:none;
+  }
+  input[type=text]:focus, input[type=number]:focus{border-color:var(--accent);}
+  .ticker-wrap{display:flex; align-items:center; background:#0d1017; border:1px solid var(--border); border-radius:10px; overflow:hidden;}
+  .ticker-wrap span{padding:0 4px 0 14px; color:var(--accent2); font-weight:700;}
+  .ticker-wrap input{border:none; background:transparent; padding:12px 14px 12px 4px;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .logo-drop{
+    border:2px dashed var(--border); border-radius:14px; padding:20px; text-align:center;
+    color:var(--muted); font-size:13px; cursor:pointer; display:flex; align-items:center; gap:16px;
+  }
+  .logo-drop:hover{border-color:var(--accent);}
+  .logo-drop img{width:56px;height:56px;border-radius:14px;object-fit:cover;display:none;}
+  details{margin-top:6px;}
+  summary{cursor:pointer; color:var(--muted); font-size:13px; padding:4px 0;}
+  .adv{padding:14px 0 0;}
+  .hint{color:var(--muted); font-size:12px; margin-top:6px;}
+  .start-btn{
+    width:100%; padding:16px; border:none; border-radius:14px; font-size:16px; font-weight:700;
+    background:linear-gradient(90deg, var(--accent), #a56bff); color:white; margin-top:6px;
+    box-shadow:0 12px 30px -10px rgba(124,92,255,.6);
+  }
+  .start-btn:disabled{opacity:.45; cursor:not-allowed; box-shadow:none;}
+  .status{font-size:13px; color:var(--muted); margin-top:12px; min-height:18px; line-height:1.6;}
+  .status.err{color:var(--danger);}
+  .status.ok{color:var(--accent2);}
+  .result{display:none;}
+  .result .ca{
+    background:#0d1017; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    display:flex; align-items:center; justify-content:space-between; gap:10px; margin:10px 0;
+  }
+  .result .ca code{font-size:13px; color:var(--accent2); word-break:break-all;}
+  .copy-btn{background:var(--panel2); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:6px 10px; font-size:12px;}
+  .pill{display:inline-flex; align-items:center; gap:6px; background:#0d1017; border:1px solid var(--border); border-radius:999px; padding:6px 12px; font-size:12px; color:var(--muted); margin-right:8px; margin-bottom:8px;}
+  .pill b{color:var(--text);}
+  .links a{color:var(--accent2); text-decoration:none; font-size:13px; margin-right:16px;}
+  .links a:hover{text-decoration:underline;}
+  .countdown{font-size:14px; margin-top:6px;}
+  .history-item{
+    display:flex; align-items:center; gap:12px; padding:12px; border:1px solid var(--border);
+    border-radius:12px; margin-bottom:10px; background:#0d1017;
+  }
+  .history-item img{width:36px;height:36px;border-radius:10px;object-fit:cover;background:#222;}
+  .history-item .meta{flex:1; min-width:0;}
+  .history-item .meta b{font-size:14px;}
+  .history-item .meta span{display:block; font-size:11px; color:var(--muted); word-break:break-all;}
+  .history-item button{font-size:11px; padding:6px 10px; border-radius:8px; background:var(--panel2); border:1px solid var(--border); color:var(--text);}
+  .config-flag{color:var(--danger); font-weight:700;}
+  .small-btn{background:var(--panel2); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:9px 12px; font-size:13px;}
+  footer{text-align:center; color:var(--muted); font-size:12px; margin-top:30px;}
+
+  /* Decorative floating critter bubbles on the side rails — purely visual,
+     hidden on narrow viewports where there's no side rail to put them in. */
+  .critter-rail{
+    position:fixed; top:0; bottom:0; width:110px; pointer-events:none; z-index:0;
+    overflow:hidden;
+  }
+  .critter-rail.left{left:0;}
+  .critter-rail.right{right:0;}
+  .critter{
+    position:absolute; font-size:34px; opacity:.16; filter:grayscale(15%);
+    animation:critterFloat 22s linear infinite;
+  }
+  @keyframes critterFloat{
+    0%{ transform:translateY(110vh) rotate(-8deg); }
+    100%{ transform:translateY(-15vh) rotate(8deg); }
+  }
+  @media (max-width:1100px){ .critter-rail{display:none;} }
+</style>
+</head>
+<body>
+
+<div class="critter-rail left" id="critterRailLeft" aria-hidden="true"></div>
+<div class="critter-rail right" id="critterRailRight" aria-hidden="true"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="brand"><span class="dot"></span> Meme Coin Factory</div>
+    <button class="wallet-btn" id="connectBtn">Connect wallet</button>
+  </header>
+
+  <div class="card">
+    <h2>Launch a memecoin</h2>
+    <div class="sub">100% of the supply goes into locked liquidity as soon as the launch is confirmed. No founder allocation, no vault.</div>
+
+    <div class="field">
+      <label>Project name</label>
+      <input type="text" id="tokenName" placeholder="e.g. Robin Hoodie">
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Ticker</label>
+        <div class="ticker-wrap"><span>$</span><input type="text" id="tokenSymbol" placeholder="HOODIE" maxlength="12"></div>
+      </div>
+      <div class="field">
+        <label>Total supply</label>
+        <input type="text" value="1,000,000,000" disabled style="opacity:.6; cursor:not-allowed;">
+        <div class="hint">Fixed for every launch — whole units, decimals are handled by the contract.</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Logo</label>
+      <div class="logo-drop" id="logoDrop">
+        <img id="logoPreview">
+        <div id="logoText">Click to choose an image (PNG/JPG, ideally square)</div>
+      </div>
+      <input type="file" id="logoInput" accept="image/*" style="display:none">
+      <div class="hint">
+        The logo is <b>not</b> stored on-chain (no contract here has a metadata/URI field) — it's purely local to this tool
+        (saved in your browser) and downloadable as JSON for manual submission to an explorer/aggregator such as Blockscout or DexScreener.
+      </div>
+    </div>
+
+    <details>
+      <summary>Advanced settings (starting price)</summary>
+      <div class="adv">
+        <div class="field">
+          <label>Starting market cap (in the chain's native ETH)</label>
+          <input type="number" id="startMcap" value="2" min="0.0001" step="0.0001">
+          <div class="hint">Determines the pool's starting price. Higher = higher starting price per token.</div>
+        </div>
+      </div>
+      <div class="hint">
+        No anti-sniping delay here: trading opens as soon as the transaction is confirmed. A fixed delay doesn't protect against a bot (always faster than a human once a countdown ends) — the real protection against liquidity theft comes from the custodian (position can't be withdrawn, see contract) and the automatic ownership renounce.
+      </div>
+    </details>
+
+    <button class="start-btn" id="startBtn" disabled>Connect your wallet first</button>
+    <div class="status" id="status"></div>
+
+    <div class="result" id="result">
+      <div class="ca">
+        <div>Token address (CA)<br><code id="caToken">—</code></div>
+        <button class="copy-btn" data-copy="caToken">Copy</button>
+      </div>
+      <div class="links" id="resultLinks"></div>
+      <div class="countdown" id="countdown"></div>
+      <button class="small-btn" id="proofBtn" style="margin-top:10px">📄 Open proof page / DEX submission</button>
+    </div>
+  </div>
+
+  <div class="card" id="feesCard" style="display:none">
+    <h2>Claim swap fees</h2>
+    <div class="sub">Permissionless — anyone can trigger these two steps. The creator/platform split is fixed at 50/50 and can never be changed (custodian ownership was renounced at launch).</div>
+    <div class="field">
+      <label>Custodian</label>
+      <input type="text" id="feeCustodian" placeholder="0x...">
+    </div>
+    <div class="field">
+      <label>FeeSplitter</label>
+      <input type="text" id="feeSplitterAddr" placeholder="0x...">
+    </div>
+    <div class="field">
+      <label>Token address to distribute (the memecoin or WETH)</label>
+      <input type="text" id="feeTokenAddr" placeholder="0x...">
+    </div>
+    <button class="small-btn" id="collectBtn">1. Collect (custodian.collect())</button>
+    <button class="small-btn" id="releaseBtn" style="margin-left:8px">2. Split 50/50 (feeSplitter.release())</button>
+    <div class="status" id="feeStatus"></div>
+  </div>
+
+  <div class="card" id="historyCard" style="display:none">
+    <h2>Local launch history</h2>
+    <div class="sub">Stored only in this browser (localStorage) — purely for your convenience, nothing here is on-chain.</div>
+    <div id="historyList"></div>
+  </div>
+
+  <footer>Robinhood Chain · chainId 4663 · Unaudited contracts · No warranty</footer>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+ *  CONFIG — À REMPLIR AVANT USAGE
+ *  Rien de générique ne peut remplir ça à ta place, exactement comme les
+ *  TODO dans DeployMemeToken_fixed.s.sol / FeeSplitter.sol.
+ * ════════════════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  // Address of YOUR deployed MemeCoinFactory (constructor: uniswapV3Factory, positionManager, weth, platform)
+  // TODO: fill in after running DeployFactory.s.sol on mainnet.
+  FACTORY_ADDRESS: "0x0000000000000000000000000000000000000000", // MemeCoinFactory MAINNET — not yet deployed
+
+  // Robinhood Chain MAINNET
+  CHAIN_ID: 4663,
+  CHAIN_ID_HEX: "0x" + (4663).toString(16),
+  CHAIN_NAME: "Robinhood Chain",
+  RPC_URL: "https://rpc.mainnet.chain.robinhood.com",
+  BLOCK_EXPLORER: "https://robinhoodchain.blockscout.com",
+  NATIVE_SYMBOL: "ETH",
+};
+
+// Fixed for every launch — kept identical across all tokens created by this
+// tool (see project notes on why the supply is not user-editable).
+const FIXED_TOTAL_SUPPLY = 1000000000n;
+
+const FACTORY_ABI = [
+  "event TokenLaunched(address indexed creator, address indexed token, address custodian, address feeSplitter, address pool, uint256 tokenId, int24 tickLower, int24 tickUpper)",
+  "function launchToken(string name_, string symbol_, uint256 totalSupply_, uint256 targetStartMcapWei) external returns (address tokenAddr, address custodianAddr, address feeSplitterAddr)"
+];
+
+const CUSTODIAN_ABI = [
+  "function collect() external returns (uint256 amount0, uint256 amount1)"
+];
+
+const FEESPLITTER_ABI = [
+  "function release(address token) external"
+];
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  STATE
+ * ════════════════════════════════════════════════════════════════════════ */
+let provider, signer, userAddress;
+let logoDataUrl = null;
+
+const $ = (id) => document.getElementById(id);
+
+function setStatus(el, msg, kind){
+  el.textContent = msg;
+  el.className = "status" + (kind ? " " + kind : "");
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  WALLET CONNECT + NETWORK CHECK
+ * ════════════════════════════════════════════════════════════════════════ */
+/* Decorative critter bubbles — dog/cat faces drifting up the side rails.
+   Purely cosmetic, no on-chain meaning. */
+(function spawnCritters(){
+  const faces = ["🐶","🐱","🐕","🐈","🦴","🐾"];
+  const rails = [$("critterRailLeft"), $("critterRailRight")];
+  rails.forEach((rail) => {
+    if (!rail) return;
+    const count = 6;
+    for (let i = 0; i < count; i++){
+      const el = document.createElement("span");
+      el.className = "critter";
+      el.textContent = faces[Math.floor(Math.random() * faces.length)];
+      el.style.left = (10 + Math.random() * 70) + "%";
+      el.style.animationDuration = (16 + Math.random() * 14) + "s";
+      el.style.animationDelay = (-Math.random() * 20) + "s";
+      rail.appendChild(el);
+    }
+  });
+})();
+
+$("connectBtn").addEventListener("click", connectWallet);
+
+async function connectWallet(){
+  if (!window.ethereum){
+    alert("No wallet detected (MetaMask, Rabby, ...). Install an EVM-compatible wallet extension.");
+    return;
+  }
+  try{
+    provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    await ensureNetwork();
+    signer = await provider.getSigner();
+    userAddress = await signer.getAddress();
+    $("connectBtn").textContent = userAddress.slice(0,6) + "…" + userAddress.slice(-4);
+    $("startBtn").disabled = false;
+    $("startBtn").textContent = "Start 🚀";
+    $("feesCard").style.display = "block";
+    renderHistory();
+  }catch(e){
+    console.error(e);
+    alert("Connection failed: " + (e.message || e));
+  }
+}
+
+async function ensureNetwork(){
+  const net = await provider.getNetwork();
+  if (Number(net.chainId) === CONFIG.CHAIN_ID) return;
+  try{
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: CONFIG.CHAIN_ID_HEX }],
+    });
+  }catch(switchErr){
+    if (switchErr.code === 4902){
+      if (!CONFIG.RPC_URL){
+        alert("CONFIG.RPC_URL is not set in the source code — Robinhood Chain can't be added automatically. Add it manually in your wallet.");
+        throw switchErr;
+      }
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [{
+          chainId: CONFIG.CHAIN_ID_HEX,
+          chainName: CONFIG.CHAIN_NAME,
+          nativeCurrency: { name: CONFIG.NATIVE_SYMBOL, symbol: CONFIG.NATIVE_SYMBOL, decimals: 18 },
+          rpcUrls: [CONFIG.RPC_URL],
+          blockExplorerUrls: [CONFIG.BLOCK_EXPLORER],
+        }],
+      });
+    } else {
+      throw switchErr;
+    }
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  LOGO UPLOAD (local only — pas de stockage on-chain, voir hint dans l'UI)
+ * ════════════════════════════════════════════════════════════════════════ */
+$("logoDrop").addEventListener("click", () => $("logoInput").click());
+$("logoInput").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    logoDataUrl = reader.result;
+    $("logoPreview").src = logoDataUrl;
+    $("logoPreview").style.display = "block";
+    $("logoText").textContent = file.name;
+  };
+  reader.readAsDataURL(file);
+});
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  LAUNCH
+ * ════════════════════════════════════════════════════════════════════════ */
+$("startBtn").addEventListener("click", launch);
+
+async function launch(){
+  const statusEl = $("status");
+  try{
+    if (CONFIG.FACTORY_ADDRESS === "0x0000000000000000000000000000000000000000"){
+      setStatus(statusEl, "CONFIG.FACTORY_ADDRESS is not set — edit the HTML file first.", "err");
+      return;
+    }
+
+    const name = $("tokenName").value.trim();
+    const symbol = $("tokenSymbol").value.trim();
+    const mcapStr = $("startMcap").value.trim();
+
+    if (!name || !symbol || !mcapStr){
+      setStatus(statusEl, "Fill in all fields (name, ticker, and the advanced parameter).", "err");
+      return;
+    }
+    const supply = FIXED_TOTAL_SUPPLY;
+    const mcapWei = ethers.parseEther(mcapStr);
+
+    $("startBtn").disabled = true;
+    setStatus(statusEl, "Confirm the transaction in your wallet…", "");
+
+    const factory = new ethers.Contract(CONFIG.FACTORY_ADDRESS, FACTORY_ABI, signer);
+    const tx = await factory.launchToken(name, symbol, supply, mcapWei);
+
+    setStatus(statusEl, "Transaction sent (" + tx.hash + "), waiting for confirmation…", "");
+    const receipt = await tx.wait();
+
+    // Décoder l'event TokenLaunched depuis les logs du receipt
+    const iface = new ethers.Interface(FACTORY_ABI);
+    let parsed = null;
+    for (const log of receipt.logs){
+      try{
+        const p = iface.parseLog(log);
+        if (p && p.name === "TokenLaunched"){ parsed = p; break; }
+      }catch(e){ /* log d'un autre contrat, ignore */ }
+    }
+    if (!parsed){
+      setStatus(statusEl, "Transaction confirmed but the TokenLaunched event wasn't found in the logs. Check the explorer: " + CONFIG.BLOCK_EXPLORER + "/tx/" + tx.hash, "err");
+      $("startBtn").disabled = false;
+      return;
+    }
+
+    const tokenAddr = parsed.args.token;
+    const custodianAddr = parsed.args.custodian;
+    const feeSplitterAddr = parsed.args.feeSplitter;
+    const poolAddr = parsed.args.pool;
+
+    setStatus(statusEl, "Launched successfully ✅", "ok");
+    showResult({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), txHash: tx.hash });
+    saveToHistory({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash, date: Date.now() });
+    prefillFeesCard(tokenAddr, custodianAddr, feeSplitterAddr);
+
+    $("startBtn").disabled = false;
+  }catch(e){
+    console.error(e);
+    setStatus(statusEl, "Error: " + (e.reason || e.message || e), "err");
+    $("startBtn").disabled = false;
+  }
+}
+
+let lastLaunch = null;
+
+function showResult(data){
+  lastLaunch = data;
+  const { tokenAddr, txHash } = data;
+  $("result").style.display = "block";
+  $("caToken").textContent = tokenAddr;
+  $("resultLinks").innerHTML =
+    '<a href="' + CONFIG.BLOCK_EXPLORER + '/address/' + tokenAddr + '" target="_blank">View token on explorer</a>' +
+    (txHash ? '<a href="' + CONFIG.BLOCK_EXPLORER + '/tx/' + txHash + '" target="_blank">View transaction</a>' : '');
+  $("countdown").innerHTML = '🟢 Trading open as soon as confirmed (no delay imposed by the contract)';
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  COPY BUTTON
+ * ════════════════════════════════════════════════════════════════════════ */
+document.addEventListener("click", (e) => {
+  if (e.target.matches(".copy-btn")){
+    const text = $(e.target.dataset.copy).textContent;
+    navigator.clipboard.writeText(text);
+    e.target.textContent = "Copied!";
+    setTimeout(() => e.target.textContent = "Copier", 1200);
+  }
+});
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  FEES — collect() sur le custodian puis release() sur le FeeSplitter
+ * ════════════════════════════════════════════════════════════════════════ */
+function prefillFeesCard(tokenAddr, custodianAddr, feeSplitterAddr){
+  $("feeCustodian").value = custodianAddr;
+  $("feeSplitterAddr").value = feeSplitterAddr;
+  $("feeTokenAddr").value = tokenAddr;
+}
+
+$("collectBtn").addEventListener("click", async () => {
+  const el = $("feeStatus");
+  try{
+    const addr = $("feeCustodian").value.trim();
+    if (!ethers.isAddress(addr)){ setStatus(el, "Invalid custodian address.", "err"); return; }
+    setStatus(el, "Collecting…", "");
+    const custodian = new ethers.Contract(addr, CUSTODIAN_ABI, signer);
+    const tx = await custodian.collect();
+    await tx.wait();
+    setStatus(el, "Fees collected to the FeeSplitter ✅ — now click "Split 50/50".", "ok");
+  }catch(e){
+    setStatus(el, "Error: " + (e.reason || e.message || e), "err");
+  }
+});
+
+$("releaseBtn").addEventListener("click", async () => {
+  const el = $("feeStatus");
+  try{
+    const splitterAddr = $("feeSplitterAddr").value.trim();
+    const tokenAddr = $("feeTokenAddr").value.trim();
+    if (!ethers.isAddress(splitterAddr) || !ethers.isAddress(tokenAddr)){
+      setStatus(el, "Invalid addresses.", "err"); return;
+    }
+    setStatus(el, "Distributing…", "");
+    const splitter = new ethers.Contract(splitterAddr, FEESPLITTER_ABI, signer);
+    const tx = await splitter.release(tokenAddr);
+    await tx.wait();
+    setStatus(el, "50/50 split done ✅ (creator / platform).", "ok");
+  }catch(e){
+    setStatus(el, "Error: " + (e.reason || e.message || e) + " — check there is a balance to distribute (collect() first).", "err");
+  }
+});
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  HISTORIQUE LOCAL (localStorage — cet outil tourne dans ton navigateur,
+ *  ce n'est pas un artifact Claude.ai, localStorage est donc approprié ici)
+ * ════════════════════════════════════════════════════════════════════════ */
+function saveToHistory(entry){
+  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  list.unshift(entry);
+  localStorage.setItem("memeFactoryHistory", JSON.stringify(list));
+  renderHistory();
+}
+
+function renderHistory(){
+  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  if (!list.length) return;
+  $("historyCard").style.display = "block";
+  $("historyList").innerHTML = list.map((it, idx) => `
+    <div class="history-item">
+      <img src="${it.logo || ''}" onerror="this.style.display='none'">
+      <div class="meta">
+        <b>${it.name} ($${it.symbol})</b>
+        <span>${it.tokenAddr}</span>
+      </div>
+      <button onclick="loadFromHistory(${idx})">Load</button>
+      <button onclick="downloadMetadata(${idx})">Export JSON</button>
+      <button onclick="openProofPageFromHistory(${idx})">Proof page</button>
+    </div>
+  `).join("");
+}
+
+function loadFromHistory(idx){
+  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  const it = list[idx];
+  if (!it) return;
+  showResult({ name: it.name, symbol: it.symbol, tokenAddr: it.tokenAddr, custodianAddr: it.custodianAddr, feeSplitterAddr: it.feeSplitterAddr, poolAddr: it.poolAddr, creatorAddr: it.creatorAddr, supply: it.supply, txHash: it.txHash || "" });
+  logoDataUrl = it.logo || null;
+  prefillFeesCard(it.tokenAddr, it.custodianAddr, it.feeSplitterAddr);
+}
+
+function downloadMetadata(idx){
+  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  const it = list[idx];
+  if (!it) return;
+  const blob = new Blob([JSON.stringify(it, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = (it.symbol || "token") + "-metadata.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  PAGE DE PREUVE / SOUMISSION DEX
+ *  Génère une page HTML autonome (logo inclus en base64) reprenant le
+ *  style de la page de preuve $ROBINBOSS, mais entièrement pilotée par les
+ *  données réelles du lancement — pas de valeurs figées en dur. Ouverte
+ *  sur clic direct (jamais après un await) pour éviter le blocage popup.
+ * ════════════════════════════════════════════════════════════════════════ */
+function esc(s){
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+
+function buildProofPageHTML(d){
+  const hasRpc = !!CONFIG.RPC_URL;
+  const logoBlock = d.logo
+    ? `<img src="${d.logo}" alt="logo" style="width:64px;height:64px;border-radius:14px;object-fit:cover;border:1px solid #3A443C;">`
+    : `<div style="width:64px;height:64px;border-radius:14px;background:#28312A;border:1px solid #3A443C;display:flex;align-items:center;justify-content:center;font-size:11px;color:#A9B0A5;">no logo</div>`;
+
+  const checksJs = hasRpc ? `
+const RPC = ${JSON.stringify(CONFIG.RPC_URL)};
+const TOKEN = ${JSON.stringify(d.tokenAddr)};
+const CUSTODIAN = ${JSON.stringify(d.custodianAddr)};
+const FEESPLITTER = ${JSON.stringify(d.feeSplitterAddr)};
+const EXPLORER = ${JSON.stringify(CONFIG.BLOCK_EXPLORER + "/address/")};
+
+const checks = [
+  { id:'token-owner', label:"Token contract ownership renounced", addr:TOKEN, sig:"0x8da5cb5b", type:"addr-zero" },
+  { id:'custodian-owner', label:"Custodian ownership renounced", addr:CUSTODIAN, sig:"0x8da5cb5b", type:"addr-zero" },
+  { id:'custodian-code', label:"Custodian is a real deployed on-chain contract", addr:CUSTODIAN, type:"has-code" },
+  { id:'fee-recipient', label:"Fee recipient (should equal FeeSplitter)", addr:CUSTODIAN, sig:"0x46904840", type:"match-addr", expect: FEESPLITTER },
+];
+
+function rowHTML(c){
+  return \`<div class="ledger-row" id="row-\${c.id}">
+    <div>
+      <span class="check-label">\${c.label}</span>
+      <span class="check-detail mono">\${c.addr}</span>
+    </div>
+    <span class="status pending" id="status-\${c.id}">checking…</span>
+    <a class="ledger-link" href="\${EXPLORER}\${c.addr}" target="_blank" rel="noopener">view ↗</a>
+  </div>\`;
+}
+function render(){ document.getElementById('ledger').innerHTML = checks.map(rowHTML).join(''); }
+render();
+
+async function rpcCall(method, params){
+  const res = await fetch(RPC, { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ jsonrpc:"2.0", id:1, method, params }) });
+  if(!res.ok) throw new Error("RPC HTTP " + res.status);
+  const json = await res.json();
+  if(json.error) throw new Error(json.error.message || "RPC error");
+  return json.result;
+}
+function setStatus(id, cls, text){
+  const el = document.getElementById('status-' + id);
+  if(el){ el.className = "status " + cls; el.textContent = text; }
+}
+async function runCheck(c){
+  try{
+    if(c.type === "has-code"){
+      const code = await rpcCall("eth_getCode", [c.addr, "latest"]);
+      if(code && code !== "0x" && code.length > 2){ setStatus(c.id, "ok", "confirmed"); }
+      else { setStatus(c.id, "bad", "no code found"); }
+      return;
+    }
+    const result = await rpcCall("eth_call", [{ to:c.addr, data:c.sig }, "latest"]);
+    if(c.type === "addr-zero"){
+      const isZero = /^0x0*$/.test(result);
+      setStatus(c.id, isZero ? "ok" : "bad", isZero ? "renounced (0x0)" : "active owner");
+    } else if(c.type === "match-addr"){
+      const addr = "0x" + result.slice(-40);
+      const match = addr.toLowerCase() === c.expect.toLowerCase();
+      setStatus(c.id, match ? "ok" : "bad", addr.slice(0,6) + "…" + addr.slice(-4));
+    }
+  }catch(err){ setStatus(c.id, "bad", "can't verify here"); }
+}
+async function runAll(){ render(); for(const c of checks){ await runCheck(c); } }
+document.getElementById('retry').addEventListener('click', runAll);
+runAll();
+` : `
+document.getElementById('ledger').innerHTML =
+  '<div class="ledger-row"><div><span class="check-label">CONFIG.RPC_URL is not set in the launch tool</span><span class="check-detail mono">can\\'t run live verification from this page</span></div><span class="status pending">n/a</span><span></span></div>';
+document.getElementById('verify-note').textContent = "Manually verify the addresses below on the explorer ('view ↗' links).";
+document.getElementById('retry').style.display = 'none';
+`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$${esc(d.symbol)} — Preuve de verrouillage & fiche DEX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg-base:#1B2119; --bg-panel:#222A24; --bg-panel-2:#28312A; --line:#3A443C; --ink:#EAE7DC; --ink-dim:#A9B0A5; --brass:#C89B5C; --brass-dim:#8A6C42; --verified:#7FA98C; --pending:#C4A25A; --fail:#B06A57; }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg-base);color:var(--ink);font-family:'Work Sans',sans-serif;line-height:1.55;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .hero{padding:56px 0 40px;border-bottom:1px solid var(--line);display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin:0 0 14px;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4.5vw,42px);line-height:1.1;margin:0 0 12px;color:var(--ink);}
+  h1 em{font-style:italic;font-weight:500;color:var(--brass);}
+  .hero-meta{color:var(--ink-dim);font-size:14.5px;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+  .chip{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:var(--bg-panel);border:1px solid var(--line);padding:7px 12px;border-radius:3px;color:var(--ink-dim);}
+  .chip a{color:var(--brass);text-decoration:none;}
+  .section{padding:44px 0;border-bottom:1px solid var(--line);}
+  .section-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);margin:0 0 8px;}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin:0 0 22px;color:var(--ink);}
+  .plaques{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .plaque{background:var(--bg-panel);border:1px solid var(--line);border-top:2px solid var(--brass-dim);padding:20px 18px;border-radius:2px;}
+  .plaque h3{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;margin:0 0 8px;color:var(--ink);}
+  .plaque p{font-size:14px;color:var(--ink-dim);margin:0;}
+  .ledger{border:1px solid var(--line);border-radius:2px;overflow:hidden;}
+  .ledger-row{display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--bg-panel);}
+  .ledger-row:last-child{border-bottom:none;}
+  .ledger-row:nth-child(even){background:var(--bg-panel-2);}
+  .check-label{font-size:14px;color:var(--ink);}
+  .check-detail{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-dim);display:block;margin-top:3px;}
+  .status{font-family:'JetBrains Mono',monospace;font-size:12px;padding:5px 10px;border-radius:20px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;}
+  .status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+  .status.ok{color:var(--verified);background:rgba(127,169,140,.12);}
+  .status.pending{color:var(--pending);background:rgba(196,162,90,.12);}
+  .status.bad{color:var(--fail);background:rgba(176,106,87,.12);}
+  .ledger-link{font-size:12.5px;color:var(--brass);text-decoration:none;}
+  .verify-note{margin-top:14px;font-size:13px;color:var(--ink-dim);font-family:'JetBrains Mono',monospace;}
+  .retry-btn{margin-top:16px;background:transparent;border:1px solid var(--brass-dim);color:var(--brass);font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:8px 14px;border-radius:3px;cursor:pointer;}
+  .submit-block{background:var(--bg-panel);border:1px solid var(--line);border-radius:2px;padding:20px;}
+  .kv{display:grid;grid-template-columns:160px 1fr;gap:10px 14px;font-size:14px;}
+  .kv dt{color:var(--ink-dim);}
+  .kv dd{margin:0;font-family:'JetBrains Mono',monospace;word-break:break-all;}
+  .copy-btn{margin-top:16px;background:transparent;border:1px solid var(--brass-dim);color:var(--brass);font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:8px 14px;border-radius:3px;cursor:pointer;}
+  footer{padding:32px 0 56px;}
+  .disclaimer{font-size:12.5px;color:var(--ink-dim);max-width:64ch;}
+  @media (max-width:640px){ .plaques{grid-template-columns:1fr;} .ledger-row{grid-template-columns:1fr;gap:8px;} .kv{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    ${logoBlock}
+    <div>
+      <p class="eyebrow">${esc(CONFIG.CHAIN_NAME)} · On-chain proof</p>
+      <h1>$${esc(d.symbol)} — <em>${esc(d.name)}</em></h1>
+      <p class="hero-meta">Generated automatically from the real launch data — nothing here is filled in by hand.</p>
+      <div class="chip-row">
+        <span class="chip">Token: <a href="${CONFIG.BLOCK_EXPLORER}/address/${d.tokenAddr}" target="_blank" rel="noopener">${d.tokenAddr.slice(0,6)}…${d.tokenAddr.slice(-4)} ↗</a></span>
+        <span class="chip">Chain ID ${CONFIG.CHAIN_ID}</span>
+        ${d.txHash ? `<span class="chip">Tx: <a href="${CONFIG.BLOCK_EXPLORER}/tx/${d.txHash}" target="_blank" rel="noopener">voir ↗</a></span>` : ''}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="section-label">What this guarantees</p>
+    <h2>Three guarantees, not just one</h2>
+    <div class="plaques">
+      <div class="plaque"><h3>Locked capital</h3><p>The liquidity position is held by a contract with no withdrawal function whatsoever (<span class="mono">decreaseLiquidity</span>, <span class="mono">selfdestruct</span>).</p></div>
+      <div class="plaque"><h3>Not upgradeable</h3><p>No proxy. The code deployed on-chain is final — it can never be replaced.</p></div>
+      <div class="plaque"><h3>Ownership renounced</h3><p><span class="mono">renounceOwnership()</span> was called on both the token and the custodian.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="section-label">Don't take our word for it</p>
+    <h2>Live verification</h2>
+    <div class="ledger" id="ledger"></div>
+    <p class="verify-note" id="verify-note">Direct request to the ${esc(CONFIG.CHAIN_NAME)} network (public RPC) from your browser — nothing is precomputed.</p>
+    <button class="retry-btn" id="retry">↻ Re-run verification</button>
+  </section>
+
+  <section class="section" style="border-bottom:none;">
+    <p class="section-label">Technical sheet — Blockscout / DexScreener / DexTools submission</p>
+    <h2>Information to paste</h2>
+    <div class="submit-block">
+      <dl class="kv">
+        <dt>Name</dt><dd>${esc(d.name)}</dd>
+        <dt>Ticker</dt><dd>$${esc(d.symbol)}</dd>
+        <dt>Contract address</dt><dd>${d.tokenAddr}</dd>
+        <dt>Decimals</dt><dd>18</dd>
+        <dt>Total supply</dt><dd>${esc(d.supply || '—')}</dd>
+        <dt>Chain / Chain ID</dt><dd>${esc(CONFIG.CHAIN_NAME)} / ${CONFIG.CHAIN_ID}</dd>
+        <dt>Custodian (locked LP)</dt><dd>${d.custodianAddr}</dd>
+        <dt>FeeSplitter</dt><dd>${d.feeSplitterAddr}</dd>
+        ${d.poolAddr ? `<dt>Pool Uniswap V3</dt><dd>${d.poolAddr}</dd>` : ''}
+        ${d.creatorAddr ? `<dt>Creator</dt><dd>${d.creatorAddr}</dd>` : ''}
+      </dl>
+      <button class="copy-btn" id="copyKv">Copy this info</button>
+      ${d.logo ? `<button class="copy-btn" id="dlLogo" style="margin-left:8px">Download logo (PNG/JPG)</button>` : ''}
+    </div>
+  </section>
+
+  <footer>
+    <p class="disclaimer">This page runs real on-chain checks in your browser; this is not financial advice. Always verify contracts yourself. Generated on <span id="ts" class="mono"></span>.</p>
+  </footer>
+
+</div>
+<script>
+document.getElementById('ts').textContent = new Date().toLocaleString('en-US', {dateStyle:'long', timeStyle:'short'});
+${checksJs}
+<\/script>
+</body>
+</html>`;
+}
+
+function wireProofPageScripts(win, d){
+  // Le bouton "copier" et le téléchargement du logo sont branchés depuis la
+  // fenêtre parente après ouverture, pour rester simple côté génération HTML.
+  try{
+    const doc = win.document;
+    const copyBtn = doc.getElementById('copyKv');
+    if (copyBtn){
+      copyBtn.addEventListener('click', () => {
+        const text = [
+          "Name: " + d.name,
+          "Ticker: $" + d.symbol,
+          "Contract address: " + d.tokenAddr,
+          "Decimals: 18",
+          "Total supply: " + (d.supply || ""),
+          "Chain: " + CONFIG.CHAIN_NAME + " (chainId " + CONFIG.CHAIN_ID + ")",
+          "Custodian: " + d.custodianAddr,
+          "FeeSplitter: " + d.feeSplitterAddr,
+        ].join("\\n");
+        win.navigator.clipboard.writeText(text).catch(()=>{});
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => copyBtn.textContent = "Copy this info", 1200);
+      });
+    }
+    const dlLogo = doc.getElementById('dlLogo');
+    if (dlLogo && d.logo){
+      dlLogo.addEventListener('click', () => {
+        const a = doc.createElement('a');
+        a.href = d.logo;
+        a.download = (d.symbol || "token") + "-logo";
+        a.click();
+      });
+    }
+  }catch(e){ console.warn("wireProofPageScripts failed", e); }
+}
+
+function openProofPage(d){
+  if (!d || !d.tokenAddr){ alert("No launch data available."); return; }
+  const html = buildProofPageHTML(d);
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const win = window.open(url, "_blank");
+  if (!win){
+    alert("Your browser blocked the popup. Allow popups for this site, or use the download button instead.");
+    return;
+  }
+  win.addEventListener("load", () => wireProofPageScripts(win, d));
+}
+
+function downloadProofPage(d){
+  if (!d || !d.tokenAddr) return;
+  const html = buildProofPageHTML(d);
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = (d.symbol || "token") + "-proof.html";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+$("proofBtn").addEventListener("click", () => openProofPage(lastLaunch));
+
+function openProofPageFromHistory(idx){
+  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  const it = list[idx];
+  if (!it) return;
+  openProofPage({ name: it.name, symbol: it.symbol, tokenAddr: it.tokenAddr, custodianAddr: it.custodianAddr, feeSplitterAddr: it.feeSplitterAddr, poolAddr: it.poolAddr, creatorAddr: it.creatorAddr, supply: it.supply, logo: it.logo, txHash: it.txHash });
+}
+</script>
+</body>
+</html>
