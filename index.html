@@ -224,9 +224,17 @@
  *  TODO dans DeployMemeToken_fixed.s.sol / FeeSplitter.sol.
  * ════════════════════════════════════════════════════════════════════════ */
 const CONFIG = {
-  // Address of YOUR deployed MemeCoinFactory (constructor: uniswapV3Factory, positionManager, weth, platform)
-  // TODO: fill in after running DeployFactory.s.sol on mainnet.
-  FACTORY_ADDRESS: "0x21e6863D5b24D668d7A5D9559ba12f2d80a28D9F", // MemeCoinFactory MAINNET — not yet deployed
+  // Address of YOUR deployed MemeCoinFactory (constructor: uniswapV3Factory, positionManager, weth, platform, swapRouter)
+  FACTORY_ADDRESS: "0xcD5492aC68d12C4f992eDC67DF2EF5Ac793C3f96", // MemeCoinFactory MAINNET — warm-up buy+sell integrated (02/08/2026)
+
+  // Native ETH amount sent as msg.value with every launchToken() call. Used
+  // internally by the Factory to run an atomic buy+sell test right after the
+  // pool is minted — if that warm-up swap fails, the whole launch reverts
+  // (see MemeCoinFactory.sol §9ter). The WETH recovered from the warm-up
+  // (minus swap fees) is sent straight back to the caller in the same
+  // transaction, so the real cost to the user is just gas + swap fee
+  // slippage on this small amount, not the full amount.
+  WARM_UP_AMOUNT_ETH: "0.0005",
 
   // Robinhood Chain MAINNET
   CHAIN_ID: 4663,
@@ -243,7 +251,7 @@ const FIXED_TOTAL_SUPPLY = 1000000000n;
 
 const FACTORY_ABI = [
   "event TokenLaunched(address indexed creator, address indexed token, address custodian, address feeSplitter, address pool, uint256 tokenId, int24 tickLower, int24 tickUpper)",
-  "function launchToken(string name_, string symbol_, uint256 totalSupply_, uint256 targetStartMcapWei) external returns (address tokenAddr, address custodianAddr, address feeSplitterAddr)"
+  "function launchToken(string name_, string symbol_, uint256 totalSupply_, uint256 targetStartMcapWei, uint256 warmUpAmountWei) external payable returns (address tokenAddr, address custodianAddr, address feeSplitterAddr)"
 ];
 
 const CUSTODIAN_ABI = [
@@ -384,12 +392,13 @@ async function launch(){
     }
     const supply = FIXED_TOTAL_SUPPLY;
     const mcapWei = ethers.parseEther(mcapStr);
+    const warmUpWei = ethers.parseEther(CONFIG.WARM_UP_AMOUNT_ETH);
 
     $("startBtn").disabled = true;
     setStatus(statusEl, "Confirm the transaction in your wallet…", "");
 
     const factory = new ethers.Contract(CONFIG.FACTORY_ADDRESS, FACTORY_ABI, signer);
-    const tx = await factory.launchToken(name, symbol, supply, mcapWei);
+    const tx = await factory.launchToken(name, symbol, supply, mcapWei, warmUpWei, { value: warmUpWei });
 
     setStatus(statusEl, "Transaction sent (" + tx.hash + "), waiting for confirmation…", "");
     const receipt = await tx.wait();
