@@ -364,10 +364,24 @@ $("logoInput").addEventListener("change", (e) => {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = () => {
-    logoDataUrl = reader.result;
-    $("logoPreview").src = logoDataUrl;
-    $("logoPreview").style.display = "block";
-    $("logoText").textContent = file.name;
+    const img = new Image();
+    img.onload = () => {
+      // Downscale to max 128x128 and re-encode as JPEG q=0.8 so each
+      // history entry stays light (avoids blowing the localStorage quota
+      // after a handful of launches — see saveToHistory below).
+      const size = 128;
+      const canvas = document.createElement("canvas");
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      const scale = Math.max(size / img.width, size / img.height);
+      const w = img.width * scale, h = img.height * scale;
+      ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+      logoDataUrl = canvas.toDataURL("image/jpeg", 0.8);
+      $("logoPreview").src = logoDataUrl;
+      $("logoPreview").style.display = "block";
+      $("logoText").textContent = file.name;
+    };
+    img.src = reader.result;
   };
   reader.readAsDataURL(file);
 });
@@ -511,10 +525,34 @@ $("releaseBtn").addEventListener("click", async () => {
  *  ce n'est pas un artifact Claude.ai, localStorage est donc approprié ici)
  * ════════════════════════════════════════════════════════════════════════ */
 function saveToHistory(entry){
-  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
-  list.unshift(entry);
-  localStorage.setItem("memeFactoryHistory", JSON.stringify(list));
-  renderHistory();
+  try{
+    const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+    list.unshift(entry);
+    localStorage.setItem("memeFactoryHistory", JSON.stringify(list));
+    renderHistory();
+  }catch(e){
+    // Quota exceeded (old bulky logos from before the compression fix, or
+    // just a lot of launches) — drop the oldest entries and retry instead
+    // of letting this break prefillFeesCard() for the token that just launched.
+    try{
+      let list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+      list.unshift(entry);
+      while (list.length > 1){
+        list.pop();
+        try{
+          localStorage.setItem("memeFactoryHistory", JSON.stringify(list));
+          renderHistory();
+          return;
+        }catch(e2){ /* still too big, drop another old entry */ }
+      }
+      // Last resort: keep just this entry, without its logo.
+      const lean = { ...entry, logo: null };
+      localStorage.setItem("memeFactoryHistory", JSON.stringify([lean]));
+      renderHistory();
+    }catch(e3){
+      console.error("Could not save launch history (localStorage full):", e3);
+    }
+  }
 }
 
 function renderHistory(){
