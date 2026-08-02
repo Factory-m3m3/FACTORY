@@ -123,7 +123,10 @@
 
   <header>
     <div class="brand"><span class="dot"></span> Meme Coin Factory</div>
-    <button class="wallet-btn" id="connectBtn">Connect wallet</button>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <a href="guide.html" target="_blank" class="wallet-btn" style="text-decoration:none; display:inline-flex; align-items:center;">📘 Guide</a>
+      <button class="wallet-btn" id="connectBtn">Connect wallet</button>
+    </div>
   </header>
 
   <div class="card">
@@ -424,7 +427,7 @@ async function launch(){
     const poolAddr = parsed.args.pool;
 
     setStatus(statusEl, "Launched successfully ✅", "ok");
-    showResult({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), txHash: tx.hash });
+    showResult({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash });
     saveToHistory({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash, date: Date.now() });
     prefillFeesCard(tokenAddr, custodianAddr, feeSplitterAddr);
 
