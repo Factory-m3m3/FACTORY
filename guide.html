@@ -47,9 +47,25 @@
   code{background:var(--panel2); padding:2px 6px; border-radius:5px; font-size:12.5px; color:var(--green);}
   .footer{text-align:center; color:var(--muted); font-size:12px; margin-top:48px;}
   .footer a{color:var(--muted);}
+
+  /* Factory mascot flanking the page — same treatment as the launch page,
+     hidden once the viewport is too narrow to leave room for it. */
+  .mascot-side{
+    position:fixed; bottom:26px; width:190px; pointer-events:none; z-index:0;
+    opacity:.95; filter:drop-shadow(0 18px 34px rgba(0,0,0,.55));
+  }
+  .mascot-side img{width:100%; height:auto; display:block;}
+  .mascot-side.left{left:26px;}
+  .mascot-side.right{right:26px;}
+  .mascot-side.right img{transform:scaleX(-1);}
+  @media (max-width:1450px){ .mascot-side{display:none;} }
 </style>
 </head>
 <body>
+
+<div class="mascot-side left" aria-hidden="true"><img src="m3m3_factory_mascotte.png" alt="" loading="lazy"></div>
+<div class="mascot-side right" aria-hidden="true"><img src="m3m3_factory_mascotte.png" alt="" loading="lazy"></div>
+
 <div class="wrap">
 
   <div class="eyebrow">Robinhood Chain · Meme Coin Factory</div>
