@@ -143,9 +143,37 @@
   let provider, signer, userAddress;
   let launches = []; // {token, creator, custodian, feeSplitter, pool, tokenId, txHash}
   let metaCache = {}; // addrLower -> {name, ticker}
+  let scanFailed = false;
 
   function shortAddr(a){ return a.slice(0,6) + '…' + a.slice(-4); }
   function topicToAddress(t){ return '0x' + t.slice(-40); }
+  function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+  // Blockscout enforces a shared rate limit — a burst of parallel calls
+  // (logs scan + per-token metadata + per-token owed-fees reads) can trip
+  // it, especially right after a manual page refresh. Retry with backoff
+  // instead of failing the whole page on a transient 429.
+  async function fetchJsonWithRetry(url, attempts){
+    attempts = attempts || 4;
+    let delay = 800;
+    for (let i = 0; i < attempts; i++){
+      try{
+        const res = await fetch(url);
+        const json = await res.json();
+        const rateLimited = json && json.message && /too many requests/i.test(json.message);
+        if (rateLimited && i < attempts - 1){
+          await sleep(delay);
+          delay *= 2;
+          continue;
+        }
+        return json;
+      }catch(e){
+        if (i === attempts - 1) throw e;
+        await sleep(delay);
+        delay *= 2;
+      }
+    }
+  }
 
   // ── Decode the non-indexed part of TokenLaunched ─────────────────────
   // event TokenLaunched(address indexed creator, address indexed token,
@@ -167,10 +195,10 @@
   async function scanFactory(){
     scanNote.textContent = 'Scanning TokenLaunched events…';
     try{
-      const res = await fetch(LOGS_API);
-      const json = await res.json();
-      if (json.status !== '1' || !Array.isArray(json.result)){
-        scanNote.textContent = 'On-chain scan unavailable (' + (json.message || 'unexpected response') + ').';
+      const json = await fetchJsonWithRetry(LOGS_API);
+      if (!json || json.status !== '1' || !Array.isArray(json.result)){
+        scanNote.textContent = 'On-chain scan unavailable (' + ((json && json.message) || 'unexpected response') + '). Try refreshing in a minute.';
+        scanFailed = true;
         return;
       }
       launches = json.result.map(log => {
@@ -184,6 +212,7 @@
       scanNote.textContent = launches.length + ' launch(es) found on-chain.';
     }catch(e){
       scanNote.textContent = 'Scan failed (network). Try again in a moment.';
+      scanFailed = true;
     }
   }
 
@@ -192,9 +221,8 @@
     if (metaCache[key]) return metaCache[key];
     let name = null, ticker = null;
     try{
-      const res = await fetch(TOKEN_INFO_API + address);
-      const json = await res.json();
-      if (json.status === '1' && json.result){
+      const json = await fetchJsonWithRetry(TOKEN_INFO_API + address);
+      if (json && json.status === '1' && json.result){
         name = json.result.name || null;
         ticker = json.result.symbol || null;
       }
@@ -349,24 +377,31 @@
   (async function init(){
     await scanFactory();
     if (launches.length === 0){
-      rowsEl.innerHTML = '<div class="empty">No launches found yet.</div>';
+      rowsEl.innerHTML = scanFailed
+        ? '<div class="empty">Couldn\'t reach the chain right now — reload the page in a minute.</div>'
+        : '<div class="empty">No launches found yet.</div>';
       return;
     }
 
-    // Fetch metadata (name/ticker) in small batches, same pattern as the dashboard.
+    // Fetch metadata (name/ticker) in small batches, spaced out to stay
+    // under Blockscout's shared rate limit.
     const BATCH = 3;
     for (let i = 0; i < launches.length; i += BATCH){
       const batch = launches.slice(i, i + BATCH);
       await Promise.all(batch.map(l => fetchTokenMeta(l.token)));
+      if (i + BATCH < launches.length) await sleep(350);
     }
 
-    // Fetch owed fees for every launch, in parallel batches.
+    // Fetch owed fees for every launch — these go straight to the RPC
+    // (not Blockscout's REST API), so they don't share that rate limit,
+    // but keep them batched anyway to avoid hammering the RPC node.
     for (let i = 0; i < launches.length; i += BATCH){
       const batch = launches.slice(i, i + BATCH);
       await Promise.all(batch.map(async (l) => {
         try{ l.owed = await fetchOwed(l.tokenId); }
         catch(e){ l.owed = null; }
       }));
+      if (i + BATCH < launches.length) await sleep(200);
     }
 
     // Sort: tokens with fees owed first (roughly, by raw combined amount), then the rest.
