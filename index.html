@@ -272,6 +272,8 @@ const CONFIG = {
   RPC_URL: "https://rpc.mainnet.chain.robinhood.com",
   BLOCK_EXPLORER: "https://robinhoodchain.blockscout.com",
   NATIVE_SYMBOL: "ETH",
+  // Fixed WETH contract on Robinhood Chain — same for every token, never changes.
+  WETH_ADDRESS: "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73",
 };
 
 // Fixed for every launch — kept identical across all tokens created by this
@@ -793,11 +795,15 @@ document.getElementById('retry').style.display = 'none';
       <a class="copy-btn" href="${CONFIG.BLOCK_EXPLORER}/address/${d.custodianAddr}?tab=read_write_contract" target="_blank" rel="noopener" style="display:inline-block; text-decoration:none;">Open Custodian → collect() ↗</a>
     </div>
     <div class="submit-block">
-      <p style="margin:0 0 10px; font-size:14px;"><b>2.</b> Open the FeeSplitter contract, go to <span class="mono">release()</span>, paste the token address below into the <span class="mono">token</span> field, connect your wallet, click Write.</p>
+      <p style="margin:0 0 10px; font-size:14px;"><b>2.</b> Open the FeeSplitter contract, go to <span class="mono">release()</span>. Fees usually come in as <em>two</em> assets — the token itself and WETH — so you'll need to run this twice, once per address below.</p>
       <a class="copy-btn" href="${CONFIG.BLOCK_EXPLORER}/address/${d.feeSplitterAddr}?tab=read_write_contract" target="_blank" rel="noopener" style="display:inline-block; text-decoration:none; margin-bottom:10px;">Open FeeSplitter → release() ↗</a>
       <div style="margin-top:6px; background:var(--bg-base); border:1px solid var(--line); border-radius:2px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
-        <div style="font-size:13px; color:var(--ink-dim);">token address to paste<br><code class="mono" style="color:var(--brass); font-size:13px;">${d.tokenAddr}</code></div>
+        <div style="font-size:13px; color:var(--ink-dim);">1st run — this token's address<br><code class="mono" style="color:var(--brass); font-size:13px;">${d.tokenAddr}</code></div>
         <button class="copy-btn" style="margin-top:0; flex:none;" onclick="navigator.clipboard.writeText('${d.tokenAddr}'); this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy', 1200);">Copy</button>
+      </div>
+      <div style="margin-top:10px; background:var(--bg-base); border:1px solid var(--line); border-radius:2px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div style="font-size:13px; color:var(--ink-dim);">2nd run — WETH address (fixed, same for every token)<br><code class="mono" style="color:var(--brass); font-size:13px;">${CONFIG.WETH_ADDRESS}</code></div>
+        <button class="copy-btn" style="margin-top:0; flex:none;" onclick="navigator.clipboard.writeText('${CONFIG.WETH_ADDRESS}'); this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy', 1200);">Copy</button>
       </div>
     </div>
 
