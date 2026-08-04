@@ -138,10 +138,23 @@
       <p>Prefer to see it live? Here's a short walkthrough of the whole process.</p>
       <div class="video" style="padding:0; border-style:solid;">
         <video controls style="width:100%; display:block; border-radius:12px;" preload="metadata">
-          <source src="V1.mp4" type="video/mp4">
-          Your browser can't play this video format — <a class="link" href="V1.mp4">download it here</a>.
+          <source src="V2.mp4" type="video/mp4">
+          Your browser can't play this video format — <a class="link" href="V2.mp4">download it here</a>.
         </video>
       </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">7</div>
+    <div>
+      <h2>Claiming your fees</h2>
+      <p>If your token gets trading activity, fees build up automatically — here's how to claim them, whether it's your own token or someone else's (claiming is permissionless, the 50/50 split is locked in forever).</p>
+      <p><strong>1.</strong> Open the Factory, connect your wallet, and scroll down to <strong>"Local launch history"</strong>. Find your token and click <strong>"Proof page"</strong>.</p>
+      <p><strong>2.</strong> On the proof page, scroll to the <strong>"Claim your fees"</strong> section. It gives you two direct links straight to the right contract on the block explorer — no searching needed.</p>
+      <p><strong>3.</strong> Click <strong>"Open Custodian → collect()"</strong>, connect your wallet on the explorer, and hit Write. This moves the accumulated fees from the liquidity position into the FeeSplitter.</p>
+      <p><strong>4.</strong> Click <strong>"Open FeeSplitter → release()"</strong>, paste the token address shown just above it (there's a Copy button) into the <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">token</span> field, connect your wallet, and hit Write. This splits the collected fees 50/50 between the creator and the platform.</p>
+      <div class="callout">💡 <span style="font-family:monospace;">collect()</span> takes no input — just connect and click Write. <span style="font-family:monospace;">release()</span> needs the token address pasted in manually; the proof page always shows the right one to copy.</div>
     </div>
   </div>
 

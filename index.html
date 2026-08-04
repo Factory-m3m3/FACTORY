@@ -778,10 +778,28 @@ document.getElementById('retry').style.display = 'none';
         <span class="chip">Token: <a href="${CONFIG.BLOCK_EXPLORER}/address/${d.tokenAddr}" target="_blank" rel="noopener">${d.tokenAddr.slice(0,6)}…${d.tokenAddr.slice(-4)} ↗</a></span>
         <span class="chip">Chain ID ${CONFIG.CHAIN_ID}</span>
         ${d.txHash ? `<span class="chip">Tx: <a href="${CONFIG.BLOCK_EXPLORER}/tx/${d.txHash}" target="_blank" rel="noopener">voir ↗</a></span>` : ''}
-        <span class="chip">💰 <a href="https://factory-m3m3.github.io/FACTORY/fees.html?token=${d.tokenAddr}" target="_blank" rel="noopener">Claim fees for this token ↗</a></span>
       </div>
     </div>
   </section>
+
+  <section class="section">
+    <p class="section-label">Fees earned by this token</p>
+    <h2>Claim your fees</h2>
+    <p style="color:var(--ink-dim); font-size:14px; margin:0 0 18px;">
+      Two steps, both on Blockscout — connect your wallet on each page, then hit Write.
+    </p>
+    <div class="submit-block" style="margin-bottom:14px;">
+      <p style="margin:0 0 10px; font-size:14px;"><b>1.</b> Open the Custodian contract, go to <span class="mono">collect()</span>, connect your wallet, click Write.</p>
+      <a class="copy-btn" href="${CONFIG.BLOCK_EXPLORER}/address/${d.custodianAddr}?tab=read_write_contract" target="_blank" rel="noopener" style="display:inline-block; text-decoration:none;">Open Custodian → collect() ↗</a>
+    </div>
+    <div class="submit-block">
+      <p style="margin:0 0 10px; font-size:14px;"><b>2.</b> Open the FeeSplitter contract, go to <span class="mono">release()</span>, paste the token address below into the <span class="mono">token</span> field, connect your wallet, click Write.</p>
+      <a class="copy-btn" href="${CONFIG.BLOCK_EXPLORER}/address/${d.feeSplitterAddr}?tab=read_write_contract" target="_blank" rel="noopener" style="display:inline-block; text-decoration:none; margin-bottom:10px;">Open FeeSplitter → release() ↗</a>
+      <div style="margin-top:6px; background:var(--bg-base); border:1px solid var(--line); border-radius:2px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div style="font-size:13px; color:var(--ink-dim);">token address to paste<br><code class="mono" style="color:var(--brass); font-size:13px;">${d.tokenAddr}</code></div>
+        <button class="copy-btn" style="margin-top:0; flex:none;" onclick="navigator.clipboard.writeText('${d.tokenAddr}'); this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy', 1200);">Copy</button>
+      </div>
+    </div>
 
   <section class="section">
     <p class="section-label">What this guarantees</p>
