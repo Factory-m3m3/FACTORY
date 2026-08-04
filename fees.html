@@ -56,6 +56,18 @@
     font-size:13px; border-bottom:1px solid var(--border); align-items:center;
   }
   .row:last-child{border-bottom:none;}
+  .explorer-links{display:flex; flex-direction:column; gap:6px; align-items:flex-start;}
+  .explorer-link{
+    color:var(--accent2); text-decoration:none; font-size:11.5px; font-weight:600;
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .explorer-link:hover{text-decoration:underline;}
+  .copy-addr{
+    background:none; border:1px solid var(--border); color:var(--muted);
+    font-size:10px; padding:2px 6px; border-radius:6px; cursor:pointer; margin-left:6px;
+  }
+  .copy-addr:hover{border-color:var(--accent); color:var(--text);}
+  .auto-note{font-size:10.5px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px solid var(--border);}
   .row.highlight{
     background:linear-gradient(90deg, rgba(124,92,255,.18), rgba(124,92,255,.03));
     border-left:3px solid var(--accent); animation:pulseHighlight 2s ease-out 1;
@@ -395,23 +407,48 @@
     const meta = metaCache[entry.token.toLowerCase()] || { name: shortAddr(entry.token), ticker: '???' };
     const owed0 = entry.owed ? entry.owed.tokensOwed0 : null;
     const owed1 = entry.owed ? entry.owed.tokensOwed1 : null;
+    const knownZero = owed0 !== null && owed0 === 0n && owed1 === 0n;
     const hasFees = owed0 !== null && (owed0 > 0n || owed1 > 0n);
+    const autoLabel = hasFees ? 'Auto Collect + Split' : (knownZero ? 'Nothing detected to claim' : 'Amount unknown — use links above');
 
     row.innerHTML = `
       <div>
         <div class="tname">${meta.name}</div>
         <div class="tsub">$${meta.ticker} · ${shortAddr(entry.token)}</div>
       </div>
-      <div class="owed"><span class="${owed0 && owed0 > 0n ? 'some' : 'zero'}">${owed0 === null ? '…' : fmtAmount(owed0)}</span></div>
-      <div class="owed"><span class="${owed1 && owed1 > 0n ? 'some' : 'zero'}">${owed1 === null ? '…' : fmtAmount(owed1)}</span></div>
+      <div class="owed"><span class="${owed0 && owed0 > 0n ? 'some' : 'zero'}">${owed0 === null ? '?' : fmtAmount(owed0)}</span></div>
+      <div class="owed"><span class="${owed1 && owed1 > 0n ? 'some' : 'zero'}">${owed1 === null ? '?' : fmtAmount(owed1)}</span></div>
       <div>
-        <button class="claim-btn" data-token="${entry.token}" ${hasFees ? '' : 'disabled'}>
-          ${hasFees ? 'Collect + Split' : 'Nothing to claim'}
-        </button>
-        <div class="row-status" id="status-${entry.token}"></div>
+        <div class="explorer-links">
+          <a class="explorer-link" href="${CONFIG.BLOCK_EXPLORER}/address/${entry.custodian}?tab=read_write_contract" target="_blank" rel="noopener">
+            1. Open Custodian → collect() ↗
+          </a>
+          <a class="explorer-link" href="${CONFIG.BLOCK_EXPLORER}/address/${entry.feeSplitter}?tab=read_write_contract" target="_blank" rel="noopener">
+            2. Open FeeSplitter → release() ↗
+          </a>
+          <span style="font-size:10.5px; color:var(--muted);">
+            token to paste: ${shortAddr(entry.token)}
+            <button class="copy-addr" data-copy="${entry.token}">copy</button>
+          </span>
+        </div>
+        <div class="auto-note">
+          Or connect a wallet and let this page do both steps:
+          <button class="claim-btn" data-token="${entry.token}" style="margin-top:6px;" ${hasFees ? '' : 'disabled'}>
+            ${autoLabel}
+          </button>
+          <div class="row-status" id="status-${entry.token}"></div>
+        </div>
       </div>
     `;
     rowsEl.appendChild(row);
+
+    row.querySelectorAll('.copy-addr').forEach(btn => {
+      btn.addEventListener('click', () => {
+        navigator.clipboard.writeText(btn.dataset.copy);
+        btn.textContent = 'copied!';
+        setTimeout(() => btn.textContent = 'copy', 1200);
+      });
+    });
 
     const btn = row.querySelector('.claim-btn');
     if (hasFees){
