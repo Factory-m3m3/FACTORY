@@ -246,19 +246,87 @@
 
   // positions(uint256) selector
   const POSITIONS_SELECTOR = "0x99fbab88";
+  const SLOT0_SELECTOR = "0x3850c7bd";
+  const FEE_GROWTH_GLOBAL0_SELECTOR = "0xf3058399";
+  const FEE_GROWTH_GLOBAL1_SELECTOR = "0x46141319";
+  const TICKS_SELECTOR = "0xf30dba93";
+  const Q128 = 1n << 128n;
+  const MASK256 = (1n << 256n) - 1n;
+  const MASK128 = (1n << 128n) - 1n;
 
-  async function fetchOwed(tokenIdStr){
-    const tokenIdHex = BigInt(tokenIdStr).toString(16).padStart(64, "0");
-    const result = await rpcCall(CONFIG.POSITION_MANAGER, POSITIONS_SELECTOR + tokenIdHex);
-    const clean = result.slice(2);
-    const word = (i) => clean.slice(i*64, i*64+64);
-    // layout: 0 nonce,1 operator,2 token0,3 token1,4 fee,5 tickLower,6 tickUpper,
-    //         7 liquidity,8 feeGrowth0,9 feeGrowth1,10 tokensOwed0,11 tokensOwed1
+  function wrap256(x){ return ((x % (1n << 256n)) + (1n << 256n)) & MASK256; }
+
+  // Full 32-byte word interpreted as a signed two's-complement integer —
+  // works for int24 (tick) since Solidity sign-extends it to 32 bytes in
+  // ABI encoding, so no need to special-case the bit width.
+  function toSigned(hexWord){
+    let v = BigInt('0x' + hexWord);
+    if (v >= (1n << 255n)) v -= (1n << 256n);
+    return v;
+  }
+
+  function encodeInt24(tick){
+    let v = BigInt(tick);
+    if (v < 0n) v += (1n << 256n);
+    return v.toString(16).padStart(64, "0");
+  }
+
+  async function fetchOwed(entry){
+    const tokenIdHex = BigInt(entry.tokenId).toString(16).padStart(64, "0");
+    const posResult = await rpcCall(CONFIG.POSITION_MANAGER, POSITIONS_SELECTOR + tokenIdHex);
+    const pClean = posResult.slice(2);
+    const pWord = (i) => pClean.slice(i*64, i*64+64);
+    const token0 = '0x' + pWord(2).slice(-40);
+    const token1 = '0x' + pWord(3).slice(-40);
+    const tickLower = toSigned(pWord(5));
+    const tickUpper = toSigned(pWord(6));
+    const liquidity = BigInt('0x' + pWord(7));
+    const feeGrowthInside0Last = BigInt('0x' + pWord(8));
+    const feeGrowthInside1Last = BigInt('0x' + pWord(9));
+    const tokensOwed0 = BigInt('0x' + pWord(10));
+    const tokensOwed1 = BigInt('0x' + pWord(11));
+
+    if (liquidity === 0n){
+      // No active liquidity on this position (shouldn't happen for a
+      // Factory launch, but guard anyway) — only the frozen owed values apply.
+      return { token0, token1, tokensOwed0, tokensOwed1 };
+    }
+
+    const [slot0Res, fg0Res, fg1Res, tickLowerRes, tickUpperRes] = await Promise.all([
+      rpcCall(entry.pool, SLOT0_SELECTOR),
+      rpcCall(entry.pool, FEE_GROWTH_GLOBAL0_SELECTOR),
+      rpcCall(entry.pool, FEE_GROWTH_GLOBAL1_SELECTOR),
+      rpcCall(entry.pool, TICKS_SELECTOR + encodeInt24(tickLower)),
+      rpcCall(entry.pool, TICKS_SELECTOR + encodeInt24(tickUpper)),
+    ]);
+
+    const currentTick = toSigned(slot0Res.slice(2, 66));
+    const feeGrowthGlobal0 = BigInt(fg0Res);
+    const feeGrowthGlobal1 = BigInt(fg1Res);
+
+    const tlClean = tickLowerRes.slice(2), tuClean = tickUpperRes.slice(2);
+    const tlWord = (i) => tlClean.slice(i*64, i*64+64);
+    const tuWord = (i) => tuClean.slice(i*64, i*64+64);
+    const lowerOutside0 = BigInt('0x' + tlWord(2));
+    const lowerOutside1 = BigInt('0x' + tlWord(3));
+    const upperOutside0 = BigInt('0x' + tuWord(2));
+    const upperOutside1 = BigInt('0x' + tuWord(3));
+
+    const below0 = currentTick >= tickLower ? lowerOutside0 : wrap256(feeGrowthGlobal0 - lowerOutside0);
+    const below1 = currentTick >= tickLower ? lowerOutside1 : wrap256(feeGrowthGlobal1 - lowerOutside1);
+    const above0 = currentTick < tickUpper ? upperOutside0 : wrap256(feeGrowthGlobal0 - upperOutside0);
+    const above1 = currentTick < tickUpper ? upperOutside1 : wrap256(feeGrowthGlobal1 - upperOutside1);
+
+    const feeGrowthInside0 = wrap256(feeGrowthGlobal0 - below0 - above0);
+    const feeGrowthInside1 = wrap256(feeGrowthGlobal1 - below1 - above1);
+
+    const pending0 = ((liquidity * wrap256(feeGrowthInside0 - feeGrowthInside0Last)) / Q128) & MASK128;
+    const pending1 = ((liquidity * wrap256(feeGrowthInside1 - feeGrowthInside1Last)) / Q128) & MASK128;
+
     return {
-      token0: '0x' + word(2).slice(-40),
-      token1: '0x' + word(3).slice(-40),
-      tokensOwed0: BigInt('0x' + word(10)),
-      tokensOwed1: BigInt('0x' + word(11)),
+      token0, token1,
+      tokensOwed0: tokensOwed0 + pending0,
+      tokensOwed1: tokensOwed1 + pending1,
     };
   }
 
@@ -398,7 +466,7 @@
     for (let i = 0; i < launches.length; i += BATCH){
       const batch = launches.slice(i, i + BATCH);
       await Promise.all(batch.map(async (l) => {
-        try{ l.owed = await fetchOwed(l.tokenId); }
+        try{ l.owed = await fetchOwed(l); }
         catch(e){ l.owed = null; }
       }));
       if (i + BATCH < launches.length) await sleep(200);
