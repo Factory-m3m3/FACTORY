@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8QCRZ3N9KS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8QCRZ3N9KS');
+  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claim your fees — M3M3 Factory</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.15.0/ethers.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0b0d12; --panel:#12151c; --panel2:#171b24; --border:#232838;
+    --text:#e8eaf0; --muted:#8890a3; --accent:#7c5cff; --accent2:#00e5a0;
+    --danger:#ff5c7a; --warn:#ffb84d;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(1200px 800px at 80% -10%, #1b1440 0%, transparent 60%),
+    radial-gradient(1000px 700px at -10% 110%, #0a2a2a 0%, transparent 55%), var(--bg);
+    color:var(--text); font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:32px 20px 80px; position:relative; z-index:1;}
+  header{display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; gap:12px; flex-wrap:wrap;}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:20px;}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent2); box-shadow:0 0 12px var(--accent2);}
+  button{cursor:pointer; font-family:inherit;}
+  .wallet-btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:10px 16px; border-radius:10px; font-size:14px; font-weight:600; text-decoration:none;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .wallet-btn:hover{border-color:var(--accent);}
+  .card{
+    background:linear-gradient(180deg, var(--panel), var(--panel2));
+    border:1px solid var(--border); border-radius:18px; padding:26px;
+    margin-bottom:20px; box-shadow:0 20px 60px -30px rgba(0,0,0,.6);
+  }
+  .card h1{margin:0 0 6px; font-size:20px;}
+  .card .sub{color:var(--muted); font-size:13.5px; line-height:1.6;}
+  .scanNote{font-size:11.5px; color:var(--muted); margin-top:10px;}
+  .table{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden;}
+  .thead{
+    display:grid; grid-template-columns:1.6fr 1fr 1fr 1.4fr; gap:0; padding:10px 16px;
+    font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em;
+    border-bottom:1px solid var(--border);
+  }
+  .row{
+    display:grid; grid-template-columns:1.6fr 1fr 1fr 1.4fr; gap:0; padding:14px 16px;
+    font-size:13px; border-bottom:1px solid var(--border); align-items:center;
+  }
+  .row:last-child{border-bottom:none;}
+  .tname{font-weight:700;}
+  .tsub{color:var(--muted); font-size:11.5px; margin-top:2px;}
+  .owed{font-family:'Segoe UI',monospace; font-size:12.5px;}
+  .owed .zero{color:var(--muted);}
+  .owed .some{color:var(--accent2); font-weight:700;}
+  .claim-btn{
+    background:linear-gradient(90deg, var(--accent), #a56bff); color:white; border:none;
+    padding:8px 14px; border-radius:10px; font-size:12.5px; font-weight:700;
+  }
+  .claim-btn:disabled{opacity:.4; cursor:not-allowed;}
+  .row-status{font-size:11px; color:var(--muted); margin-top:6px; line-height:1.5;}
+  .row-status.err{color:var(--danger);}
+  .row-status.ok{color:var(--accent2);}
+  .empty{padding:30px 16px; text-align:center; color:var(--muted); font-size:13px;}
+  .banner{
+    background:linear-gradient(90deg, rgba(124,92,255,.12), rgba(124,92,255,.03));
+    border:1px solid rgba(124,92,255,.35); color:#cdbfff; padding:12px 16px;
+    border-radius:12px; font-size:12.5px; margin-bottom:20px; line-height:1.6;
+  }
+  footer{text-align:center; color:var(--muted); font-size:12px; margin-top:30px;}
+  @media (max-width:760px){
+    .thead{display:none;}
+    .row{grid-template-columns:1fr; gap:8px;}
+    .row > div{padding:2px 0;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand"><span class="dot"></span> Claim your fees</div>
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <a href="index.html" class="wallet-btn">🚀 Launch a token</a>
+      <a href="guide.html" target="_blank" class="wallet-btn">📘 Guide</a>
+      <button class="wallet-btn" id="connectBtn">Connect wallet</button>
+    </div>
+  </header>
+
+  <div class="banner">
+    Permissionless — anyone can trigger a claim on any token launched through this Factory. The 50/50 creator/platform split is fixed forever (custodian ownership was renounced at launch), so running this for someone else's token never redirects their share.
+  </div>
+
+  <div class="card">
+    <h1>All launches — live fees</h1>
+    <div class="sub">
+      This page scans every <code>TokenLaunched</code> event directly on Robinhood Chain — not localStorage — so every token ever launched through this Factory shows up here automatically, from any device, whether it had trading activity or not.
+    </div>
+    <div class="scanNote" id="scanNote">Scanning the Factory…</div>
+  </div>
+
+  <div class="table">
+    <div class="thead">
+      <div>Token</div><div>Owed (token)</div><div>Owed (paired asset)</div><div>Action</div>
+    </div>
+    <div id="rows"></div>
+  </div>
+
+  <footer>Robinhood Chain · chainId 4663 · Reads are direct RPC calls, no third-party indexer</footer>
+</div>
+
+<script>
+(function(){
+  // ── Config on-chain (same Factory as index.html / factory_dashboard.html) ─
+  const CONFIG = {
+    FACTORY_ADDRESS: "0xcD5492aC68d12C4f992eDC67DF2EF5Ac793C3f96",
+    POSITION_MANAGER: "0x73991a25C818Bf1f1128dEAaB1492D45638DE0D3",
+    CHAIN_ID: 4663,
+    CHAIN_ID_HEX: "0x" + (4663).toString(16),
+    CHAIN_NAME: "Robinhood Chain",
+    RPC_URL: "https://rpc.mainnet.chain.robinhood.com",
+    BLOCK_EXPLORER: "https://robinhoodchain.blockscout.com",
+  };
+  const TOPIC0 = '0xf589e1d6b58be12a2325e032e9dc8ac23dc20070094c73a68b4cdf678e983486';
+  const LOGS_API = 'https://robinhoodchain.blockscout.com/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=' + CONFIG.FACTORY_ADDRESS + '&topic0=' + TOPIC0;
+  const TOKEN_INFO_API = 'https://robinhoodchain.blockscout.com/api?module=token&action=getToken&contractaddress=';
+
+  const CUSTODIAN_ABI = ["function collect() external returns (uint256 amount0, uint256 amount1)"];
+  const FEESPLITTER_ABI = ["function release(address token) external"];
+
+  const $ = (id) => document.getElementById(id);
+  const rowsEl = $("rows");
+  const scanNote = $("scanNote");
+
+  let provider, signer, userAddress;
+  let launches = []; // {token, creator, custodian, feeSplitter, pool, tokenId, txHash}
+  let metaCache = {}; // addrLower -> {name, ticker}
+
+  function shortAddr(a){ return a.slice(0,6) + '…' + a.slice(-4); }
+  function topicToAddress(t){ return '0x' + t.slice(-40); }
+
+  // ── Decode the non-indexed part of TokenLaunched ─────────────────────
+  // event TokenLaunched(address indexed creator, address indexed token,
+  //   address custodian, address feeSplitter, address pool, uint256 tokenId,
+  //   int24 tickLower, int24 tickUpper)
+  // -> log.data holds custodian, feeSplitter, pool, tokenId, tickLower, tickUpper
+  //    as 6 consecutive 32-byte words (tickLower/tickUpper unused here).
+  function decodeData(dataHex){
+    const clean = dataHex.startsWith('0x') ? dataHex.slice(2) : dataHex;
+    const word = (i) => clean.slice(i*64, i*64+64);
+    return {
+      custodian: '0x' + word(0).slice(-40),
+      feeSplitter: '0x' + word(1).slice(-40),
+      pool: '0x' + word(2).slice(-40),
+      tokenId: BigInt('0x' + word(3)).toString(),
+    };
+  }
+
+  async function scanFactory(){
+    scanNote.textContent = 'Scanning TokenLaunched events…';
+    try{
+      const res = await fetch(LOGS_API);
+      const json = await res.json();
+      if (json.status !== '1' || !Array.isArray(json.result)){
+        scanNote.textContent = 'On-chain scan unavailable (' + (json.message || 'unexpected response') + ').';
+        return;
+      }
+      launches = json.result.map(log => {
+        const topics = log.topics || [];
+        const token = topics[2] ? topicToAddress(topics[2]) : null;
+        const creator = topics[1] ? topicToAddress(topics[1]) : null;
+        if (!token || !log.data) return null;
+        const decoded = decodeData(log.data);
+        return { token, creator, txHash: log.transactionHash, ...decoded };
+      }).filter(Boolean);
+      scanNote.textContent = launches.length + ' launch(es) found on-chain.';
+    }catch(e){
+      scanNote.textContent = 'Scan failed (network). Try again in a moment.';
+    }
+  }
+
+  async function fetchTokenMeta(address){
+    const key = address.toLowerCase();
+    if (metaCache[key]) return metaCache[key];
+    let name = null, ticker = null;
+    try{
+      const res = await fetch(TOKEN_INFO_API + address);
+      const json = await res.json();
+      if (json.status === '1' && json.result){
+        name = json.result.name || null;
+        ticker = json.result.symbol || null;
+      }
+    }catch(e){ /* leave null */ }
+    const meta = { name: name || shortAddr(address), ticker: ticker || '???' };
+    if (name && ticker) metaCache[key] = meta;
+    return meta;
+  }
+
+  // ── Direct RPC reads (no wallet needed) ──────────────────────────────
+  async function rpcCall(to, data){
+    const res = await fetch(CONFIG.RPC_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to, data }, "latest"] })
+    });
+    const json = await res.json();
+    if (json.error) throw new Error(json.error.message || "RPC error");
+    return json.result;
+  }
+
+  // positions(uint256) selector
+  const POSITIONS_SELECTOR = "0x99fbab88";
+
+  async function fetchOwed(tokenIdStr){
+    const tokenIdHex = BigInt(tokenIdStr).toString(16).padStart(64, "0");
+    const result = await rpcCall(CONFIG.POSITION_MANAGER, POSITIONS_SELECTOR + tokenIdHex);
+    const clean = result.slice(2);
+    const word = (i) => clean.slice(i*64, i*64+64);
+    // layout: 0 nonce,1 operator,2 token0,3 token1,4 fee,5 tickLower,6 tickUpper,
+    //         7 liquidity,8 feeGrowth0,9 feeGrowth1,10 tokensOwed0,11 tokensOwed1
+    return {
+      token0: '0x' + word(2).slice(-40),
+      token1: '0x' + word(3).slice(-40),
+      tokensOwed0: BigInt('0x' + word(10)),
+      tokensOwed1: BigInt('0x' + word(11)),
+    };
+  }
+
+  function fmtAmount(bi){
+    // 18-decimals display, trimmed
+    const s = bi.toString().padStart(19, "0");
+    const intPart = s.slice(0, -18) || "0";
+    const fracPart = s.slice(-18).slice(0, 6).replace(/0+$/, "");
+    return fracPart ? intPart + "." + fracPart : intPart;
+  }
+
+  function renderRow(entry){
+    const row = document.createElement('div');
+    row.className = 'row';
+    const meta = metaCache[entry.token.toLowerCase()] || { name: shortAddr(entry.token), ticker: '???' };
+    const owed0 = entry.owed ? entry.owed.tokensOwed0 : null;
+    const owed1 = entry.owed ? entry.owed.tokensOwed1 : null;
+    const hasFees = owed0 !== null && (owed0 > 0n || owed1 > 0n);
+
+    row.innerHTML = `
+      <div>
+        <div class="tname">${meta.name}</div>
+        <div class="tsub">$${meta.ticker} · ${shortAddr(entry.token)}</div>
+      </div>
+      <div class="owed"><span class="${owed0 && owed0 > 0n ? 'some' : 'zero'}">${owed0 === null ? '…' : fmtAmount(owed0)}</span></div>
+      <div class="owed"><span class="${owed1 && owed1 > 0n ? 'some' : 'zero'}">${owed1 === null ? '…' : fmtAmount(owed1)}</span></div>
+      <div>
+        <button class="claim-btn" data-token="${entry.token}" ${hasFees ? '' : 'disabled'}>
+          ${hasFees ? 'Collect + Split' : 'Nothing to claim'}
+        </button>
+        <div class="row-status" id="status-${entry.token}"></div>
+      </div>
+    `;
+    rowsEl.appendChild(row);
+
+    const btn = row.querySelector('.claim-btn');
+    if (hasFees){
+      btn.addEventListener('click', () => claimFees(entry));
+    }
+  }
+
+  function setRowStatus(token, msg, kind){
+    const el = $("status-" + token);
+    if (el){ el.textContent = msg; el.className = "row-status" + (kind ? " " + kind : ""); }
+  }
+
+  async function claimFees(entry){
+    const statusToken = entry.token;
+    try{
+      if (!signer){
+        await connectWallet();
+        if (!signer) return;
+      }
+      setRowStatus(statusToken, "Collecting…", "");
+      const custodian = new ethers.Contract(entry.custodian, CUSTODIAN_ABI, signer);
+      const tx1 = await custodian.collect();
+      await tx1.wait();
+
+      setRowStatus(statusToken, "Splitting token 0…", "");
+      const splitter = new ethers.Contract(entry.feeSplitter, FEESPLITTER_ABI, signer);
+      const tx2 = await splitter.release(entry.owed.token0);
+      await tx2.wait();
+
+      setRowStatus(statusToken, "Splitting token 1…", "");
+      const tx3 = await splitter.release(entry.owed.token1);
+      await tx3.wait();
+
+      setRowStatus(statusToken, "Done — fees collected and split 50/50 ✅", "ok");
+    }catch(e){
+      console.error(e);
+      setRowStatus(statusToken, "Error: " + (e.reason || e.message || e), "err");
+    }
+  }
+
+  // ── Wallet connect (only needed when actually claiming) ──────────────
+  $("connectBtn").addEventListener("click", connectWallet);
+
+  async function connectWallet(){
+    if (!window.ethereum){
+      alert("No wallet detected (MetaMask, Rabby, ...). Install an EVM-compatible wallet extension.");
+      return;
+    }
+    try{
+      provider = new ethers.BrowserProvider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      await ensureNetwork();
+      signer = await provider.getSigner();
+      userAddress = await signer.getAddress();
+      $("connectBtn").textContent = userAddress.slice(0,6) + "…" + userAddress.slice(-4);
+    }catch(e){
+      console.error(e);
+      alert("Connection failed: " + (e.message || e));
+    }
+  }
+
+  async function ensureNetwork(){
+    const net = await provider.getNetwork();
+    if (Number(net.chainId) === CONFIG.CHAIN_ID) return;
+    try{
+      await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: CONFIG.CHAIN_ID_HEX }] });
+    }catch(switchErr){
+      if (switchErr.code === 4902){
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [{
+            chainId: CONFIG.CHAIN_ID_HEX, chainName: CONFIG.CHAIN_NAME,
+            nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+            rpcUrls: [CONFIG.RPC_URL], blockExplorerUrls: [CONFIG.BLOCK_EXPLORER],
+          }],
+        });
+      } else { throw switchErr; }
+    }
+  }
+
+  // ── Init ───────────────────────────────────────────────────────────
+  (async function init(){
+    await scanFactory();
+    if (launches.length === 0){
+      rowsEl.innerHTML = '<div class="empty">No launches found yet.</div>';
+      return;
+    }
+
+    // Fetch metadata (name/ticker) in small batches, same pattern as the dashboard.
+    const BATCH = 3;
+    for (let i = 0; i < launches.length; i += BATCH){
+      const batch = launches.slice(i, i + BATCH);
+      await Promise.all(batch.map(l => fetchTokenMeta(l.token)));
+    }
+
+    // Fetch owed fees for every launch, in parallel batches.
+    for (let i = 0; i < launches.length; i += BATCH){
+      const batch = launches.slice(i, i + BATCH);
+      await Promise.all(batch.map(async (l) => {
+        try{ l.owed = await fetchOwed(l.tokenId); }
+        catch(e){ l.owed = null; }
+      }));
+    }
+
+    // Sort: tokens with fees owed first (roughly, by raw combined amount), then the rest.
+    launches.sort((a, b) => {
+      const av = a.owed ? a.owed.tokensOwed0 + a.owed.tokensOwed1 : -1n;
+      const bv = b.owed ? b.owed.tokensOwed0 + b.owed.tokensOwed1 : -1n;
+      if (bv > av) return 1;
+      if (bv < av) return -1;
+      return 0;
+    });
+
+    rowsEl.innerHTML = '';
+    launches.forEach(renderRow);
+  })();
+})();
+</script>
+</body>
+</html>
