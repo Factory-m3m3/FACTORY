@@ -56,6 +56,14 @@
     font-size:13px; border-bottom:1px solid var(--border); align-items:center;
   }
   .row:last-child{border-bottom:none;}
+  .row.highlight{
+    background:linear-gradient(90deg, rgba(124,92,255,.18), rgba(124,92,255,.03));
+    border-left:3px solid var(--accent); animation:pulseHighlight 2s ease-out 1;
+  }
+  @keyframes pulseHighlight{
+    0%{ box-shadow:0 0 0 0 rgba(124,92,255,.5); }
+    100%{ box-shadow:0 0 0 12px rgba(124,92,255,0); }
+  }
   .tname{font-weight:700;}
   .tsub{color:var(--muted); font-size:11.5px; margin-top:2px;}
   .owed{font-family:'Segoe UI',monospace; font-size:12.5px;}
@@ -91,6 +99,7 @@
     <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
       <a href="index.html" class="wallet-btn">🚀 Launch a token</a>
       <a href="guide.html" target="_blank" class="wallet-btn">📘 Guide</a>
+      <button class="wallet-btn" id="rescanBtn" title="Force a fresh on-chain scan">↻ Rescan</button>
       <button class="wallet-btn" id="connectBtn">Connect wallet</button>
     </div>
   </header>
@@ -135,6 +144,8 @@
 
   const CUSTODIAN_ABI = ["function collect() external returns (uint256 amount0, uint256 amount1)"];
   const FEESPLITTER_ABI = ["function release(address token) external"];
+  const CACHE_KEY = "feespage_scan_cache_v1";
+  const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes — reload uses cache, "Rescan" forces fresh
 
   const $ = (id) => document.getElementById(id);
   const rowsEl = $("rows");
@@ -144,6 +155,45 @@
   let launches = []; // {token, creator, custodian, feeSplitter, pool, tokenId, txHash}
   let metaCache = {}; // addrLower -> {name, ticker}
   let scanFailed = false;
+
+  function loadCache(){
+    try{
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed.ts || Date.now() - parsed.ts > CACHE_TTL_MS) return null;
+      // BigInt fields don't survive JSON — revive owed amounts as BigInt.
+      parsed.launches.forEach(l => {
+        if (l.owed){
+          l.owed.tokensOwed0 = BigInt(l.owed.tokensOwed0);
+          l.owed.tokensOwed1 = BigInt(l.owed.tokensOwed1);
+        }
+      });
+      return parsed;
+    }catch(e){ return null; }
+  }
+
+  function saveCache(){
+    try{
+      const serializable = {
+        ts: Date.now(),
+        launches: launches.map(l => ({
+          ...l,
+          owed: l.owed ? {
+            token0: l.owed.token0, token1: l.owed.token1,
+            tokensOwed0: l.owed.tokensOwed0.toString(),
+            tokensOwed1: l.owed.tokensOwed1.toString(),
+          } : null
+        })),
+        metaCache,
+      };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(serializable));
+    }catch(e){ /* storage full or unavailable — not critical */ }
+  }
+
+  function clearCache(){
+    try{ localStorage.removeItem(CACHE_KEY); }catch(e){}
+  }
 
   function shortAddr(a){ return a.slice(0,6) + '…' + a.slice(-4); }
   function topicToAddress(t){ return '0x' + t.slice(-40); }
@@ -341,6 +391,7 @@
   function renderRow(entry){
     const row = document.createElement('div');
     row.className = 'row';
+    row.id = 'token-' + entry.token.toLowerCase();
     const meta = metaCache[entry.token.toLowerCase()] || { name: shortAddr(entry.token), ticker: '???' };
     const owed0 = entry.owed ? entry.owed.tokensOwed0 : null;
     const owed1 = entry.owed ? entry.owed.tokensOwed1 : null;
@@ -441,15 +492,10 @@
     }
   }
 
-  // ── Init ───────────────────────────────────────────────────────────
-  (async function init(){
+  async function loadFresh(){
+    scanFailed = false;
     await scanFactory();
-    if (launches.length === 0){
-      rowsEl.innerHTML = scanFailed
-        ? '<div class="empty">Couldn\'t reach the chain right now — reload the page in a minute.</div>'
-        : '<div class="empty">No launches found yet.</div>';
-      return;
-    }
+    if (launches.length === 0) return;
 
     // Fetch metadata (name/ticker) in small batches, spaced out to stay
     // under Blockscout's shared rate limit.
@@ -481,8 +527,58 @@
       return 0;
     });
 
+    saveCache();
+  }
+
+  function renderAll(){
+    if (launches.length === 0){
+      rowsEl.innerHTML = scanFailed
+        ? '<div class="empty">Couldn\'t reach the chain right now — reload the page in a minute.</div>'
+        : '<div class="empty">No launches found yet.</div>';
+      return;
+    }
     rowsEl.innerHTML = '';
     launches.forEach(renderRow);
+    highlightFromUrl();
+  }
+
+  function highlightFromUrl(){
+    const params = new URLSearchParams(window.location.search);
+    const target = params.get('token');
+    if (!target) return;
+    const el = document.getElementById('token-' + target.toLowerCase());
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.add('highlight');
+  }
+
+  $("rescanBtn").addEventListener("click", async () => {
+    $("rescanBtn").disabled = true;
+    clearCache();
+    scanNote.textContent = 'Rescanning…';
+    launches = [];
+    await loadFresh();
+    scanNote.textContent = launches.length + ' launch(es) found on-chain.';
+    renderAll();
+    $("rescanBtn").disabled = false;
+  });
+
+  // ── Init ───────────────────────────────────────────────────────────
+  (async function init(){
+    const cached = loadCache();
+    if (cached && cached.launches.length > 0){
+      launches = cached.launches;
+      metaCache = cached.metaCache || {};
+      const ageSec = Math.round((Date.now() - cached.ts) / 1000);
+      scanNote.textContent = launches.length + ' launch(es) — showing cached data (' + ageSec + 's old). Click "Rescan" for a live check.';
+      renderAll();
+      return;
+    }
+    await loadFresh();
+    scanNote.textContent = launches.length > 0
+      ? launches.length + ' launch(es) found on-chain.'
+      : scanNote.textContent;
+    renderAll();
   })();
 })();
 </script>

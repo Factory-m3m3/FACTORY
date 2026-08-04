@@ -150,7 +150,6 @@
   <header>
     <div class="brand"><span class="dot"></span> Meme Coin Factory</div>
     <div style="display:flex; gap:10px; align-items:center;">
-      <a href="fees.html" class="wallet-btn" style="text-decoration:none;">💰 Claim fees</a>
       <a href="guide.html" target="_blank" class="wallet-btn" style="text-decoration:none; display:inline-flex; align-items:center;">📘 Guide</a>
       <button class="wallet-btn" id="connectBtn">Connect wallet</button>
     </div>
@@ -779,6 +778,7 @@ document.getElementById('retry').style.display = 'none';
         <span class="chip">Token: <a href="${CONFIG.BLOCK_EXPLORER}/address/${d.tokenAddr}" target="_blank" rel="noopener">${d.tokenAddr.slice(0,6)}…${d.tokenAddr.slice(-4)} ↗</a></span>
         <span class="chip">Chain ID ${CONFIG.CHAIN_ID}</span>
         ${d.txHash ? `<span class="chip">Tx: <a href="${CONFIG.BLOCK_EXPLORER}/tx/${d.txHash}" target="_blank" rel="noopener">voir ↗</a></span>` : ''}
+        <span class="chip">💰 <a href="https://factory-m3m3.github.io/FACTORY/fees.html?token=${d.tokenAddr}" target="_blank" rel="noopener">Claim fees for this token ↗</a></span>
       </div>
     </div>
   </section>
