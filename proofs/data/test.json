@@ -1,0 +1,16 @@
+{
+  "slug": "test",
+  "tokenName": "test",
+  "tokenSymbol": "test",
+  "tokenAddress": "0x2d0F872E227B26878fe4AF8cb9D71B17D12Bb10b",
+  "custodianAddress": "0xFF42ffBdF45e43362AE57c5244776B90e2333930",
+  "poolAddress": "0xc60286AC9a832DB1c18De00b2b46F5213Ea09FF6",
+  "positionTokenId": "603205",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x3bF0CE2092E1B3f0e8727cb3f6B42948065b1dc1",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0x56dddeb6410214271eea341dd700ab497d18c2e4d83cb4dfd3e7401fca0703f5",
+  "launchDate": "2026-08-06T08:36:56.720Z",
+  "proofUrl": "proofs/test.html"
+}
