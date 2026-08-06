@@ -1,0 +1,16 @@
+{
+  "slug": "rascal",
+  "tokenName": "RASCAL THE RACCOON",
+  "tokenSymbol": "RASCAL",
+  "tokenAddress": "0xD3dED904a8a0501f89F3D880ed092B00Ec0243Bb",
+  "custodianAddress": "0x8f621b87cd43e24ce7d1756be714f365f66f3d06",
+  "poolAddress": "0xc63af54e128e13a517a5846234e0e3bf3c666c1c",
+  "positionTokenId": "552089",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x9aee6ff01ac40a35da00fd81fe6dfe00f6134995",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0xef97e0d173e1211d49db21f554a9c34d1bafa5c465bc428f0b69b5e2e754355e",
+  "launchDate": "2026-08-06T05:39:00.664Z",
+  "proofUrl": "proofs/rascal.html"
+}
