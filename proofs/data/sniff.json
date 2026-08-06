@@ -1,0 +1,16 @@
+{
+  "slug": "sniff",
+  "tokenName": "Sniffy The Bloodhound",
+  "tokenSymbol": "SNIFF",
+  "tokenAddress": "0xB8e9681ebd53C4aFDA20c31A0FA730fd44F0E17A",
+  "custodianAddress": "0x5a302702ff7f5c8486654bf54ba9bb927251fc42",
+  "poolAddress": "0x900ea1d859179db2397930c8d02049711469b854",
+  "positionTokenId": "554402",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x07e1dca268550998be0292da626456ca8fc90645",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0x7214e92956a810de9f611840eb6c63eff30c5865a1c82784ec2daf1319fba832",
+  "launchDate": "2026-08-06T05:39:20.505Z",
+  "proofUrl": "proofs/sniff.html"
+}
