@@ -149,12 +149,20 @@
     <div class="num">7</div>
     <div>
       <h2>Claiming your fees</h2>
-      <p>If your token gets trading activity, fees build up automatically — here's how to claim them, whether it's your own token or someone else's (claiming is permissionless, the 50/50 split is locked in forever).</p>
-      <p><strong>1.</strong> Open the Factory, connect your wallet, and scroll down to <strong>"Local launch history"</strong>. Find your token and click <strong>"Proof page"</strong>.</p>
-      <p><strong>2.</strong> On the proof page, scroll to the <strong>"Claim your fees"</strong> section. It gives you two direct links straight to the right contract on the block explorer — no searching needed.</p>
-      <p><strong>3.</strong> Click <strong>"Open Custodian → collect()"</strong>, connect your wallet on the explorer, and hit Write. This moves the accumulated fees from the liquidity position into the FeeSplitter.</p>
-      <p><strong>4.</strong> Click <strong>"Open FeeSplitter → release()"</strong>. Fees usually come in as two assets — the token itself and WETH — so the proof page shows <em>two</em> addresses to copy, one at a time. Paste the first into the <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">token</span> field, connect your wallet, hit Write — then repeat with the second address.</p>
-      <div class="callout">💡 <span style="font-family:monospace;">collect()</span> takes no input — just connect and click Write. <span style="font-family:monospace;">release()</span> needs an address pasted in manually, twice per token (once for the token, once for WETH) — the proof page always shows both, ready to copy.</div>
+      <p>If a token gets trading activity, fees build up automatically — here's how to claim them, whether it's your own token or someone else's (claiming is permissionless, the 50/50 split is locked in forever).</p>
+      <p><strong>1.</strong> Open the <strong>Catalog</strong> and click the token you want to claim fees for. Every token launched through the Factory gets its own public proof page there.</p>
+      <a class="btn alt" href="catalog.html" target="_blank">Open the Catalog →</a>
+      <p><strong>2.</strong> On that proof page, note down two addresses from the table: <strong>"Adresse du Custodian"</strong> and <strong>"Fee recipient"</strong> (this second one is actually the token's FeeSplitter contract, despite the label).</p>
+      <p><strong>3.</strong> Paste the <strong>Custodian</strong> address into the block explorer's search bar, open the <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">Write contract</span> tab, connect your wallet, and call <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">collect()</span> — no input needed. This moves the accumulated fees from the liquidity position into the FeeSplitter.</p>
+      <a class="btn alt" href="https://robinhoodchain.blockscout.com" target="_blank">Open the block explorer →</a>
+      <p><strong>4.</strong> Now paste the <strong>FeeSplitter</strong> address (the "Fee recipient" one) into the block explorer, same <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">Write contract</span> tab, and call <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">release(address token)</span> — <strong>twice</strong>. Fees always come in as two assets: the memecoin itself, and WETH.</p>
+      <p style="margin-left:2px;">→ First run: paste the token's own contract address (visible at the top of the same proof page).<br>→ Second run: paste the WETH address below — it's fixed, the same on every single token, so you never need to look it up again.</p>
+      <div class="callout">
+        WETH contract on Robinhood Chain (always the same):<br>
+        <code id="wethAddr">0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73</code>
+        <button class="copy-btn" onclick="navigator.clipboard.writeText('0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73'); this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy', 1200);" style="margin-left:8px; background:none; border:1px solid var(--border); color:var(--text); border-radius:999px; padding:3px 12px; font-size:12px; cursor:pointer;">Copy</button>
+      </div>
+      <div class="callout">💡 <span style="font-family:monospace;">collect()</span> takes no input — just connect and click Write. <span style="font-family:monospace;">release()</span> needs an address pasted in manually, once for the token and once for WETH.</div>
     </div>
   </div>
 
