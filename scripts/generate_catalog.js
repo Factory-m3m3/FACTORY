@@ -59,11 +59,11 @@ function renderCatalogHtml(entries) {
     .join("\n");
 
   return `<!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Catalogue des lancements — Factory</title>
+<title>Launches Catalog — Factory</title>
 <style>
   body { font-family: -apple-system, system-ui, sans-serif; background: #0b0e14; color: #e6e6e6; margin: 0; padding: 2rem; }
   h1 { text-align: center; margin-bottom: 0.25rem; }
@@ -78,12 +78,12 @@ function renderCatalogHtml(entries) {
 </style>
 </head>
 <body>
-  <h1>Catalogue des lancements Factory</h1>
-  <div class="subtitle">${entries.length} token(s) lancé(s) — mis à jour automatiquement</div>
+  <h1>Factory Launches Catalog</h1>
+  <div class="subtitle">${entries.length} token(s) launched — updated automatically</div>
   <div class="grid">
     ${cards || ""}
   </div>
-  ${entries.length === 0 ? '<div class="empty">Aucun lancement pour le moment.</div>' : ""}
+  ${entries.length === 0 ? '<div class="empty">No launches yet.</div>' : ""}
 </body>
 </html>`;
 }
@@ -91,7 +91,7 @@ function renderCatalogHtml(entries) {
 function formatDate(iso) {
   if (!iso) return "";
   try {
-    return new Date(iso).toLocaleString("fr-FR", {
+    return new Date(iso).toLocaleString("en-US", {
       dateStyle: "medium",
       timeStyle: "short",
     });
