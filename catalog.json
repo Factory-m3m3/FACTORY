@@ -1,5 +1,21 @@
 [
   {
+    "slug": "wefm",
+    "tokenName": "Welcome Easy Factory M3M3",
+    "tokenSymbol": "WEFM",
+    "tokenAddress": "0x2464f580c95fcFE8041cb8CB170E750067f803aB",
+    "custodianAddress": "0x45c27e200257BA7e29685387E074e232649f9f89",
+    "poolAddress": null,
+    "positionTokenId": null,
+    "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+    "feeRecipientAddress": "0x2b824C9Dc9779B9Eb215d8d0878a3ce8a6C461F4",
+    "network": "Robinhood Chain Mainnet",
+    "chainId": 4663,
+    "txHashPositionTransfer": null,
+    "launchDate": "2026-08-06T06:51:03.014Z",
+    "proofUrl": "proofs/wefm.html"
+  },
+  {
     "slug": "tc",
     "tokenName": "Test Catalogue",
     "tokenSymbol": "TC",
