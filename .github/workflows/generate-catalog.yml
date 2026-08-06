@@ -1,0 +1,39 @@
+name: Regenerate catalog
+
+# Se déclenche à chaque fois que le Worker commit un nouveau fichier
+# proofs/data/*.json (ou si tu ajoutes/modifies un fichier à la main).
+on:
+  push:
+    paths:
+      - "proofs/data/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate catalog.json + catalog.html
+        run: node scripts/generate_catalog.js
+
+      - name: Commit updated catalog
+        run: |
+          git config user.name "factory-bot"
+          git config user.email "factory-bot@users.noreply.github.com"
+          git add catalog.json catalog.html
+          if git diff --cached --quiet; then
+            echo "Aucun changement à commiter."
+          else
+            git commit -m "Auto-update catalog [skip ci]"
+            git push
+          fi
