@@ -1,0 +1,16 @@
+{
+  "slug": "take",
+  "tokenName": "Take From The Rich",
+  "tokenSymbol": "TAKE",
+  "tokenAddress": "0x4Ae29A57dBB79f11a7007BaAB8F47DEed43d2d86",
+  "custodianAddress": "0xacf956678b3d6424019a2459876d6dbdb08bdf5c",
+  "poolAddress": "0xf222105ea00dd78981c5b7897cf9a1ff257604a7",
+  "positionTokenId": "562903",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x68d0250284522c858c84d2f20a52b1bfb944bab4",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0xf51116b8babd718391f1e7bf2423625a57d4fda7c31bee2b48ed2c95179b7491",
+  "launchDate": "2026-08-06T05:39:29.735Z",
+  "proofUrl": "proofs/take.html"
+}
