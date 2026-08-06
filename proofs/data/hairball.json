@@ -1,0 +1,16 @@
+{
+  "slug": "hairball",
+  "tokenName": "HAIRBALL",
+  "tokenSymbol": "HAIRBALL",
+  "tokenAddress": "0x895fFcdAded1E7AF13202F6cc5D7d4c2303A4535",
+  "custodianAddress": "0xFa9c6F66eA120E2f5078EFD267acA57e9D9b2EFB",
+  "poolAddress": "0xE9c1D5a61E50600c6F0c362279E295d42EEdeF30",
+  "positionTokenId": "553045",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x24bfc723ac88838552b099bf09c78f1c0541196d",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0xef8905fbc848ebabe0503a58b9d9a9484542ae0a07d86b922f5616f4fb1c4532",
+  "launchDate": "2026-08-06T05:39:10.503Z",
+  "proofUrl": "proofs/hairball.html"
+}
