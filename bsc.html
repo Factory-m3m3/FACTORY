@@ -269,7 +269,7 @@ const CONFIG = {
   CHAIN_ID: 56,
   CHAIN_ID_HEX: "0x" + (56).toString(16),
   CHAIN_NAME: "BNB Smart Chain",
-  RPC_URL: "https://bsc-dataseed.binance.org",
+  RPC_URL: "https://bsc-rpc.publicnode.com", // switched 07/08/2026 — bsc-dataseed.binance.org was unreliable for direct browser fetch() (live verification page), PublicNode explicitly supports CORS
   BLOCK_EXPLORER: "https://bscscan.com",
   NATIVE_SYMBOL: "BNB",
   // Fixed WBNB contract on BSC — same for every token, never changes.
@@ -755,7 +755,7 @@ async function runCheck(c){
       const match = addr.toLowerCase() === c.expect.toLowerCase();
       setStatus(c.id, match ? "ok" : "bad", addr.slice(0,6) + "…" + addr.slice(-4));
     }
-  }catch(err){ setStatus(c.id, "bad", "can't verify here"); }
+  }catch(err){ console.error("[live verification]", c.id, err); setStatus(c.id, "bad", "can't verify here"); }
 }
 async function runAll(){ render(); for(const c of checks){ await runCheck(c); } }
 document.getElementById('retry').addEventListener('click', runAll);
