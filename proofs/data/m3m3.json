@@ -1,0 +1,16 @@
+{
+  "slug": "m3m3",
+  "tokenName": "M3M3 BSC",
+  "tokenSymbol": "M3M3",
+  "tokenAddress": "0xFE8F32AD026147e9CaD8f52eccf2e91B8EF54c33",
+  "custodianAddress": "0x33f4FBC27ea90706c085dF1C3f2b8e2b76d93c20",
+  "poolAddress": "0x643Ef26520E54539f7a9f33A63F0287A7176106b",
+  "positionTokenId": "7091175",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x97DbB5f0A3D1B9b5Be71A29D0ba60BA2CfbaE69c",
+  "network": "BNB Smart Chain Mainnet",
+  "chainId": 56,
+  "txHashPositionTransfer": "0x736badb99342f44e07100be736a18a8db49ac64eda63aef00bca06ddd04a9db8",
+  "launchDate": "2026-08-07T09:02:02.956Z",
+  "proofUrl": "proofs/m3m3.html"
+}
