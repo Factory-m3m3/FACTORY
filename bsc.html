@@ -263,7 +263,7 @@ const CONFIG = {
   // be a user-editable "advanced" field — now fixed here instead so every BSC
   // launch starts at the same price. Change this single value if it needs
   // adjusting; it's no longer exposed in the form.
-  START_MCAP_ETH: "2",
+  START_MCAP_ETH: "5",
 
   // BNB Smart Chain MAINNET
   CHAIN_ID: 56,
@@ -338,13 +338,21 @@ function setStatus(el, msg, kind){
 
 $("connectBtn").addEventListener("click", connectWallet);
 
+// If the wallet's active network changes mid-session (user switches manually,
+// another dApp tab triggers it, etc.), the in-memory provider/signer become
+// stale. Reloading is the simplest safe reset — avoids ethers v6 throwing
+// "network changed: X => Y" (NETWORK_ERROR) on the next call.
+if (window.ethereum && window.ethereum.on){
+  window.ethereum.on("chainChanged", () => window.location.reload());
+}
+
 async function connectWallet(){
   if (!window.ethereum){
     alert("No wallet detected (MetaMask, Rabby, ...). Install an EVM-compatible wallet extension.");
     return;
   }
   try{
-    provider = new ethers.BrowserProvider(window.ethereum);
+    provider = new ethers.BrowserProvider(window.ethereum, "any");
     await provider.send("eth_requestAccounts", []);
     await ensureNetwork();
     signer = await provider.getSigner();
