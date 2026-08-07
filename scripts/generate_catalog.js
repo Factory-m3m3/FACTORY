@@ -51,6 +51,7 @@ function renderCatalogHtml(entries) {
     .map(
       (e) => `
       <a class="card" href="${escapeHtml(e.proofUrl)}">
+        ${e.network ? `<div class="card-chain">${escapeHtml(e.network.replace(" Mainnet", ""))}</div>` : ""}
         <div class="card-title">${escapeHtml(e.tokenName || "")}</div>
         <div class="card-ticker">$${escapeHtml(e.tokenSymbol || "")}</div>
         <div class="card-date">${escapeHtml(formatDate(e.launchDate))}</div>
@@ -59,11 +60,11 @@ function renderCatalogHtml(entries) {
     .join("\n");
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Launches Catalog — Factory</title>
+<title>Catalogue des lancements — Factory</title>
 <style>
   body { font-family: -apple-system, system-ui, sans-serif; background: #0b0e14; color: #e6e6e6; margin: 0; padding: 2rem; }
   h1 { text-align: center; margin-bottom: 0.25rem; }
@@ -71,6 +72,7 @@ function renderCatalogHtml(entries) {
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; max-width: 1100px; margin: 0 auto; }
   .card { display: block; background: #131722; border-radius: 10px; padding: 1.25rem; text-decoration: none; color: inherit; border: 1px solid #232838; transition: border-color 0.15s ease; }
   .card:hover { border-color: #7cc4ff; }
+  .card-chain { display: inline-block; font-size: 0.7rem; color: #8a92a6; background: #1a1f2e; border: 1px solid #232838; border-radius: 999px; padding: 0.15rem 0.55rem; margin-bottom: 0.5rem; }
   .card-title { font-weight: 600; margin-bottom: 0.25rem; }
   .card-ticker { color: #7cc4ff; font-size: 0.9rem; margin-bottom: 0.5rem; }
   .card-date { color: #8a92a6; font-size: 0.78rem; }
@@ -78,12 +80,12 @@ function renderCatalogHtml(entries) {
 </style>
 </head>
 <body>
-  <h1>Factory Launches Catalog</h1>
-  <div class="subtitle">${entries.length} token(s) launched — updated automatically</div>
+  <h1>Catalogue des lancements Factory</h1>
+  <div class="subtitle">${entries.length} token(s) lancé(s) — mis à jour automatiquement</div>
   <div class="grid">
     ${cards || ""}
   </div>
-  ${entries.length === 0 ? '<div class="empty">No launches yet.</div>' : ""}
+  ${entries.length === 0 ? '<div class="empty">Aucun lancement pour le moment.</div>' : ""}
 </body>
 </html>`;
 }
@@ -91,7 +93,7 @@ function renderCatalogHtml(entries) {
 function formatDate(iso) {
   if (!iso) return "";
   try {
-    return new Date(iso).toLocaleString("en-US", {
+    return new Date(iso).toLocaleString("fr-FR", {
       dateStyle: "medium",
       timeStyle: "short",
     });
