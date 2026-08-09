@@ -1,5 +1,21 @@
 [
   {
+    "slug": "ethm3m3",
+    "tokenName": "ETH_MEME",
+    "tokenSymbol": "ETHM3M3",
+    "tokenAddress": "0x66f4B11B8aacb39069f253b9246A1a49c2BCA010",
+    "custodianAddress": "0x711Ce83b8E31bAC348a7c3b01454Cb09e0a80CA1",
+    "poolAddress": "0x2bf472a51001D095628A59E3553F549235a27D22",
+    "positionTokenId": "1346996",
+    "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+    "feeRecipientAddress": "0x287c63A18A5d5aa1EAA45b4DB3C8836a529e473f",
+    "network": "Ethereum Mainnet",
+    "chainId": 1,
+    "txHashPositionTransfer": "0x27f5e3b7e711b84dee9361bc66118d2f40d4a3780d701b928032d4e68d50d88c",
+    "launchDate": "2026-08-09T07:41:17.035Z",
+    "proofUrl": "proofs/ethm3m3.html"
+  },
+  {
     "slug": "test",
     "tokenName": "test book",
     "tokenSymbol": "TEST",
