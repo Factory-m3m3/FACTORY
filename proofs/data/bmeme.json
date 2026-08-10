@@ -1,0 +1,16 @@
+{
+  "slug": "bmeme",
+  "tokenName": "BASE_M3M3",
+  "tokenSymbol": "BMEME",
+  "tokenAddress": "0x66f4B11B8aacb39069f253b9246A1a49c2BCA010",
+  "custodianAddress": "0x711Ce83b8E31bAC348a7c3b01454Cb09e0a80CA1",
+  "poolAddress": "0xd4f7899274E9F30666aBE59C332540c630CcaF82",
+  "positionTokenId": "5753007",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x287c63A18A5d5aa1EAA45b4DB3C8836a529e473f",
+  "network": "Base Mainnet",
+  "chainId": 8453,
+  "txHashPositionTransfer": "0x82d9e799374fdaeaafdbe12d6be97f4e38e8ce26519ac4868f5cd11582678f07",
+  "launchDate": "2026-08-10T04:11:47.416Z",
+  "proofUrl": "proofs/bmeme.html"
+}
