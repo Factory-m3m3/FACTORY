@@ -1,0 +1,16 @@
+{
+  "slug": "flufflord",
+  "tokenName": "Fluff Lord",
+  "tokenSymbol": "FLUFFLORD",
+  "tokenAddress": "0xABBE7BE31f0A62bE900151Eb1d70730252A48eFd",
+  "custodianAddress": "0xa665fb6e712a09ec880822e91804603926b07bc0",
+  "poolAddress": "0x6515a137377000ee0bb76c3f16cedcacf8593757",
+  "positionTokenId": "554525",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x3e950b3a77f1b7b387e477c8e0d27a828db67755",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0x69a2a401056530fcc7fe4efad662815638cdb435c054d8e4bb51e8514677e857",
+  "launchDate": "2026-08-06T05:39:25.002Z",
+  "proofUrl": "proofs/flufflord.html"
+}

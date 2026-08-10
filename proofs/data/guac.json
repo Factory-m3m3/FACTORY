@@ -1,0 +1,16 @@
+{
+  "slug": "guac",
+  "tokenName": "AVOCADO BRO",
+  "tokenSymbol": "GUAC",
+  "tokenAddress": "0x12e6315e6C86CBc74580Ed84953b0474D6b1BAa9",
+  "custodianAddress": "0x21d7f63ecfcfe50f369b79c2e00f0c6a5113b908",
+  "poolAddress": "0x77abe033a0c5636b0c14f3915413016d18a06000",
+  "positionTokenId": "552527",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x1812188b3015cba251e8faa7ccf73d5705c6430c",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0x0cef90fcff22a2fb6ea406677f94dc591b8ace311a1409d68f82b5bdc4d6a380",
+  "launchDate": "2026-08-06T05:39:05.882Z",
+  "proofUrl": "proofs/guac.html"
+}

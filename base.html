@@ -11,7 +11,7 @@
   </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meme Coin Factory — BNB Smart Chain</title>
+<title>Meme Coin Factory — Base</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.15.0/ethers.umd.min.js"></script>
 <style>
   :root{
@@ -142,15 +142,15 @@
 <div class="critter-rail left" id="critterRailLeft" aria-hidden="true"></div>
 <div class="critter-rail right" id="critterRailRight" aria-hidden="true"></div>
 
-<div class="mascot-side left" aria-hidden="true"><img src="m3m3_factory_mascotte_bsc.png" alt="" loading="lazy"></div>
-<div class="mascot-side right" aria-hidden="true"><img src="m3m3_factory_mascotte_bsc.png" alt="" loading="lazy"></div>
+<div class="mascot-side left" aria-hidden="true"><img src="m3m3_factory_mascotte.png" alt="" loading="lazy"></div>
+<div class="mascot-side right" aria-hidden="true"><img src="m3m3_factory_mascotte.png" alt="" loading="lazy"></div>
 
 <div class="wrap">
 
   <header>
     <div class="brand"><span class="dot"></span> Meme Coin Factory</div>
     <div style="display:flex; gap:10px; align-items:center;">
-      <a href="guide-bsc.html" target="_blank" class="wallet-btn" style="text-decoration:none; display:inline-flex; align-items:center;">📘 Guide</a>
+      <a href="guide-base.html" target="_blank" class="wallet-btn" style="text-decoration:none; display:inline-flex; align-items:center;">📘 Guide</a>
       <a href="catalog.html" class="wallet-btn" style="text-decoration:none; display:inline-flex; align-items:center;">🗂️ All launches</a>
       <button class="wallet-btn" id="connectBtn">Connect wallet</button>
     </div>
@@ -162,13 +162,13 @@
 
     <div class="field">
       <label>Project name</label>
-      <input type="text" id="tokenName" placeholder="BSC">
+      <input type="text" id="tokenName" placeholder="ETH">
     </div>
 
     <div class="row2">
       <div class="field">
         <label>Ticker</label>
-        <div class="ticker-wrap"><span>$</span><input type="text" id="tokenSymbol" placeholder="BSC" maxlength="12"></div>
+        <div class="ticker-wrap"><span>$</span><input type="text" id="tokenSymbol" placeholder="ETH" maxlength="12"></div>
       </div>
       <div class="field">
         <label>Total supply</label>
@@ -237,7 +237,7 @@
     <div id="historyList"></div>
   </div>
 
-  <footer>BNB Smart Chain · chainId 56 · Unaudited contracts · No warranty</footer>
+  <footer>Base · chainId 8453 · Unaudited contracts · No warranty</footer>
 </div>
 
 <script>
@@ -248,7 +248,7 @@
  * ════════════════════════════════════════════════════════════════════════ */
 const CONFIG = {
   // Address of YOUR deployed MemeCoinFactory (constructor: uniswapV3Factory, positionManager, weth, platform, swapRouter)
-  FACTORY_ADDRESS: "0xa33F5330F6C126a014fe113733E1e380e87049C8", // MemeCoinFactory BSC MAINNET — deployed 07/08/2026
+  FACTORY_ADDRESS: "0xa33F5330F6C126a014fe113733E1e380e87049C8", // MemeCoinFactory BASE — deployed 10/08/2026 (tx 0x2e569c9a3fc167a2853b5720f23e67ec7aad5aa552b05b36b2432c6d720a2f27)
 
   // Native ETH amount sent as msg.value with every launchToken() call. Used
   // internally by the Factory to run an atomic buy+sell test right after the
@@ -257,23 +257,23 @@ const CONFIG = {
   // (minus swap fees) is sent straight back to the caller in the same
   // transaction, so the real cost to the user is just gas + swap fee
   // slippage on this small amount, not the full amount.
-  WARM_UP_AMOUNT_ETH: "0.0005",
+  WARM_UP_AMOUNT_ETH: "0.00015", // same order of magnitude as Ethereum mainnet — Base's native token is also ETH, no unit conversion needed
 
-  // Starting market cap for the pool (chain's native token, here BNB). Used to
-  // be a user-editable "advanced" field — now fixed here instead so every BSC
-  // launch starts at the same price. Change this single value if it needs
-  // adjusting; it's no longer exposed in the form.
-  START_MCAP_ETH: "5",
+  // Starting market cap for the pool, in native ETH. Fixed here (not a form
+  // field) so every Base launch starts at the same price.
+  // Kept deliberately modest given real ETH's USD value — adjust this single
+  // value if it needs recalibrating.
+  START_MCAP_ETH: "1.5",
 
-  // BNB Smart Chain MAINNET
-  CHAIN_ID: 56,
-  CHAIN_ID_HEX: "0x" + (56).toString(16),
-  CHAIN_NAME: "BNB Smart Chain",
-  RPC_URL: "https://bsc-rpc.publicnode.com", // switched 07/08/2026 — bsc-dataseed.binance.org was unreliable for direct browser fetch() (live verification page), PublicNode explicitly supports CORS
-  BLOCK_EXPLORER: "https://bscscan.com",
-  NATIVE_SYMBOL: "BNB",
-  // Fixed WBNB contract on BSC — same for every token, never changes.
-  WETH_ADDRESS: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+  // Base MAINNET
+  CHAIN_ID: 8453,
+  CHAIN_ID_HEX: "0x" + (8453).toString(16),
+  CHAIN_NAME: "Base",
+  RPC_URL: "https://mainnet.base.org", // Official Base public RPC, CORS-enabled for direct browser fetch() (live verification page)
+  BLOCK_EXPLORER: "https://basescan.org",
+  NATIVE_SYMBOL: "ETH",
+  // Fixed WETH predeploy on Base (OP Stack standard, same address as Optimism) — same for every token, never changes. Different address than Ethereum mainnet WETH.
+  WETH_ADDRESS: "0x4200000000000000000000000000000000000006",
 
   // Catalog auto-publish (Cloudflare Worker → GitHub proofs/ + catalog.html).
   // WORKER_SECRET is only a spam filter, not a real secret — it's visible to
@@ -379,7 +379,7 @@ async function ensureNetwork(){
   }catch(switchErr){
     if (switchErr.code === 4902){
       if (!CONFIG.RPC_URL){
-        alert("CONFIG.RPC_URL is not set in the source code — BNB Smart Chain can't be added automatically. Add it manually in your wallet.");
+        alert("CONFIG.RPC_URL is not set in the source code — " + CONFIG.CHAIN_NAME + " can't be added automatically. Add it manually in your wallet.");
         throw switchErr;
       }
       await window.ethereum.request({
@@ -844,7 +844,7 @@ document.getElementById('retry').style.display = 'none';
     <p class="section-label">Fees earned by this token</p>
     <h2>Claim your fees</h2>
     <p style="color:var(--ink-dim); font-size:14px; margin:0 0 18px;">
-      Two steps, both on BscScan — connect your wallet on each page, then hit Write.
+      Two steps, both on Etherscan — connect your wallet on each page, then hit Write.
     </p>
     <div class="submit-block" style="margin-bottom:14px;">
       <p style="margin:0 0 10px; font-size:14px;"><b>1.</b> Open the Custodian contract, go to <span class="mono">collect()</span>, connect your wallet, click Write.</p>
@@ -882,7 +882,7 @@ document.getElementById('retry').style.display = 'none';
   </section>
 
   <section class="section" style="border-bottom:none;">
-    <p class="section-label">Technical sheet — BscScan / DexScreener / DexTools submission</p>
+    <p class="section-label">Technical sheet — Etherscan / DexScreener / DexTools submission</p>
     <h2>Information to paste</h2>
     <div class="submit-block">
       <dl class="kv">

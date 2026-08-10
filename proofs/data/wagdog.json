@@ -1,0 +1,16 @@
+{
+  "slug": "wagdog",
+  "tokenName": "WAGDOG",
+  "tokenSymbol": "WAGDOG",
+  "tokenAddress": "0x896BbEBd177aC5227d95768007f433c1f34f2223",
+  "custodianAddress": "0xb0eb65605d179ed7b9b1c42b255a64c5dae31753",
+  "poolAddress": "0xc48ab7ca5ae40cea12a19784654cb81c3e59be7e",
+  "positionTokenId": "553428",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x04cd9491a8c5ed4ee91cbb7e7bdb153672d46028",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0x57c92d512a21f1e7cbf2d71bc04be4f41e487ab3bcd89f2c955650f5a3141b74",
+  "launchDate": "2026-08-06T05:39:15.224Z",
+  "proofUrl": "proofs/wagdog.html"
+}

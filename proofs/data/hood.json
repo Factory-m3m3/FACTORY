@@ -1,0 +1,16 @@
+{
+  "slug": "hood",
+  "tokenName": "Robin M3M3 Hood",
+  "tokenSymbol": "HOOD",
+  "tokenAddress": "0x089ba435cB0FecA5D1D45bA2aFD9221B511e4Fdf",
+  "custodianAddress": "0x270eae67ecb3a45bf8b1a39290e258e24b8843ac",
+  "poolAddress": "0x775b836f322b1fc106de5e31b987c6cbe7c56383",
+  "positionTokenId": "574454",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0xb6ebd78f6460c566a641afcb28b828ec0416c252",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0xac7889c469d800d019f6fe5da89375b861bb561f7ff362781100340ca68d8ed5",
+  "launchDate": "2026-08-06T05:39:34.282Z",
+  "proofUrl": "proofs/hood.html"
+}

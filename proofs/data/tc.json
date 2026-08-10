@@ -1,0 +1,16 @@
+{
+  "slug": "tc",
+  "tokenName": "Test Catalogue",
+  "tokenSymbol": "TC",
+  "tokenAddress": "0xC79666F7efC381094601f97905E918558A918D90",
+  "custodianAddress": "0xA35f988B18E04E58E0b66A7dbf2871F7b65e3558",
+  "poolAddress": "0x7DF66b5169A601806b1C933469300171Bd2E328C",
+  "positionTokenId": "602552",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x48FEe99cf1D1538E13C9835a3278E13a49BFD13b",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0xf907ea9b9d04ff8659b52f7fd2419fce0e0f888be97dd2ef89c4b4a671f8f896",
+  "launchDate": "2026-08-06T06:44:41.672Z",
+  "proofUrl": "proofs/tc.html"
+}

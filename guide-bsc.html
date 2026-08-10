@@ -11,7 +11,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Factory Guide — How it works</title>
+  <title>Factory Guide (BSC) — How it works</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.15.0/ethers.umd.min.js"></script>
   <style>
   :root{
@@ -75,22 +75,22 @@
 </head>
 <body>
 
-<div class="mascot-side left" aria-hidden="true"><img src="m3m3_factory_mascotte.png" alt="" loading="lazy"></div>
-<div class="mascot-side right" aria-hidden="true"><img src="m3m3_factory_mascotte.png" alt="" loading="lazy"></div>
+<div class="mascot-side left" aria-hidden="true"><img src="m3m3_factory_mascotte_bsc.png" alt="" loading="lazy"></div>
+<div class="mascot-side right" aria-hidden="true"><img src="m3m3_factory_mascotte_bsc.png" alt="" loading="lazy"></div>
 
 <div class="wrap">
 
-  <div class="eyebrow">Robinhood Chain · Meme Coin Factory</div>
+  <div class="eyebrow">BNB Smart Chain · Meme Coin Factory</div>
   <h1>How the Launchpad works</h1>
   <p class="sub">A quick guide before you launch or trade — five minutes, no jargon.</p>
 
   <div class="step">
     <div class="num">1</div>
     <div>
-      <h2>Get ETH on Robinhood Chain</h2>
-      <p>You need a small amount of ETH on Robinhood Chain to launch a token or to buy on Uniswap — gas fees are tiny, but you still need some to get started.</p>
-      <p>Bridge ETH from Ethereum mainnet using the official Arbitrum portal:</p>
-      <a class="btn" href="https://portal.arbitrum.io/bridge?sourceChain=ethereum&destinationChain=robinhood-chain&tab=bridge&sanitized=true" target="_blank">Bridge ETH →</a>
+      <h2>Get BNB on BNB Smart Chain</h2>
+      <p>You need a small amount of BNB on BNB Smart Chain to launch a token or to buy on PancakeSwap — gas fees are tiny, but you still need some to get started.</p>
+      <p>Easiest way: withdraw BNB directly from an exchange to your wallet, choosing the <strong>BNB Smart Chain (BEP20)</strong> network. Already holding funds on another chain instead? Bridge them over with the official BNB Chain Bridge:</p>
+      <a class="btn" href="https://www.bnbchain.org/en/bnb-chain-bridge" target="_blank">Bridge to BNB Chain →</a>
     </div>
   </div>
 
@@ -99,7 +99,7 @@
     <div>
       <h2>Launch a memecoin</h2>
       <p>Head to the Factory, pick a project name and ticker, upload a logo, and hit Start. Total supply is fixed for every launch — no need to touch it.</p>
-      <a class="btn" href="https://factory-m3m3.github.io/FACTORY/" target="_blank">Open the Factory →</a>
+      <a class="btn" href="https://factory.apexpad.io/bsc.html" target="_blank">Open the Factory →</a>
     </div>
   </div>
 
@@ -107,9 +107,9 @@
     <div class="num">3</div>
     <div>
       <h2>What actually happens on launch</h2>
-      <p>100% of the token supply goes straight into a Uniswap liquidity pool — there's no vault, no team allocation, nothing held back.</p>
+      <p>100% of the token supply goes straight into a PancakeSwap liquidity pool — there's no vault, no team allocation, nothing held back.</p>
       <p>The LP position (an NFT that represents that liquidity) is sent to a dedicated <strong>Custodian</strong> contract for that token. Right after, ownership of both the token and the Custodian is renounced — permanently. No one, including the creator, can ever withdraw that liquidity again.</p>
-      <div class="callout">💡 To be precise: the Custodian doesn't hold ETH or "swap" anything itself. It simply holds the LP position NFT and has no withdrawal function. All actual buying and selling happens through the Uniswap pool directly — the Custodian's only job is to make sure the liquidity can never be pulled out.</div>
+      <div class="callout">💡 To be precise: the Custodian doesn't hold BNB or "swap" anything itself. It simply holds the LP position NFT and has no withdrawal function. All actual buying and selling happens through the PancakeSwap pool directly — the Custodian's only job is to make sure the liquidity can never be pulled out.</div>
     </div>
   </div>
 
@@ -117,8 +117,8 @@
     <div class="num">4</div>
     <div>
       <h2>Why liquidity looks small right after launch</h2>
-      <p>Every new token starts with a small warm-up amount of ETH paired against the full token supply — so liquidity (and market cap) shown right after launch will look low. That's expected, not a red flag.</p>
-      <p>Liquidity grows naturally as real buyers add ETH to the pool through trading. A low starting number just means the token is brand new.</p>
+      <p>Every new token starts with a small warm-up amount of BNB paired against the full token supply — so liquidity (and market cap) shown right after launch will look low. That's expected, not a red flag.</p>
+      <p>Liquidity grows naturally as real buyers add BNB to the pool through trading. A low starting number just means the token is brand new.</p>
     </div>
   </div>
 
@@ -126,8 +126,8 @@
     <div class="num">5</div>
     <div>
       <h2>How to buy or sell</h2>
-      <p>Trading happens on Uniswap, like any other token — search the contract address, connect your wallet, swap.</p>
-      <a class="btn" href="https://app.uniswap.org/" target="_blank">Open Uniswap →</a>
+      <p>Trading happens on PancakeSwap, like any other token — search the contract address, connect your wallet, swap.</p>
+      <a class="btn" href="https://pancakeswap.finance/swap" target="_blank">Open PancakeSwap →</a>
     </div>
   </div>
 
@@ -153,13 +153,13 @@
       <p><strong>1.</strong> Open the Factory, connect your wallet, and scroll down to <strong>"Local launch history"</strong>. Find your token and click <strong>"Proof page"</strong>.</p>
       <p><strong>2.</strong> On the proof page, scroll to the <strong>"Claim your fees"</strong> section. It gives you two direct links straight to the right contract on the block explorer — no searching needed.</p>
       <p><strong>3.</strong> Click <strong>"Open Custodian → collect()"</strong>, connect your wallet on the explorer, and hit Write. This moves the accumulated fees from the liquidity position into the FeeSplitter.</p>
-      <p><strong>4.</strong> Click <strong>"Open FeeSplitter → release()"</strong>. Fees usually come in as two assets — the token itself and WETH — so the proof page shows <em>two</em> addresses to copy, one at a time. Paste the first into the <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">token</span> field, connect your wallet, hit Write — then repeat with the second address.</p>
-      <div class="callout">💡 <span style="font-family:monospace;">collect()</span> takes no input — just connect and click Write. <span style="font-family:monospace;">release()</span> needs an address pasted in manually, twice per token (once for the token, once for WETH) — the proof page always shows both, ready to copy.</div>
+      <p><strong>4.</strong> Click <strong>"Open FeeSplitter → release()"</strong>. Fees usually come in as two assets — the token itself and WBNB — so the proof page shows <em>two</em> addresses to copy, one at a time. Paste the first into the <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">token</span> field, connect your wallet, hit Write — then repeat with the second address.</p>
+      <div class="callout">💡 <span style="font-family:monospace;">collect()</span> takes no input — just connect and click Write. <span style="font-family:monospace;">release()</span> needs an address pasted in manually, twice per token (once for the token, once for WBNB) — the proof page always shows both, ready to copy.</div>
     </div>
   </div>
 
   <div class="footer">
-    Robinhood Chain · Unaudited contracts · No warranty · Do your own research
+    BNB Smart Chain · Unaudited contracts · No warranty · Do your own research
   </div>
 
 </div>

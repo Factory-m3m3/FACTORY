@@ -3,15 +3,21 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Catalogue des lancements — Factory</title>
+<title>Launch Catalog — Factory</title>
 <style>
   body { font-family: -apple-system, system-ui, sans-serif; background: #0b0e14; color: #e6e6e6; margin: 0; padding: 2rem; }
   h1 { text-align: center; margin-bottom: 0.25rem; }
-  .subtitle { text-align: center; color: #8a92a6; margin-bottom: 2rem; }
+  .subtitle { text-align: center; color: #8a92a6; margin-bottom: 1.75rem; }
+  .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; max-width: 1100px; margin: 0 auto 2rem; }
+  .tab { font-family: inherit; font-size: 0.85rem; background: #131722; color: #8a92a6; border: 1px solid #232838; border-radius: 999px; padding: 0.5rem 1rem; cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease; }
+  .tab:hover { color: #e6e6e6; border-color: #3a4258; }
+  .tab.active { color: #0b0e14; background: #7cc4ff; border-color: #7cc4ff; font-weight: 600; }
+  .tab .count { opacity: 0.7; margin-left: 0.15rem; }
+  .panel { display: none; }
+  .panel.active { display: block; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; max-width: 1100px; margin: 0 auto; }
   .card { display: block; background: #131722; border-radius: 10px; padding: 1.25rem; text-decoration: none; color: inherit; border: 1px solid #232838; transition: border-color 0.15s ease; }
   .card:hover { border-color: #7cc4ff; }
-  .card-chain { display: inline-block; font-size: 0.7rem; color: #8a92a6; background: #1a1f2e; border: 1px solid #232838; border-radius: 999px; padding: 0.15rem 0.55rem; margin-bottom: 0.5rem; }
   .card-title { font-weight: 600; margin-bottom: 0.25rem; }
   .card-ticker { color: #7cc4ff; font-size: 0.9rem; margin-bottom: 0.5rem; }
   .card-date { color: #8a92a6; font-size: 0.78rem; }
@@ -19,87 +25,187 @@
 </style>
 </head>
 <body>
-  <h1>Catalogue des lancements Factory</h1>
-  <div class="subtitle">11 token(s) lancé(s) — mis à jour automatiquement</div>
-  <div class="grid">
+  <h1>Factory Launch Catalog</h1>
+  <div class="subtitle">14 token(s) launched in total — updated automatically</div>
+  <div class="tabs">
     
-      <a class="card" href="proofs/test.html">
-        <div class="card-chain">Robinhood Chain</div>
-        <div class="card-title">test</div>
-        <div class="card-ticker">$test</div>
-        <div class="card-date">6 août 2026, 08:36</div>
-      </a>
+      <button class="tab active" data-tab="robinhood" onclick="showTab('robinhood')">
+        Robinhood Chain <span class="count">10</span>
+      </button>
 
+      <button class="tab" data-tab="bsc" onclick="showTab('bsc')">
+        BSC <span class="count">2</span>
+      </button>
+
+      <button class="tab" data-tab="ethereum" onclick="showTab('ethereum')">
+        Ethereum <span class="count">1</span>
+      </button>
+
+      <button class="tab" data-tab="arbitrum" onclick="showTab('arbitrum')">
+        Arbitrum <span class="count">1</span>
+      </button>
+
+      <button class="tab" data-tab="base" onclick="showTab('base')">
+        Base <span class="count">0</span>
+      </button>
+
+      <button class="tab" data-tab="polygon" onclick="showTab('polygon')">
+        Polygon <span class="count">0</span>
+      </button>
+
+      <button class="tab" data-tab="optimism" onclick="showTab('optimism')">
+        Optimism <span class="count">0</span>
+      </button>
+
+      <button class="tab" data-tab="other" onclick="showTab('other')">
+        Autres <span class="count">0</span>
+      </button>
+  </div>
+  
+    <div class="panel active" id="panel-robinhood">
+      <div class="grid">
+        
       <a class="card" href="proofs/wefm.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">Welcome Easy Factory M3M3</div>
         <div class="card-ticker">$WEFM</div>
         <div class="card-date">6 août 2026, 06:51</div>
       </a>
 
       <a class="card" href="proofs/tc.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">Test Catalogue</div>
         <div class="card-ticker">$TC</div>
         <div class="card-date">6 août 2026, 06:44</div>
       </a>
 
       <a class="card" href="proofs/hood.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">Robin M3M3 Hood</div>
         <div class="card-ticker">$HOOD</div>
         <div class="card-date">6 août 2026, 05:39</div>
       </a>
 
       <a class="card" href="proofs/take.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">Take From The Rich</div>
         <div class="card-ticker">$TAKE</div>
         <div class="card-date">6 août 2026, 05:39</div>
       </a>
 
       <a class="card" href="proofs/flufflord.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">Fluff Lord</div>
         <div class="card-ticker">$FLUFFLORD</div>
         <div class="card-date">6 août 2026, 05:39</div>
       </a>
 
       <a class="card" href="proofs/sniff.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">Sniffy The Bloodhound</div>
         <div class="card-ticker">$SNIFF</div>
         <div class="card-date">6 août 2026, 05:39</div>
       </a>
 
       <a class="card" href="proofs/wagdog.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">WAGDOG</div>
         <div class="card-ticker">$WAGDOG</div>
         <div class="card-date">6 août 2026, 05:39</div>
       </a>
 
       <a class="card" href="proofs/hairball.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">HAIRBALL</div>
         <div class="card-ticker">$HAIRBALL</div>
         <div class="card-date">6 août 2026, 05:39</div>
       </a>
 
       <a class="card" href="proofs/guac.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">AVOCADO BRO</div>
         <div class="card-ticker">$GUAC</div>
         <div class="card-date">6 août 2026, 05:39</div>
       </a>
 
       <a class="card" href="proofs/rascal.html">
-        <div class="card-chain">Robinhood Chain</div>
         <div class="card-title">RASCAL THE RACCOON</div>
         <div class="card-ticker">$RASCAL</div>
         <div class="card-date">6 août 2026, 05:39</div>
       </a>
-  </div>
-  
+      </div>
+      
+    </div>
+
+    <div class="panel" id="panel-bsc">
+      <div class="grid">
+        
+      <a class="card" href="proofs/test.html">
+        <div class="card-title">test book</div>
+        <div class="card-ticker">$TEST</div>
+        <div class="card-date">7 août 2026, 10:22</div>
+      </a>
+
+      <a class="card" href="proofs/m3m3.html">
+        <div class="card-title">M3M3 BSC</div>
+        <div class="card-ticker">$M3M3</div>
+        <div class="card-date">7 août 2026, 09:02</div>
+      </a>
+      </div>
+      
+    </div>
+
+    <div class="panel" id="panel-ethereum">
+      <div class="grid">
+        
+      <a class="card" href="proofs/ethm3m3.html">
+        <div class="card-title">ETH_MEME</div>
+        <div class="card-ticker">$ETHM3M3</div>
+        <div class="card-date">9 août 2026, 07:41</div>
+      </a>
+      </div>
+      
+    </div>
+
+    <div class="panel" id="panel-arbitrum">
+      <div class="grid">
+        
+      <a class="card" href="proofs/arbm3m3.html">
+        <div class="card-title">M3M3 ARBITRUM</div>
+        <div class="card-ticker">$ARBM3M3</div>
+        <div class="card-date">9 août 2026, 10:07</div>
+      </a>
+      </div>
+      
+    </div>
+
+    <div class="panel" id="panel-base">
+      <div class="grid">
+        
+      </div>
+      <div class="empty">Aucun lancement sur cette chaîne pour le moment.</div>
+    </div>
+
+    <div class="panel" id="panel-polygon">
+      <div class="grid">
+        
+      </div>
+      <div class="empty">Aucun lancement sur cette chaîne pour le moment.</div>
+    </div>
+
+    <div class="panel" id="panel-optimism">
+      <div class="grid">
+        
+      </div>
+      <div class="empty">Aucun lancement sur cette chaîne pour le moment.</div>
+    </div>
+
+    <div class="panel" id="panel-other">
+      <div class="grid">
+        
+      </div>
+      <div class="empty">Aucun lancement sur cette chaîne pour le moment.</div>
+    </div>
+  <script>
+    function showTab(key) {
+      document.querySelectorAll('.tab').forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.tab === key);
+      });
+      document.querySelectorAll('.panel').forEach(function (panel) {
+        panel.classList.toggle('active', panel.id === 'panel-' + key);
+      });
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,16 @@
+{
+  "slug": "test",
+  "tokenName": "test book",
+  "tokenSymbol": "TEST",
+  "tokenAddress": "0xD2e6462a99569C309cEdc87B8fc19d5820C1AB8A",
+  "custodianAddress": "0x3Fe77eE2257f6d756fE2BaE364BD21585Cd60083",
+  "poolAddress": "0x4657F629C22EA87ADe329B08f5d383311aFa27B4",
+  "positionTokenId": "7091615",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0xc34D54C937199079aD3B96B2767690dbbDbe2876",
+  "network": "BNB Smart Chain Mainnet",
+  "chainId": 56,
+  "txHashPositionTransfer": "0x497be4074f35e595a4291161f42822659e58c3d84af9b103323a0404a26428fb",
+  "launchDate": "2026-08-07T10:22:58.544Z",
+  "proofUrl": "proofs/test.html"
+}
