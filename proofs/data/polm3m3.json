@@ -1,0 +1,16 @@
+{
+  "slug": "polm3m3",
+  "tokenName": "POLYGON MEME",
+  "tokenSymbol": "POLM3M3",
+  "tokenAddress": "0x1C47abddE1eE413335cEFD6AC6FE8680A88b3FF5",
+  "custodianAddress": "0xB15661267DceCCCd402966ABBA500EdD4fDB02e4",
+  "poolAddress": "0x60d46E133E6773bc5Aaa0Ed3daBFAB65B79b4F88",
+  "positionTokenId": "2953227",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0xA758d6e71bC2359930C9feFF21301E8FFaA610BF",
+  "network": "Polygon Mainnet",
+  "chainId": 137,
+  "txHashPositionTransfer": "0x247803bfbe878f19f459787fe88ac4b8a62b51aa8ae984239cc5e93a01daa885",
+  "launchDate": "2026-08-10T09:09:27.734Z",
+  "proofUrl": "proofs/polm3m3.html"
+}
