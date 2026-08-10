@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8QCRZ3N9KS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8QCRZ3N9KS');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factory Guide (Polygon) — How it works</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.15.0/ethers.umd.min.js"></script>
+  <style>
+  :root{
+    --bg:#0b0c0e; --panel:#15161a; --panel2:#1b1c21; --border:#26282d;
+    --text:#eceae6; --muted:#9294a0; --green:#7CFF6B; --purple:#8A6BFF; --accent:#7C9CFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--text); margin:0; padding:0;
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif; line-height:1.55;
+  }
+  .wrap{max-width:760px; margin:0 auto; padding:56px 24px 100px;}
+  .eyebrow{font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:10px;}
+  h1{font-size:32px; font-weight:800; margin:0 0 14px; letter-spacing:-.01em;}
+  .sub{color:var(--muted); font-size:15px; max-width:560px; margin-bottom:36px;}
+  .step{
+    display:flex; gap:18px; background:var(--panel); border:1px solid var(--border);
+    border-radius:16px; padding:22px 24px; margin-bottom:16px;
+  }
+  .num{
+    flex:none; width:34px; height:34px; border-radius:50%; background:var(--panel2);
+    border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:14px; color:var(--green);
+  }
+  .step h2{font-size:17px; margin:2px 0 8px; font-weight:700;}
+  .step p{margin:0 0 8px; color:#cfd0d5; font-size:14.5px;}
+  .step p:last-child{margin-bottom:0;}
+  a.btn{
+    display:inline-block; margin-top:6px; background:var(--green); color:#0b0c0e;
+    text-decoration:none; font-weight:700; font-size:13px; padding:9px 16px; border-radius:999px;
+  }
+  a.btn.alt{background:none; border:1px solid var(--border); color:var(--text);}
+  a.link{color:var(--accent); text-decoration:none;}
+  a.link:hover{text-decoration:underline;}
+  .callout{
+    background:var(--panel2); border:1px solid var(--border); border-left:3px solid var(--purple);
+    border-radius:10px; padding:14px 16px; font-size:13.5px; color:#cfd0d5; margin-top:10px;
+  }
+  .video{
+    background:var(--panel2); border:1px dashed var(--border); border-radius:12px;
+    padding:34px; text-align:center; color:var(--muted); font-size:13.5px; margin-top:8px;
+  }
+  code{background:var(--panel2); padding:2px 6px; border-radius:5px; font-size:12.5px; color:var(--green);}
+  .footer{text-align:center; color:var(--muted); font-size:12px; margin-top:48px;}
+  .footer a{color:var(--muted);}
+
+  /* Factory mascot flanking the page — same treatment as the launch page,
+     hidden once the viewport is too narrow to leave room for it. Anchored
+     at mid-height rather than the bottom. */
+  .mascot-side{
+    position:fixed; top:50%; transform:translateY(-50%); width:150px;
+    pointer-events:none; z-index:0; opacity:.95;
+    filter:drop-shadow(0 18px 34px rgba(0,0,0,.55));
+  }
+  .mascot-side img{width:100%; height:auto; display:block;}
+  .mascot-side.left{left:18px;}
+  .mascot-side.right{right:18px;}
+  .mascot-side.right img{transform:scaleX(-1);}
+  @media (max-width:1150px){ .mascot-side{display:none;} }
+</style>
+</head>
+<body>
+
+<div class="mascot-side left" aria-hidden="true"><img src="m3m3_factory_mascotte.png" alt="" loading="lazy"></div>
+<div class="mascot-side right" aria-hidden="true"><img src="m3m3_factory_mascotte.png" alt="" loading="lazy"></div>
+
+<div class="wrap">
+
+  <div class="eyebrow">Polygon PoS · Meme Coin Factory</div>
+  <h1>How the Launchpad works</h1>
+  <p class="sub">A quick guide before you launch or trade — five minutes, no jargon.</p>
+
+  <div class="step">
+    <div class="num">1</div>
+    <div>
+      <h2>Get POL on Polygon</h2>
+      <p>You need a small amount of POL on Polygon to launch a token or to buy on Uniswap — gas fees here are among the cheapest of any chain we support, so a couple of dollars comfortably covers both the warm-up amount and the transaction fee.</p>
+      <p>Easiest way: withdraw POL directly from an exchange to your wallet, choosing the <strong>Polygon</strong> network. Already holding another token on a different chain instead? Swap it for POL directly in MetaMask's built-in Bridge/Swap, or use the official <a class="link" href="https://portal.polygon.technology/bridge" target="_blank">Polygon bridge</a>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">2</div>
+    <div>
+      <h2>Launch a memecoin</h2>
+      <p>Head to the Factory, pick a project name and ticker, upload a logo, and hit Start. Total supply is fixed for every launch — no need to touch it.</p>
+      <a class="btn" href="https://factory.apexpad.io/polygon.html" target="_blank">Open the Factory →</a>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">3</div>
+    <div>
+      <h2>What actually happens on launch</h2>
+      <p>100% of the token supply goes straight into a Uniswap liquidity pool — there's no vault, no team allocation, nothing held back.</p>
+      <p>The LP position (an NFT that represents that liquidity) is sent to a dedicated <strong>Custodian</strong> contract for that token. Right after, ownership of both the token and the Custodian is renounced — permanently. No one, including the creator, can ever withdraw that liquidity again.</p>
+      <div class="callout">💡 To be precise: the Custodian doesn't hold ETH or "swap" anything itself. It simply holds the LP position NFT and has no withdrawal function. All actual buying and selling happens through the Uniswap pool directly — the Custodian's only job is to make sure the liquidity can never be pulled out.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">4</div>
+    <div>
+      <h2>Why liquidity looks small right after launch</h2>
+      <p>Every new token starts with a small warm-up amount of POL paired against the full token supply — so liquidity (and market cap) shown right after launch will look low. That's expected, not a red flag.</p>
+      <p>Liquidity grows naturally as real buyers add POL to the pool through trading. A low starting number just means the token is brand new.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">5</div>
+    <div>
+      <h2>How to buy or sell</h2>
+      <p>Trading happens on Uniswap, like any other token — search the contract address, connect your wallet, swap.</p>
+      <a class="btn" href="https://app.uniswap.org/" target="_blank">Open Uniswap →</a>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">6</div>
+    <div>
+      <h2>Watch it in action</h2>
+      <p>Prefer to see it live? Here's a short walkthrough of the whole process.</p>
+      <div class="video" style="padding:0; border-style:solid;">
+        <video controls style="width:100%; display:block; border-radius:12px;" preload="metadata">
+          <source src="V2.mp4" type="video/mp4">
+          Your browser can't play this video format — <a class="link" href="V2.mp4">download it here</a>.
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">7</div>
+    <div>
+      <h2>Claiming your fees</h2>
+      <p>If your token gets trading activity, fees build up automatically — here's how to claim them, whether it's your own token or someone else's (claiming is permissionless, the 50/50 split is locked in forever).</p>
+      <p><strong>1.</strong> Open the Factory, connect your wallet, and scroll down to <strong>"Local launch history"</strong>. Find your token and click <strong>"Proof page"</strong>.</p>
+      <p><strong>2.</strong> On the proof page, scroll to the <strong>"Claim your fees"</strong> section. It gives you two direct links straight to the right contract on the block explorer — no searching needed.</p>
+      <p><strong>3.</strong> Click <strong>"Open Custodian → collect()"</strong>, connect your wallet on the explorer, and hit Write. This moves the accumulated fees from the liquidity position into the FeeSplitter.</p>
+      <p><strong>4.</strong> Click <strong>"Open FeeSplitter → release()"</strong>. Fees usually come in as two assets — the token itself and WPOL — so the proof page shows <em>two</em> addresses to copy, one at a time. Paste the first into the <span style="font-family:monospace; background:var(--panel2); padding:2px 6px; border-radius:4px;">token</span> field, connect your wallet, hit Write — then repeat with the second address.</p>
+      <div class="callout">💡 <span style="font-family:monospace;">collect()</span> takes no input — just connect and click Write. <span style="font-family:monospace;">release()</span> needs an address pasted in manually, twice per token (once for the token, once for WPOL) — the proof page always shows both, ready to copy.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Polygon PoS · Unaudited contracts · No warranty · Do your own research
+  </div>
+
+</div>
+</body>
+</html>
