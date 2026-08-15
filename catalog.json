@@ -1,5 +1,21 @@
 [
   {
+    "slug": "zeus",
+    "tokenName": "Buy ZEUS Today, Ride the AI Wave to the Moon Tomorrow!",
+    "tokenSymbol": "ZEUS",
+    "tokenAddress": "0xFE8F32AD026147e9CaD8f52eccf2e91B8EF54c33",
+    "custodianAddress": "0x33f4FBC27ea90706c085dF1C3f2b8e2b76d93c20",
+    "poolAddress": "0x6944d1A9F4B8892165451E4Abbc13FF0930b1280",
+    "positionTokenId": "5772107",
+    "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+    "feeRecipientAddress": "0x97DbB5f0A3D1B9b5Be71A29D0ba60BA2CfbaE69c",
+    "network": "Base Mainnet",
+    "chainId": 8453,
+    "txHashPositionTransfer": "0x156fde429e111ff16085e51406daf27f71136e5903ea44f87adc44f11818a6d0",
+    "launchDate": "2026-08-15T19:40:06.163Z",
+    "proofUrl": "proofs/zeus.html"
+  },
+  {
     "slug": "par",
     "tokenName": "The mother of Coins PAR",
     "tokenSymbol": "PAR",
