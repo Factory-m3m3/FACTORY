@@ -1,0 +1,16 @@
+{
+  "slug": "par",
+  "tokenName": "The mother of Coins PAR",
+  "tokenSymbol": "PAR",
+  "tokenAddress": "0xd96De34Bb96bbFf864162061fD996bc5Ec3aCF80",
+  "custodianAddress": "0x7885629e8E442d92F117EEd9ad96a09FdE78ade4",
+  "poolAddress": "0xde1BdC800BabF7bE0Da40b7670D5b0a04448653f",
+  "positionTokenId": "5771469",
+  "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+  "feeRecipientAddress": "0x0cD1B20c2790E3644aABF1477B80D95D9d4234Cb",
+  "network": "Base Mainnet",
+  "chainId": 8453,
+  "txHashPositionTransfer": "0xe715e49fd8c4a28126574485fda12273649a39bed2467b00f00d18afbb5f7114",
+  "launchDate": "2026-08-15T16:10:16.950Z",
+  "proofUrl": "proofs/par.html"
+}
