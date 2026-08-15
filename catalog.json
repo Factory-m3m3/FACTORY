@@ -1,5 +1,21 @@
 [
   {
+    "slug": "stayop",
+    "tokenName": "Stay Optimistic",
+    "tokenSymbol": "STAYOP",
+    "tokenAddress": "0xd96De34Bb96bbFf864162061fD996bc5Ec3aCF80",
+    "custodianAddress": "0x7885629e8E442d92F117EEd9ad96a09FdE78ade4",
+    "poolAddress": "0x7fb3F815bE9a6A8c575543166F0EDB07a945Ee7c",
+    "positionTokenId": "1122423",
+    "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+    "feeRecipientAddress": "0x0cD1B20c2790E3644aABF1477B80D95D9d4234Cb",
+    "network": "Optimism Mainnet",
+    "chainId": 10,
+    "txHashPositionTransfer": "0x098ebe918157d6c8da72427c24657b616acbb9dd68248e31c73d56d55ebeee13",
+    "launchDate": "2026-08-15T07:37:32.019Z",
+    "proofUrl": "proofs/stayop.html"
+  },
+  {
     "slug": "opm3m3",
     "tokenName": "OP_MEME",
     "tokenSymbol": "OPM3M3",
