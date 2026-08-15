@@ -58,6 +58,13 @@
   .ticker-wrap{display:flex; align-items:center; background:#0d1017; border:1px solid var(--border); border-radius:10px; overflow:hidden;}
   .ticker-wrap span{padding:0 4px 0 14px; color:var(--accent2); font-weight:700;}
   .ticker-wrap input{border:none; background:transparent; padding:12px 14px 12px 4px;}
+  .mono{font-family:'Courier New',monospace;}
+  .factory-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:20px;font-size:12.5px;}
+  .factory-bar-label{color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;font-size:11px;}
+  .factory-bar-addr{color:var(--accent2);text-decoration:none;word-break:break-all;}
+  .factory-bar-addr:hover{text-decoration:underline;}
+  .factory-bar-copy{background:transparent;border:1px solid var(--border);color:var(--muted);font-size:11px;padding:4px 8px;border-radius:6px;cursor:pointer;margin-left:auto;}
+  .factory-bar-copy:hover{border-color:var(--accent);color:var(--text);}
   .row2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
   .logo-drop{
     border:2px dashed var(--border); border-radius:14px; padding:20px; text-align:center;
@@ -156,19 +163,25 @@
     </div>
   </header>
 
+  <div class="factory-bar" id="factoryBar">
+    <span class="factory-bar-label">Factory contract</span>
+    <a id="factoryBarAddr" class="factory-bar-addr mono" href="#" target="_blank" rel="noopener"></a>
+    <button class="factory-bar-copy" id="factoryBarCopy" type="button">Copy</button>
+  </div>
+
   <div class="card">
     <h2>Launch a memecoin</h2>
     <div class="sub">100% of the supply goes into locked liquidity as soon as the launch is confirmed. No founder allocation, no vault.</div>
 
     <div class="field">
       <label>Project name</label>
-      <input type="text" id="tokenName" placeholder="ETH">
+      <input type="text" id="tokenName" placeholder="BASE">
     </div>
 
     <div class="row2">
       <div class="field">
         <label>Ticker</label>
-        <div class="ticker-wrap"><span>$</span><input type="text" id="tokenSymbol" placeholder="ETH" maxlength="12"></div>
+        <div class="ticker-wrap"><span>$</span><input type="text" id="tokenSymbol" placeholder="BASE" maxlength="12"></div>
       </div>
       <div class="field">
         <label>Total supply</label>
@@ -286,6 +299,23 @@ const CONFIG = {
 // Fixed for every launch — kept identical across all tokens created by this
 // tool (see project notes on why the supply is not user-editable).
 const FIXED_TOTAL_SUPPLY = 1000000000n;
+
+// Show the verified Factory contract address at the top of the page, linked
+// to its source on the block explorer, so anyone can check it themselves
+// before connecting a wallet — no need to dig into the page source.
+(function initFactoryBar(){
+  const link = document.getElementById("factoryBarAddr");
+  const copyBtn = document.getElementById("factoryBarCopy");
+  if (!link || !copyBtn) return;
+  link.textContent = CONFIG.FACTORY_ADDRESS;
+  link.href = CONFIG.BLOCK_EXPLORER + "/address/" + CONFIG.FACTORY_ADDRESS + "#code";
+  link.title = "View verified source on " + CONFIG.CHAIN_NAME + "'s block explorer";
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(CONFIG.FACTORY_ADDRESS).catch(() => {});
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => copyBtn.textContent = "Copy", 1200);
+  });
+})();
 
 const FACTORY_ABI = [
   "event TokenLaunched(address indexed creator, address indexed token, address custodian, address feeSplitter, address pool, uint256 tokenId, int24 tickLower, int24 tickUpper)",
@@ -524,8 +554,9 @@ async function launch(){
     const positionTokenId = parsed.args.tokenId ? parsed.args.tokenId.toString() : undefined;
 
     setStatus(statusEl, "Launched successfully ✅", "ok");
-    showResult({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash });
-    saveToHistory({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash, date: Date.now() });
+    const chainTags = { chainId: CONFIG.CHAIN_ID, chainName: CONFIG.CHAIN_NAME, blockExplorer: CONFIG.BLOCK_EXPLORER, wethAddress: CONFIG.WETH_ADDRESS };
+    showResult({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash, ...chainTags });
+    saveToHistory({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash, date: Date.now(), ...chainTags });
     prefillFeesCard(tokenAddr, custodianAddr, feeSplitterAddr);
     publishLaunchProof({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, positionTokenId, creatorAddr: userAddress, txHash: tx.hash });
 
@@ -571,11 +602,27 @@ function prefillFeesCard(tokenAddr, custodianAddr, feeSplitterAddr){
   $("feeTokenAddr").value = tokenAddr;
 }
 
+// Guard against sending a collect()/release() tx while the wallet is
+// connected to a different network than this page's CONFIG.CHAIN_ID.
+// This can happen if addresses from another chain's history entry ever
+// end up in these fields — the tx would otherwise just revert (or worse,
+// silently hit an unrelated contract that happens to exist at that
+// address on the wrong chain).
+async function assertOnCorrectNetwork(el){
+  const net = await signer.provider.getNetwork();
+  if (Number(net.chainId) !== CONFIG.CHAIN_ID){
+    setStatus(el, "Your wallet is on the wrong network (chainId " + net.chainId + ") — switch to " + CONFIG.CHAIN_NAME + " (chainId " + CONFIG.CHAIN_ID + ") first.", "err");
+    return false;
+  }
+  return true;
+}
+
 $("collectBtn").addEventListener("click", async () => {
   const el = $("feeStatus");
   try{
     const addr = $("feeCustodian").value.trim();
     if (!ethers.isAddress(addr)){ setStatus(el, "Invalid custodian address.", "err"); return; }
+    if (!(await assertOnCorrectNetwork(el))) return;
     setStatus(el, "Collecting…", "");
     const custodian = new ethers.Contract(addr, CUSTODIAN_ABI, signer);
     const tx = await custodian.collect();
@@ -594,6 +641,7 @@ $("releaseBtn").addEventListener("click", async () => {
     if (!ethers.isAddress(splitterAddr) || !ethers.isAddress(tokenAddr)){
       setStatus(el, "Invalid addresses.", "err"); return;
     }
+    if (!(await assertOnCorrectNetwork(el))) return;
     setStatus(el, "Distributing…", "");
     const splitter = new ethers.Contract(splitterAddr, FEESPLITTER_ABI, signer);
     const tx = await splitter.release(tokenAddr);
@@ -639,8 +687,25 @@ function saveToHistory(entry){
   }
 }
 
-function renderHistory(){
+// The launch history in localStorage is shared across every chain page on
+// this origin (factory.apexpad.io) — a token launched from base.html and
+// one launched from optimism.html land in the SAME "memeFactoryHistory"
+// array. Without filtering, this page would show (and let you "Load" or
+// "Collect" against) contracts that were never deployed on this chain,
+// which is exactly the "no code found" / wrong-network mix-up bug.
+// getChainHistory() returns only entries tagged with THIS page's chainId.
+// Entries saved before this fix have no chainId at all and are hidden
+// here (they're still in localStorage, untouched — just not actionable
+// from any chain page, since we can't safely tell which chain they were
+// for). The permanent, authoritative record for any past launch is its
+// published proof page under proofs/, not this local browser history.
+function getChainHistory(){
   const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  return list.filter(it => it.chainId === CONFIG.CHAIN_ID);
+}
+
+function renderHistory(){
+  const list = getChainHistory();
   if (!list.length) return;
   $("historyCard").style.display = "block";
   $("historyList").innerHTML = list.map((it, idx) => `
@@ -658,16 +723,16 @@ function renderHistory(){
 }
 
 function loadFromHistory(idx){
-  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  const list = getChainHistory();
   const it = list[idx];
   if (!it) return;
-  showResult({ name: it.name, symbol: it.symbol, tokenAddr: it.tokenAddr, custodianAddr: it.custodianAddr, feeSplitterAddr: it.feeSplitterAddr, poolAddr: it.poolAddr, creatorAddr: it.creatorAddr, supply: it.supply, txHash: it.txHash || "" });
+  showResult({ name: it.name, symbol: it.symbol, tokenAddr: it.tokenAddr, custodianAddr: it.custodianAddr, feeSplitterAddr: it.feeSplitterAddr, poolAddr: it.poolAddr, creatorAddr: it.creatorAddr, supply: it.supply, txHash: it.txHash || "", chainId: it.chainId, chainName: it.chainName, blockExplorer: it.blockExplorer, wethAddress: it.wethAddress });
   logoDataUrl = it.logo || null;
   prefillFeesCard(it.tokenAddr, it.custodianAddr, it.feeSplitterAddr);
 }
 
 function downloadMetadata(idx){
-  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  const list = getChainHistory();
   const it = list[idx];
   if (!it) return;
   const blob = new Blob([JSON.stringify(it, null, 2)], { type: "application/json" });
@@ -844,7 +909,7 @@ document.getElementById('retry').style.display = 'none';
     <p class="section-label">Fees earned by this token</p>
     <h2>Claim your fees</h2>
     <p style="color:var(--ink-dim); font-size:14px; margin:0 0 18px;">
-      Two steps, both on Etherscan — connect your wallet on each page, then hit Write.
+      Two steps, both on Basescan — connect your wallet on each page, then hit Write.
     </p>
     <div class="submit-block" style="margin-bottom:14px;">
       <p style="margin:0 0 10px; font-size:14px;"><b>1.</b> Open the Custodian contract, go to <span class="mono">collect()</span>, connect your wallet, click Write.</p>
@@ -882,7 +947,7 @@ document.getElementById('retry').style.display = 'none';
   </section>
 
   <section class="section" style="border-bottom:none;">
-    <p class="section-label">Technical sheet — Etherscan / DexScreener / DexTools submission</p>
+    <p class="section-label">Technical sheet — Basescan / DexScreener / DexTools submission</p>
     <h2>Information to paste</h2>
     <div class="submit-block">
       <dl class="kv">
@@ -982,10 +1047,10 @@ function downloadProofPage(d){
 $("proofBtn").addEventListener("click", () => openProofPage(lastLaunch));
 
 function openProofPageFromHistory(idx){
-  const list = JSON.parse(localStorage.getItem("memeFactoryHistory") || "[]");
+  const list = getChainHistory();
   const it = list[idx];
   if (!it) return;
-  openProofPage({ name: it.name, symbol: it.symbol, tokenAddr: it.tokenAddr, custodianAddr: it.custodianAddr, feeSplitterAddr: it.feeSplitterAddr, poolAddr: it.poolAddr, creatorAddr: it.creatorAddr, supply: it.supply, logo: it.logo, txHash: it.txHash });
+  openProofPage({ name: it.name, symbol: it.symbol, tokenAddr: it.tokenAddr, custodianAddr: it.custodianAddr, feeSplitterAddr: it.feeSplitterAddr, poolAddr: it.poolAddr, creatorAddr: it.creatorAddr, supply: it.supply, logo: it.logo, txHash: it.txHash, chainId: it.chainId, chainName: it.chainName, blockExplorer: it.blockExplorer, wethAddress: it.wethAddress });
 }
 </script>
 </body>

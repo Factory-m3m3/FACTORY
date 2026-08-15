@@ -1,5 +1,37 @@
 [
   {
+    "slug": "stayop",
+    "tokenName": "Stay Optimistic",
+    "tokenSymbol": "STAYOP",
+    "tokenAddress": "0xd96De34Bb96bbFf864162061fD996bc5Ec3aCF80",
+    "custodianAddress": "0x7885629e8E442d92F117EEd9ad96a09FdE78ade4",
+    "poolAddress": "0x7fb3F815bE9a6A8c575543166F0EDB07a945Ee7c",
+    "positionTokenId": "1122423",
+    "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+    "feeRecipientAddress": "0x0cD1B20c2790E3644aABF1477B80D95D9d4234Cb",
+    "network": "Optimism Mainnet",
+    "chainId": 10,
+    "txHashPositionTransfer": "0x098ebe918157d6c8da72427c24657b616acbb9dd68248e31c73d56d55ebeee13",
+    "launchDate": "2026-08-15T07:37:32.019Z",
+    "proofUrl": "proofs/stayop.html"
+  },
+  {
+    "slug": "opm3m3",
+    "tokenName": "OP_MEME",
+    "tokenSymbol": "OPM3M3",
+    "tokenAddress": "0x66f4B11B8aacb39069f253b9246A1a49c2BCA010",
+    "custodianAddress": "0x711Ce83b8E31bAC348a7c3b01454Cb09e0a80CA1",
+    "poolAddress": "0x633AEb6e1b410a9D4CE65FEf883355d2F8Dd320a",
+    "positionTokenId": "1121721",
+    "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+    "feeRecipientAddress": "0x287c63A18A5d5aa1EAA45b4DB3C8836a529e473f",
+    "network": "Optimism Mainnet",
+    "chainId": 10,
+    "txHashPositionTransfer": "0xd3e845c32dac7666584c9c2654eda5b62dfb562b207db3e8e51ff0ab0175732d",
+    "launchDate": "2026-08-10T10:06:56.062Z",
+    "proofUrl": "proofs/opm3m3.html"
+  },
+  {
     "slug": "polm3m3",
     "tokenName": "POLYGON MEME",
     "tokenSymbol": "POLM3M3",
