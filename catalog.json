@@ -1,5 +1,21 @@
 [
   {
+    "slug": "swiss",
+    "tokenName": "Switerland bank vault on BNB Network Safe",
+    "tokenSymbol": "SWISS",
+    "tokenAddress": "0xed6E4D218A7a85EF0Ffc6283D2C0F8bb1a715Cb1",
+    "custodianAddress": "0xf735bD036cAD886C4Dc27d1816Fa4a979A75C12A",
+    "poolAddress": "0x3A59b93dB27FB9e95Cdb2b5ACE5955db1fBDf7ED",
+    "positionTokenId": "7147442",
+    "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+    "feeRecipientAddress": "0xb2194da27E157C0c9085A293223634F0508376Dd",
+    "network": "BNB Smart Chain Mainnet",
+    "chainId": 56,
+    "txHashPositionTransfer": "0xdff997ecd267720c5d049fa1514ea7d3340254253d1163ace0621814d4d3e5f2",
+    "launchDate": "2026-08-16T13:35:00.551Z",
+    "proofUrl": "proofs/swiss.html"
+  },
+  {
     "slug": "zeus",
     "tokenName": "Buy ZEUS Today, Ride the AI Wave to the Moon Tomorrow!",
     "tokenSymbol": "ZEUS",
