@@ -1,5 +1,21 @@
 [
   {
+    "slug": "bbro",
+    "tokenName": "Beta Broker",
+    "tokenSymbol": "BBRO",
+    "tokenAddress": "0xC0b4582f4E6EA78FDe67ABa8a6D2770B6280916d",
+    "custodianAddress": "0x7Ae31625A94FCFf17ED046F84C6F0fb7DDa27793",
+    "poolAddress": "0xF1c94f528eEBA2901e6A4fFd05C6DB4B90e4ddCb",
+    "positionTokenId": "705173",
+    "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+    "feeRecipientAddress": "0x221B6531AE2026Bb9AF38b3ec889923988f7D45F",
+    "network": "Robinhood Chain Mainnet",
+    "chainId": 4663,
+    "txHashPositionTransfer": "0xd43e28ca006aa585a724b840ff81c5e13964afb9779f36cc3989b1f9c0bf62fb",
+    "launchDate": "2026-08-16T17:15:44.625Z",
+    "proofUrl": "proofs/bbro.html"
+  },
+  {
     "slug": "bhood",
     "tokenName": "Beta Hood",
     "tokenSymbol": "BHOOD",
