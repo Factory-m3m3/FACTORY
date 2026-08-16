@@ -1,5 +1,21 @@
 [
   {
+    "slug": "bhood",
+    "tokenName": "Beta Hood",
+    "tokenSymbol": "BHOOD",
+    "tokenAddress": "0x007fC054C3d85fb3A23e687810a0a083D4D1500A",
+    "custodianAddress": "0xF36c999d61160861973A08fEB6e29790BCE5Ed58",
+    "poolAddress": "0xFD3a1A6893073A3b813a3B690796c19848aFF805",
+    "positionTokenId": "705151",
+    "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+    "feeRecipientAddress": "0x17fD09E247995dDe5B6fF1d299a9F1fE97c2e2d6",
+    "network": "Robinhood Chain Mainnet",
+    "chainId": 4663,
+    "txHashPositionTransfer": "0x806341620e69a914d22570d14620283987a7a8a1b9b1ebd2711f8194442ee678",
+    "launchDate": "2026-08-16T17:10:00.247Z",
+    "proofUrl": "proofs/bhood.html"
+  },
+  {
     "slug": "clu",
     "tokenName": "CLU",
     "tokenSymbol": "CLU",
