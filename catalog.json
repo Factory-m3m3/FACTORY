@@ -1,5 +1,21 @@
 [
   {
+    "slug": "clu",
+    "tokenName": "CLU",
+    "tokenSymbol": "CLU",
+    "tokenAddress": "0x27DaAa1D79fF7a435050A2aC7AC4c6E8281d3349",
+    "custodianAddress": "0x6859FC4EE44eAa7A79A5180e5a22F39EF114C071",
+    "poolAddress": "0xBd159Fd18fA306Ae811CEee2Ce9736678A8A5508",
+    "positionTokenId": "7149377",
+    "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+    "feeRecipientAddress": "0x8aD331cBedE4de56659f5A29424F94CDd5803a73",
+    "network": "BNB Smart Chain Mainnet",
+    "chainId": 56,
+    "txHashPositionTransfer": "0xf2d904bc39663ab270dc7c8633eb3b10d25f9809d07617ca59f3cda6f4e0df75",
+    "launchDate": "2026-08-16T16:28:47.828Z",
+    "proofUrl": "proofs/clu.html"
+  },
+  {
     "slug": "wizzair",
     "tokenName": "Wizz Air Coin",
     "tokenSymbol": "WIZZAIR",
