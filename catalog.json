@@ -1,5 +1,21 @@
 [
   {
+    "slug": "wizzair",
+    "tokenName": "Wizz Air Coin",
+    "tokenSymbol": "WIZZAIR",
+    "tokenAddress": "0x81bB661312E7C9F7f66d5C23112c354453a77bD4",
+    "custodianAddress": "0xf51Fe6D0FbC83446B93A2eff3cF75296BD01b46b",
+    "poolAddress": "0xddBeC263b667c31B06ED102c4c179859Bcf33C5b",
+    "positionTokenId": "7148035",
+    "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+    "feeRecipientAddress": "0x73E4bE7dAdc06560F58fE74A733500FB4482CD09",
+    "network": "BNB Smart Chain Mainnet",
+    "chainId": 56,
+    "txHashPositionTransfer": "0xab7110d927aa5010532ebafbeaf73d0293cd47b8f239155109b3e13dfba2644c",
+    "launchDate": "2026-08-16T14:29:37.682Z",
+    "proofUrl": "proofs/wizzair.html"
+  },
+  {
     "slug": "swiss",
     "tokenName": "Switerland bank vault on BNB Network Safe",
     "tokenSymbol": "SWISS",
