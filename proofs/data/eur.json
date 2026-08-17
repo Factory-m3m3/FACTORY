@@ -1,0 +1,16 @@
+{
+  "slug": "eur",
+  "tokenName": "Robinhood EUR",
+  "tokenSymbol": "EUR",
+  "tokenAddress": "0x78aEaf6343e8D77e31A8a9362776f66838FeF05a",
+  "custodianAddress": "0xC391860762B5E417C5D3348b771972206Da7E561",
+  "poolAddress": "0xC0d1728b71f918CCe8EDeE8A0712b5b3fA6d7211",
+  "positionTokenId": "710202",
+  "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+  "feeRecipientAddress": "0x7E49B182D4F2C719e10F7643893ebC55F7dEB934",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0x83fbef243e5449874b34ad192c699147f673c93b58c591d263e97cf00520530e",
+  "launchDate": "2026-08-17T11:15:33.172Z",
+  "proofUrl": "proofs/eur.html"
+}
