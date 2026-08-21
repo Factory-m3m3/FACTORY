@@ -1,0 +1,16 @@
+{
+  "slug": "whalecome",
+  "tokenName": "Whalecome to the pod",
+  "tokenSymbol": "WHALECOME",
+  "tokenAddress": "0xC6C2f45F57FDaAe0Fc81dD537D604d304BCa53Bf",
+  "custodianAddress": "0x83449daAF2d9ec1b12F0A00464D819e4e5BAA0e0",
+  "poolAddress": "0xFf7196ffcB9c529bB5293aC2f2bF84607c55FF03",
+  "positionTokenId": "742174",
+  "deployerAddress": "0x9969927832109E604A33749cA78C605Dea011bFB",
+  "feeRecipientAddress": "0x92452467D43AdBa862e2AAbD17E860d5e90Aea4A",
+  "network": "Robinhood Chain Mainnet",
+  "chainId": 4663,
+  "txHashPositionTransfer": "0x89f21e3a0f94db6557d0f3a5d4df407d25a0477c3535dfc7aecec4ac7cd7756b",
+  "launchDate": "2026-08-21T02:20:15.253Z",
+  "proofUrl": "proofs/whalecome.html"
+}
