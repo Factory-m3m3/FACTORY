@@ -1,0 +1,16 @@
+{
+  "slug": "athr",
+  "tokenName": "Aetheris",
+  "tokenSymbol": "ATHR",
+  "tokenAddress": "0xBdf5a038A88bCf0e99fD3091A3d9a6F376A74345",
+  "custodianAddress": "0x65a16e9B48775161fe988eA9DD938f03E378D4B6",
+  "poolAddress": "0xE08E1cF39Ea71adBe2937a6B1bE3faCf19604F3F",
+  "positionTokenId": "7217509",
+  "deployerAddress": "0xAF2d777389eE09E23e5c0Db8F40B8940C3dB414d",
+  "feeRecipientAddress": "0x35Cf9CADeFdb4656E24bd017A23fD2e08ee5518c",
+  "network": "BNB Smart Chain Mainnet",
+  "chainId": 56,
+  "txHashPositionTransfer": "0x52337319d78c84777c5a69ce063b7d353a86a15ac04791eed37aca1fb9aebf9c",
+  "launchDate": "2026-08-21T16:52:57.158Z",
+  "proofUrl": "proofs/athr.html"
+}
