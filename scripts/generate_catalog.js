@@ -146,6 +146,7 @@ function renderCatalogHtml(entries) {
 <body>
   <h1>Factory Launch Catalog</h1>
   <div class="subtitle">${entries.length} token(s) launched in total — updated automatically</div>
+  <div class="subtitle" style="margin-top:10px"><a href="index.html">Launch a token</a> &middot; <a href="transparency-en.html">Proofs &amp; guarantees</a> &middot; <a href="transparency-fr.html">Preuves (FR)</a></div>
   <div class="tabs">
     ${tabButtons}
   </div>
