@@ -483,7 +483,13 @@ async function ensureNetwork(){
  * ════════════════════════════════════════════════════════════════════════ */
 const ApexArweave = (() => {
   const UPLOAD_URL = "https://upload.ardrive.io/v1/tx/ethereum";
-  const GATEWAY = "https://arweave.net/";
+  const STATUS_URL = "https://upload.ardrive.io/v1/tx/";
+  // Plusieurs passerelles : elles servent toutes le même contenu (l'adresse
+  // est l'empreinte du fichier signé), mais pas au même rythme.
+  const GATEWAYS = ["https://arweave.net/", "https://permagate.io/", "https://ar-io.dev/"];
+  const CONFIRM_WINDOW_MS = 5 * 60 * 1000;
+  const STORE_KEY = "apexpad.arweave.uploads";
+  const STORE_TTL_MS = 7 * 24 * 3600 * 1000;
   const LOGO_SIZE = 256;
   const LOGO_MAX_BYTES = 100 * 1024;
   const SIG_TYPE_ETHEREUM = 3;
@@ -698,58 +704,174 @@ const ApexArweave = (() => {
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+  /* ──────────────────────────────────────────────────────────────────────
+   *  Mémoire des envois réussis
+   *
+   *  Un data item ANS-104 a une adresse DÉTERMINÉE par son contenu :
+   *  id = SHA-256(signature), et la signature couvre le deepHash du fichier.
+   *  Renvoyer deux fois le même logo crée donc deux copies payées/stockées
+   *  pour rien. On retient donc, par empreinte SHA-256 du fichier, l'adresse
+   *  déjà obtenue — en mémoire ET dans le navigateur (7 jours), pour qu'un
+   *  rechargement de page ne provoque pas non plus de doublon.
+   * ────────────────────────────────────────────────────────────────────── */
+  const memUploads = new Map();   // sha256 du fichier → id Arweave
+  const memConfirmed = new Map(); // id Arweave → comment il a été confirmé
+
+  function loadStore(){
+    try{
+      const o = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+      const now = Date.now();
+      let changed = false;
+      for (const k of Object.keys(o)){
+        if (!o[k] || !o[k].id || now - (o[k].ts || 0) > STORE_TTL_MS){ delete o[k]; changed = true; }
+      }
+      if (changed) saveStore(o);
+      return o;
+    }catch(e){ return {}; }
+  }
+  function saveStore(o){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(o)); }catch(e){} }
+  function rememberUpload(sha256, id){
+    memUploads.set(sha256, id);
+    const o = loadStore(); o[sha256] = { id: id, ts: Date.now() }; saveStore(o);
+  }
+  function forgetUpload(sha256){
+    memUploads.delete(sha256);
+    const o = loadStore(); delete o[sha256]; saveStore(o);
+  }
+  function recallUpload(sha256){
+    if (memUploads.has(sha256)) return memUploads.get(sha256);
+    const o = loadStore();
+    return o[sha256] ? o[sha256].id : null;
+  }
+
+  function mmss(seconds){
+    const m = Math.floor(seconds / 60), s = seconds % 60;
+    return m + ":" + String(s).padStart(2, "0");
+  }
+
+  async function fetchIfOk(url){
+    try{
+      const r = await fetch(url, { cache: "no-store" });
+      return r.ok ? r : null;
+    }catch(e){ return null; }
+  }
+
+  /** État de l'envoi chez Turbo. null si injoignable/inconnu. */
+  async function turboStatus(id){
+    try{
+      const r = await fetch(STATUS_URL + id + "/status", { cache: "no-store" });
+      if (!r.ok) return r.status === 404 ? "NOT_FOUND" : null;
+      const j = await r.json();
+      const s = j && (j.status || j.state);
+      return s ? String(s).toUpperCase() : null;
+    }catch(e){ return null; }
+  }
+  const SETTLED = ["FINALIZED", "PERMANENT", "CONFIRMED", "SEEDED"];
+  const LOST = ["NOT_FOUND", "FAILED"];
+
   /**
-   * Envoie le logo sur Arweave puis prouve qu'il y est, octet pour octet.
-   * onStep(message) reçoit l'avancement. Renvoie { uri: "ar://…", id, sha256 }.
+   * Attend que le fichier soit réellement lisible sous son adresse ar://.
+   * Renvoie { by } si confirmé, null si la fenêtre expire.
+   *
+   * Deux voies de confirmation, toutes deux concluantes :
+   *   — une passerelle sert le fichier et son SHA-256 correspond (le mieux) ;
+   *   — Turbo déclare l'envoi scellé (FINALIZED/PERMANENT). Comme l'adresse
+   *     est l'empreinte de la signature, qui couvre le fichier, personne ne
+   *     peut servir d'autres octets sous cette adresse : la relecture ne
+   *     prouve que la disponibilité, pas le contenu.
+   */
+  async function confirmOnArweave(id, localHash, onStep){
+    const deadline = Date.now() + CONFIRM_WINDOW_MS;
+    let round = 0;
+    while (Date.now() < deadline){
+      round++;
+      const left = Math.max(0, Math.round((deadline - Date.now()) / 1000));
+      onStep && onStep("Checking the logo is readable on Arweave — " + mmss(left) + " left (gateways often lag a few minutes)…");
+      for (const g of GATEWAYS){
+        const r = await fetchIfOk(g + id);
+        if (!r) continue;
+        const got = new Uint8Array(await r.arrayBuffer());
+        if (hex(await sha("SHA-256", got)) === localHash) return { by: g };
+        throw new Error("The file served by " + g + " does not match the logo you chose (SHA-256 mismatch). The launch has NOT been sent.");
+      }
+      if (round % 3 === 0){
+        const st = await turboStatus(id);
+        if (st && SETTLED.indexOf(st) !== -1) return { by: "turbo:" + st };
+      }
+      await sleep(5000);
+    }
+    return null;
+  }
+
+  /**
+   * Envoie le logo sur Arweave puis prouve qu'il y est.
+   * onStep(message) reçoit l'avancement. Renvoie { uri, id, sha256, confirmedBy }.
+   * Un second appel avec le même fichier NE RENVOIE PAS le fichier : il
+   * reprend l'adresse déjà obtenue et se contente de refaire le contrôle.
    */
   async function uploadLogo(bytes, onStep, meta){
     const problem = checkLogo(bytes);
     if (problem) throw new Error(problem);
     const localHash = hex(await sha("SHA-256", bytes));
 
-    onStep && onStep("Signing the logo with a one-time key (no wallet popup)…");
-    const wallet = ethers.Wallet.createRandom();
-    const anchor = crypto.getRandomValues(new Uint8Array(32));
-    const tags = [
-      { name: "Content-Type", value: "image/png" },
-      { name: "App-Name", value: "ApexPad-Factory" },
-      { name: "App-Version", value: "1" },
-      { name: "Type", value: "token-logo" },
-    ];
-    if (meta && meta.chainId) tags.push({ name: "Chain-Id", value: String(meta.chainId) });
-    if (meta && meta.symbol) tags.push({ name: "Token-Symbol", value: String(meta.symbol).slice(0, 32) });
-    const item = await createSignedDataItem(bytes, tags, wallet, anchor);
+    let id = recallUpload(localHash);
+    const fromCache = !!id;
 
-    onStep && onStep("Uploading the logo to Arweave (free under 100 KB)…");
-    const res = await fetch(UPLOAD_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/octet-stream" },
-      body: item.bytes,
-    });
-    if (!res.ok) throw new Error("Arweave upload refused (HTTP " + res.status + "): " + (await res.text()).slice(0, 200));
-    const receipt = await res.json();
-    if (receipt.id !== item.id) throw new Error("Arweave returned an unexpected id (" + receipt.id + " instead of " + item.id + ").");
+    if (fromCache){
+      onStep && onStep("This exact logo is already on Arweave (ar://" + id + ") — re-checking it, nothing is uploaded twice.");
+    } else {
+      onStep && onStep("Signing the logo with a one-time key (no wallet popup)…");
+      const wallet = ethers.Wallet.createRandom();
+      const anchor = crypto.getRandomValues(new Uint8Array(32));
+      const tags = [
+        { name: "Content-Type", value: "image/png" },
+        { name: "App-Name", value: "ApexPad-Factory" },
+        { name: "App-Version", value: "1" },
+        { name: "Type", value: "token-logo" },
+      ];
+      if (meta && meta.chainId) tags.push({ name: "Chain-Id", value: String(meta.chainId) });
+      if (meta && meta.symbol) tags.push({ name: "Token-Symbol", value: String(meta.symbol).slice(0, 32) });
+      const item = await createSignedDataItem(bytes, tags, wallet, anchor);
 
-    // Relecture : jusqu'à ~2 min, le temps que la passerelle serve le fichier
-    for (let attempt = 1; attempt <= 24; attempt++){
-      onStep && onStep("Checking the logo is really on Arweave (" + attempt + "/24)…");
-      try{
-        const r = await fetch(GATEWAY + item.id, { cache: "no-store" });
-        if (r.ok){
-          const got = new Uint8Array(await r.arrayBuffer());
-          const remoteHash = hex(await sha("SHA-256", got));
-          if (remoteHash === localHash) return { uri: "ar://" + item.id, id: item.id, sha256: localHash };
-          throw new Error("The file served by Arweave doesn't match the logo you chose (SHA-256 mismatch).");
-        }
-      }catch(e){
-        if (/mismatch/.test(e.message)) throw e;
-      }
-      await sleep(5000);
+      onStep && onStep("Uploading the logo to Arweave (free under 100 KB)…");
+      const res = await fetch(UPLOAD_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/octet-stream" },
+        body: item.bytes,
+      });
+      if (!res.ok) throw new Error("Arweave upload refused (HTTP " + res.status + "): " + (await res.text()).slice(0, 200));
+      const receipt = await res.json();
+      if (receipt.id !== item.id) throw new Error("Arweave returned an unexpected id (" + receipt.id + " instead of " + item.id + ").");
+
+      // Reçu accepté et adresse conforme : on la retient AVANT toute
+      // relecture, pour qu'un échec de relecture ne coûte jamais un doublon.
+      id = item.id;
+      rememberUpload(localHash, id);
     }
-    throw new Error("The logo was uploaded (ar://" + item.id + ") but arweave.net doesn't serve it yet. Try again in a minute — the launch has NOT been sent.");
+
+    if (memConfirmed.has(id))
+      return { uri: "ar://" + id, id: id, sha256: localHash, confirmedBy: memConfirmed.get(id) };
+
+    const done = await confirmOnArweave(id, localHash, onStep);
+    if (done){
+      memConfirmed.set(id, done.by);
+      return { uri: "ar://" + id, id: id, sha256: localHash, confirmedBy: done.by };
+    }
+
+    // Fenêtre expirée. Si l'adresse venait du cache et que Turbo ne la
+    // connaît plus, l'envoi précédent est perdu : on l'oublie pour que le
+    // prochain essai reparte d'un vrai envoi.
+    const st = await turboStatus(id);
+    if (fromCache && (st === null || LOST.indexOf(st) !== -1)){
+      forgetUpload(localHash);
+      throw new Error("The previous upload (ar://" + id + ") can't be found any more. Click Start again to upload the logo once more — the launch has NOT been sent.");
+    }
+    throw new Error("The logo is uploaded (ar://" + id + ") but no gateway serves it yet after 5 minutes. Click Start again in a few minutes: the logo will NOT be uploaded twice, the page only re-checks this same address. The launch has NOT been sent.");
   }
 
-  return { createSignedDataItem, deepHash, serializeTags, pngSize, checkLogo, toPng256, uploadLogo, hex, sha, b64url, LOGO_MAX_BYTES, LOGO_SIZE };
+  return { createSignedDataItem, deepHash, serializeTags, pngSize, checkLogo, toPng256, uploadLogo,
+           confirmOnArweave, recallUpload, rememberUpload, forgetUpload, turboStatus, mmss,
+           hex, sha, b64url, LOGO_MAX_BYTES, LOGO_SIZE, GATEWAYS };
 })();
 
 /* ════════════════════════════════════════════════════════════════════════
@@ -859,7 +981,13 @@ async function publishLaunchProof(txHash){
         body: JSON.stringify({ chainId: CONFIG.CHAIN_ID, txHash }),
       });
       const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok) return data.proofUrl;
+      if (res.ok && data.ok){
+        // Logo pas encore servi par les passerelles Arweave : la page de
+        // preuve est publiée quand même, et on redemande au Worker un peu
+        // plus tard — il la réécrira dès que le fichier sera lisible.
+        if (data.logoStatus === "unreachable") scheduleLogoRefresh(txHash);
+        return data.proofUrl;
+      }
       console.warn("Catalog: proof publish failed —", res.status, data.error);
       if (res.status >= 400 && res.status < 500 && res.status !== 404) return null;
     }catch(e){
@@ -868,6 +996,20 @@ async function publishLaunchProof(txHash){
     await new Promise((r) => setTimeout(r, 4000 * attempt));
   }
   return null;
+}
+
+// Relances espacées : 1, 3 puis 8 minutes. Le Worker ne réécrit la page que
+// si le logo était injoignable et ne l'est plus ; sinon il ne fait rien.
+function scheduleLogoRefresh(txHash){
+  [60000, 180000, 480000].forEach((delay) => setTimeout(() => {
+    fetch(CONFIG.WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chainId: CONFIG.CHAIN_ID, txHash }),
+    }).then((r) => r.json()).then((d) => {
+      if (d && d.refreshed) console.log("Proof page updated with the logo.");
+    }).catch(() => {});
+  }, delay));
 }
 
 function showProofLink(url){
