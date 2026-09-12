@@ -779,6 +779,14 @@ const ApexArweave = (() => {
    *     est l'empreinte de la signature, qui couvre le fichier, personne ne
    *     peut servir d'autres octets sous cette adresse : la relecture ne
    *     prouve que la disponibilité, pas le contenu.
+   *
+   * UNE EMPREINTE QUI NE CORRESPOND PAS N'EST JAMAIS UNE SUBSTITUTION.
+   * L'adresse ar:// est l'empreinte du fichier signé : personne ne peut
+   * servir d'autres octets sous cette adresse et rester valide. Quand ça
+   * arrive, c'est que la passerelle a renvoyé autre chose — typiquement sa
+   * propre page d'erreur en HTTP 200 parce qu'elle ne connaît pas encore
+   * l'identifiant (ar-io.dev fait exactement ça). Cette passerelle-là ne
+   * compte pas, on passe à la suivante ; on n'abandonne pas le lancement.
    */
   async function confirmOnArweave(id, localHash, onStep){
     const deadline = Date.now() + CONFIRM_WINDOW_MS;
@@ -790,9 +798,11 @@ const ApexArweave = (() => {
       for (const g of GATEWAYS){
         const r = await fetchIfOk(g + id);
         if (!r) continue;
-        const got = new Uint8Array(await r.arrayBuffer());
+        let got;
+        try{ got = new Uint8Array(await r.arrayBuffer()); }catch(e){ continue; }
+        // Pas un PNG : c'est une page d'erreur déguisée en 200.
+        if (!pngSize(got)) continue;
         if (hex(await sha("SHA-256", got)) === localHash) return { by: g };
-        throw new Error("The file served by " + g + " does not match the logo you chose (SHA-256 mismatch). The launch has NOT been sent.");
       }
       if (round % 3 === 0){
         const st = await turboStatus(id);
