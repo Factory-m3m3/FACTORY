@@ -1311,17 +1311,17 @@ const checks = [
   { id:'token-owner', label:"Token contract ownership renounced", addr:TOKEN, sig:"0x8da5cb5b", type:"addr-zero" },
   { id:'custodian-owner', label:"Custodian ownership renounced", addr:CUSTODIAN, sig:"0x8da5cb5b", type:"addr-zero" },
   { id:'custodian-code', label:"Custodian is a real deployed on-chain contract", addr:CUSTODIAN, type:"has-code" },
-  { id:'fee-recipient', label:"Fee recipient (should equal FeeSplitter)", addr:CUSTODIAN, sig:"0x46904840", type:"match-addr", expect: FEESPLITTER },
+  { id:'fee-recipient', label:"Fee recipient (should equal FeeSplitter)", addr:CUSTODIAN, displayAddr:FEESPLITTER, sig:"0x46904840", type:"match-addr", expect: FEESPLITTER },
 ];
 
 function rowHTML(c){
   return \`<div class="ledger-row" id="row-\${c.id}">
     <div>
       <span class="check-label">\${c.label}</span>
-      <span class="check-detail mono">\${c.addr}</span>
+      <span class="check-detail mono">\${c.displayAddr || c.addr}</span>
     </div>
     <span class="status pending" id="status-\${c.id}">checking…</span>
-    <a class="ledger-link" href="\${EXPLORER}\${c.addr}" target="_blank" rel="noopener">view ↗</a>
+    <a class="ledger-link" href="\${EXPLORER}\${c.displayAddr || c.addr}" target="_blank" rel="noopener">view ↗</a>
   </div>\`;
 }
 function render(){ document.getElementById('ledger').innerHTML = checks.map(rowHTML).join(''); }
