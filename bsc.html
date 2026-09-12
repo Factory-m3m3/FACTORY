@@ -72,6 +72,14 @@
   }
   .logo-drop:hover{border-color:var(--accent);}
   .logo-drop img{width:56px;height:56px;border-radius:14px;object-fit:cover;display:none;}
+  .forge-banner{margin:0 0 20px; border-radius:18px; overflow:hidden; border:1px solid var(--border); box-shadow:0 20px 60px -30px rgba(0,0,0,.6);}
+  .forge-banner img{display:block; width:100%; height:auto; aspect-ratio:1794/592; object-fit:cover;}
+  .opt{text-transform:none; letter-spacing:0; font-weight:400; color:var(--muted);}
+  textarea{width:100%; background:#0d1017; border:1px solid var(--border); color:var(--text); padding:12px 14px; border-radius:10px; font-size:15px; outline:none; font-family:inherit; resize:vertical;}
+  textarea:focus{border-color:var(--accent);}
+  .final-box{background:linear-gradient(90deg, rgba(255,184,77,.12), rgba(255,184,77,.03)); border:1px solid rgba(255,184,77,.35); color:#ffd9a0; padding:12px 16px; border-radius:12px; font-size:13px; margin:4px 0 16px; line-height:1.55;}
+  .final-check{display:flex; gap:8px; align-items:flex-start; margin:10px 0 0; text-transform:none; letter-spacing:0; font-size:13px; color:var(--text); font-weight:500; cursor:pointer;}
+  .final-check input{margin-top:3px;}
   details{margin-top:6px;}
   summary{cursor:pointer; color:var(--muted); font-size:13px; padding:4px 0;}
   .adv{padding:14px 0 0;}
@@ -164,6 +172,8 @@
     </div>
   </header>
 
+  <div class="forge-banner"><img src="apexpad-forge-banner.jpg" alt="ApexPad Forge" width="1794" height="592"></div>
+
   <div class="factory-bar" id="factoryBar">
     <span class="factory-bar-label">Factory contract</span>
     <a id="factoryBarAddr" class="factory-bar-addr mono" href="#" target="_blank" rel="noopener"></a>
@@ -192,16 +202,42 @@
     </div>
 
     <div class="field">
-      <label>Logo</label>
+      <label>Logo <span class="opt">(optional)</span></label>
       <div class="logo-drop" id="logoDrop">
-        <img id="logoPreview">
-        <div id="logoText">Click to choose an image (PNG/JPG, ideally square)</div>
+        <img id="logoPreview" alt="">
+        <div id="logoText">Click to choose an image — it becomes a <b>256×256 PNG</b> (100 KB max), stored permanently on Arweave</div>
       </div>
-      <input type="file" id="logoInput" accept="image/*" style="display:none">
-      <div class="hint">
-        The logo is <b>not</b> stored on-chain (no contract here has a metadata/URI field) — it's purely local to this tool
-        (saved in your browser) and downloadable as JSON for manual submission to an explorer/aggregator such as Blockscout or DexScreener.
+      <input type="file" id="logoInput" accept="image/png,image/jpeg,image/webp" style="display:none">
+      <div class="hint" id="logoHint">
+        Uploaded straight from your browser to Arweave (free, no extra wallet popup). Its <span class="mono">ar://</span> link is then
+        written into the token contract — content-addressed, so the image behind it can never be swapped later.
       </div>
+    </div>
+
+    <div class="field">
+      <label for="tokenDescription">Description <span class="opt">(optional)</span></label>
+      <textarea id="tokenDescription" rows="3" placeholder="What is this token about?"></textarea>
+      <div class="hint"><span id="descCount">0</span> / 512 bytes</div>
+    </div>
+
+    <div class="row2">
+      <div class="field"><label for="socialWebsite">Website</label><input type="text" id="socialWebsite" placeholder="https://…" autocomplete="off"></div>
+      <div class="field"><label for="socialTwitter">X</label><input type="text" id="socialTwitter" placeholder="https://x.com/… or @handle" autocomplete="off"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="socialTelegram">Telegram</label><input type="text" id="socialTelegram" placeholder="https://t.me/…" autocomplete="off"></div>
+      <div class="field"><label for="socialDiscord">Discord</label><input type="text" id="socialDiscord" placeholder="https://discord.gg/…" autocomplete="off"></div>
+    </div>
+    <div class="field">
+      <label for="socialFarcaster">Farcaster</label>
+      <input type="text" id="socialFarcaster" placeholder="https://warpcast.com/…" autocomplete="off">
+    </div>
+
+    <div class="final-box">
+      <b>Final forever.</b> Logo, description and links are optional, but they are written into the token contract
+      at launch and <b>can never be added or changed afterwards</b> — left empty now means empty forever.
+      Links must start with <span class="mono">https://</span>.
+      <label class="final-check"><input type="checkbox" id="metaConfirm"> I've checked these details — I understand they can never be changed.</label>
     </div>
 
     <details>
@@ -251,7 +287,7 @@
     <div id="historyList"></div>
   </div>
 
-  <footer>BNB Smart Chain · chainId 56 · Unaudited contracts · No warranty</footer>
+  <footer>BNB Smart Chain · chainId 56 · Unaudited contracts · No warranty · <a href="factory-v1.html" style="color:var(--muted)">Previous Factory (before metadata)</a></footer>
 </div>
 
 <script>
@@ -262,7 +298,7 @@
  * ════════════════════════════════════════════════════════════════════════ */
 const CONFIG = {
   // Address of YOUR deployed MemeCoinFactory (constructor: uniswapV3Factory, positionManager, weth, platform, swapRouter)
-  FACTORY_ADDRESS: "0xa33F5330F6C126a014fe113733E1e380e87049C8", // MemeCoinFactory BSC MAINNET — deployed 07/08/2026
+  FACTORY_ADDRESS: "0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c", // NOUVELLE Factory à métadonnées — même adresse sur les 7 chaînes (remplie par configurer_adresse_factory)
 
   // Native ETH amount sent as msg.value with every launchToken() call. Used
   // internally by the Factory to run an atomic buy+sell test right after the
@@ -277,7 +313,7 @@ const CONFIG = {
   // be a user-editable "advanced" field — now fixed here instead so every BSC
   // launch starts at the same price. Change this single value if it needs
   // adjusting; it's no longer exposed in the form.
-  START_MCAP_ETH: "5",
+  START_MCAP_ETH: "6.85", // ≈ 5 000 $ de capitalisation de départ, recalibré le 11/09/2026
 
   // BNB Smart Chain MAINNET
   CHAIN_ID: 56,
@@ -289,12 +325,10 @@ const CONFIG = {
   // Fixed WBNB contract on BSC — same for every token, never changes.
   WETH_ADDRESS: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
 
-  // Catalog auto-publish (Cloudflare Worker → GitHub proofs/ + catalog.html).
-  // WORKER_SECRET is only a spam filter, not a real secret — it's visible to
-  // anyone reading this page's source. The real secret (GITHUB_TOKEN) never
-  // leaves Cloudflare. See factory-catalog/README.md for details.
+  // Catalog auto-publish (Cloudflare Worker v2 → GitHub proofs/ + catalog.html).
+  // No shared secret any more: the page only sends { chainId, txHash } and
+  // the Worker re-reads everything on-chain before publishing anything.
   WORKER_URL: "https://factory-proof-publisher.memecoin-factory-hood.workers.dev",
-  WORKER_SECRET: "f6adb14b1a1a4ac3095a1d8f38728dc013c163421be674916ee0cc8a6d1ff0a6",
 };
 
 // Fixed for every launch — kept identical across all tokens created by this
@@ -319,8 +353,8 @@ const FIXED_TOTAL_SUPPLY = 1000000000n;
 })();
 
 const FACTORY_ABI = [
-  "event TokenLaunched(address indexed creator, address indexed token, address custodian, address feeSplitter, address pool, uint256 tokenId, int24 tickLower, int24 tickUpper)",
-  "function launchToken(string name_, string symbol_, uint256 totalSupply_, uint256 targetStartMcapWei, uint256 warmUpAmountWei) external payable returns (address tokenAddr, address custodianAddr, address feeSplitterAddr)"
+  "event TokenLaunched(address indexed creator, address indexed token, address custodian, address feeSplitter, address pool, uint256 tokenId, int24 tickLower, int24 tickUpper, string name, string symbol, string logoURI)",
+  "function launchToken(string name_, string symbol_, uint256 totalSupply_, uint256 targetStartMcapWei, uint256 warmUpAmountWei, string logoURI_, string description_, (string twitter, string telegram, string discord, string website, string farcaster) socials_) external payable returns (address tokenAddr, address custodianAddr, address feeSplitterAddr)"
 ];
 
 const CUSTODIAN_ABI = [
@@ -430,78 +464,417 @@ async function ensureNetwork(){
 }
 
 /* ════════════════════════════════════════════════════════════════════════
- *  LOGO UPLOAD (local only — pas de stockage on-chain, voir hint dans l'UI)
+ *  LOGO → ARWEAVE (ajouté le 11/09/2026)
+ *
+ *  Le logo est envoyé DIRECTEMENT depuis ce navigateur vers Arweave, via le
+ *  service Turbo (ArDrive), gratuit pour les fichiers de moins de ~100 Ko.
+ *  Aucun serveur ApexPad au milieu, aucune clé à garder : la page crée une
+ *  clé JETABLE (ethers.Wallet.createRandom), signe le fichier au format
+ *  ANS-104 (data item Arweave, signature type 3 « ethereum »), l'envoie,
+ *  puis oublie la clé. Pas de fenêtre MetaMask : ce n'est pas votre wallet.
+ *
+ *  Ensuite la page RELIT l'image sur arweave.net et compare son empreinte
+ *  SHA-256 à celle du fichier choisi. Le lancement n'est autorisé que si les
+ *  deux sont identiques : l'adresse ar:// écrite on-chain pointe donc
+ *  vérifiablement sur CE fichier, et un lien content-addressé ne peut pas
+ *  changer de contenu après coup.
+ *
+ *  Format imposé : PNG 256×256, 100 Ko max (même règle que le Worker).
  * ════════════════════════════════════════════════════════════════════════ */
+const ApexArweave = (() => {
+  const UPLOAD_URL = "https://upload.ardrive.io/v1/tx/ethereum";
+  const GATEWAY = "https://arweave.net/";
+  const LOGO_SIZE = 256;
+  const LOGO_MAX_BYTES = 100 * 1024;
+  const SIG_TYPE_ETHEREUM = 3;
+  const enc = new TextEncoder();
+
+  function concat(parts){
+    const len = parts.reduce((n, p) => n + p.length, 0);
+    const out = new Uint8Array(len);
+    let o = 0;
+    for (const p of parts){ out.set(p, o); o += p.length; }
+    return out;
+  }
+  async function sha(alg, bytes){ return new Uint8Array(await crypto.subtle.digest(alg, bytes)); }
+  function hex(bytes){ return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join(""); }
+  function b64url(bytes){
+    let s = "";
+    for (const b of bytes) s += String.fromCharCode(b);
+    return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+
+  // ── deepHash (SHA-384) — algorithme Arweave, identique à arbundles ──────
+  async function deepHash(data){
+    if (Array.isArray(data)){
+      let acc = await sha("SHA-384", concat([enc.encode("list"), enc.encode(String(data.length))]));
+      for (const chunk of data){
+        acc = await sha("SHA-384", concat([acc, await deepHash(chunk)]));
+      }
+      return acc;
+    }
+    const tag = concat([enc.encode("blob"), enc.encode(String(data.byteLength))]);
+    return sha("SHA-384", concat([await sha("SHA-384", tag), await sha("SHA-384", data)]));
+  }
+
+  // ── Tags : encodage Avro (zigzag varint), identique à arbundles ─────────
+  function avroLong(n, out){
+    let m = n >= 0 ? n * 2 : -n * 2 - 1;
+    do {
+      let byte = m % 128;
+      m = Math.floor(m / 128);
+      if (m > 0) byte |= 0x80;
+      out.push(byte);
+    } while (m > 0);
+  }
+  function serializeTags(tags){
+    if (!tags.length) return new Uint8Array(0);
+    const out = [];
+    avroLong(tags.length, out);
+    for (const t of tags){
+      for (const s of [t.name, t.value]){
+        const b = enc.encode(s);
+        avroLong(b.length, out);
+        for (const x of b) out.push(x);
+      }
+    }
+    avroLong(0, out);
+    return Uint8Array.from(out);
+  }
+  function le(n, size){
+    const b = new Uint8Array(size);
+    for (let i = 0; i < size; i++){ b[i] = n % 256; n = Math.floor(n / 256); }
+    return b;
+  }
+
+  /** Construit et signe un data item ANS-104. Renvoie { bytes, id }. */
+  async function createSignedDataItem(data, tags, wallet, anchor){
+    const owner = ethers.getBytes(ethers.SigningKey.computePublicKey(wallet.privateKey, false)); // 65 octets
+    const rawTags = serializeTags(tags);
+    const rawAnchor = anchor || new Uint8Array(0);
+    const signatureData = await deepHash([
+      enc.encode("dataitem"), enc.encode("1"), enc.encode(String(SIG_TYPE_ETHEREUM)),
+      owner, new Uint8Array(0) /* target */, rawAnchor, rawTags, data,
+    ]);
+    const signature = ethers.getBytes(await wallet.signMessage(signatureData)); // 65 octets (r, s, v)
+    const bytes = concat([
+      le(SIG_TYPE_ETHEREUM, 2), signature, owner,
+      Uint8Array.of(0),                                   // pas de target
+      rawAnchor.length ? concat([Uint8Array.of(1), rawAnchor]) : Uint8Array.of(0),
+      le(tags.length, 8), le(rawTags.length, 8), rawTags,
+      data,
+    ]);
+    const id = b64url(await sha("SHA-256", signature));
+    return { bytes, id, signatureData, signature, owner };
+  }
+
+  /** Lit largeur/hauteur dans l'en-tête PNG (IHDR). null si pas un PNG. */
+  function pngSize(bytes){
+    const sig = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
+    if (bytes.length < 24 || sig.some((v, i) => bytes[i] !== v)) return null;
+    if (String.fromCharCode(bytes[12], bytes[13], bytes[14], bytes[15]) !== "IHDR") return null;
+    const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+    return { width: dv.getUint32(16), height: dv.getUint32(20) };
+  }
+
+  /** Contrôle du format imposé. Renvoie null si OK, sinon un message. */
+  function checkLogo(bytes){
+    const size = pngSize(bytes);
+    if (!size) return "The logo must be a PNG file.";
+    if (size.width !== LOGO_SIZE || size.height !== LOGO_SIZE)
+      return "The logo must be exactly 256×256 px (this one is " + size.width + "×" + size.height + ").";
+    if (bytes.length > LOGO_MAX_BYTES)
+      return "The logo must be 100 KB max (this one is " + Math.ceil(bytes.length / 1024) + " KB).";
+    return null;
+  }
+
+  /**
+   * Convertit n'importe quelle image en PNG 256×256 (recadrage centré).
+   * Un PNG 32 bits de photo dépasse souvent 100 Ko : dans ce cas l'image est
+   * réduite à une palette de 256 couleurs (médiane) et encodée en PNG indexé,
+   * ce qui tient toujours sous 100 Ko (65 536 pixels × 1 octet avant
+   * compression) tout en restant un PNG 256×256 standard.
+   */
+  async function toPng256(file){
+    const bitmap = await createImageBitmap(file);
+    const canvas = document.createElement("canvas");
+    canvas.width = LOGO_SIZE; canvas.height = LOGO_SIZE;
+    const ctx = canvas.getContext("2d");
+    const scale = Math.max(LOGO_SIZE / bitmap.width, LOGO_SIZE / bitmap.height);
+    const w = bitmap.width * scale, h = bitmap.height * scale;
+    ctx.drawImage(bitmap, (LOGO_SIZE - w) / 2, (LOGO_SIZE - h) / 2, w, h);
+    const blob = await new Promise((res) => canvas.toBlob(res, "image/png"));
+    const full = new Uint8Array(await blob.arrayBuffer());
+    if (full.length <= LOGO_MAX_BYTES) return full;
+    return encodeIndexedPng(ctx.getImageData(0, 0, LOGO_SIZE, LOGO_SIZE).data, LOGO_SIZE, LOGO_SIZE);
+  }
+
+  // ── Palette 256 couleurs par coupe médiane (RGBA) ───────────────────────
+  function medianCutPalette(px, maxColors){
+    const n = px.length / 4;
+    let boxes = [{ idx: Uint32Array.from({ length: n }, (_, i) => i) }];
+    const range = (box) => {
+      const lo = [255, 255, 255, 255], hi = [0, 0, 0, 0];
+      for (const i of box.idx) for (let c = 0; c < 4; c++){
+        const v = px[i * 4 + c]; if (v < lo[c]) lo[c] = v; if (v > hi[c]) hi[c] = v;
+      }
+      let best = 0, span = -1;
+      for (let c = 0; c < 4; c++) if (hi[c] - lo[c] > span){ span = hi[c] - lo[c]; best = c; }
+      box.channel = best; box.span = span;
+    };
+    boxes.forEach(range);
+    while (boxes.length < maxColors){
+      boxes.sort((a, b) => b.span * b.idx.length - a.span * a.idx.length);
+      const box = boxes[0];
+      if (box.span <= 0 || box.idx.length < 2) break;
+      const c = box.channel;
+      const sorted = Array.from(box.idx).sort((a, b) => px[a * 4 + c] - px[b * 4 + c]);
+      const mid = sorted.length >> 1;
+      const A = { idx: Uint32Array.from(sorted.slice(0, mid)) }, B = { idx: Uint32Array.from(sorted.slice(mid)) };
+      range(A); range(B);
+      boxes.splice(0, 1, A, B);
+    }
+    return boxes.map((box) => {
+      const sum = [0, 0, 0, 0];
+      for (const i of box.idx) for (let c = 0; c < 4; c++) sum[c] += px[i * 4 + c];
+      return sum.map((v) => Math.round(v / box.idx.length));
+    });
+  }
+
+  const CRC_TABLE = (() => {
+    const t = new Uint32Array(256);
+    for (let n = 0; n < 256; n++){ let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; }
+    return t;
+  })();
+  function crc32(bytes){
+    let c = 0xFFFFFFFF;
+    for (const b of bytes) c = CRC_TABLE[(c ^ b) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+  function chunk(type, data){
+    const out = new Uint8Array(12 + data.length);
+    const dv = new DataView(out.buffer);
+    dv.setUint32(0, data.length);
+    const typeBytes = enc.encode(type);
+    out.set(typeBytes, 4); out.set(data, 8);
+    dv.setUint32(8 + data.length, crc32(out.subarray(4, 8 + data.length)));
+    return out;
+  }
+
+  async function encodeIndexedPng(rgba, width, height){
+    const palette = medianCutPalette(rgba, 256);
+    const raw = new Uint8Array((width + 1) * height);
+    const cache = new Map();
+    for (let y = 0; y < height; y++){
+      raw[y * (width + 1)] = 0; // filtre « None »
+      for (let x = 0; x < width; x++){
+        const p = (y * width + x) * 4;
+        const key = (rgba[p] << 24 | rgba[p + 1] << 16 | rgba[p + 2] << 8 | rgba[p + 3]) >>> 0;
+        let best = cache.get(key);
+        if (best === undefined){
+          let bestD = Infinity;
+          for (let k = 0; k < palette.length; k++){
+            const q = palette[k];
+            const d = (rgba[p] - q[0]) ** 2 + (rgba[p + 1] - q[1]) ** 2 + (rgba[p + 2] - q[2]) ** 2 + (rgba[p + 3] - q[3]) ** 2;
+            if (d < bestD){ bestD = d; best = k; }
+          }
+          cache.set(key, best);
+        }
+        raw[y * (width + 1) + 1 + x] = best;
+      }
+    }
+    const zlib = new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("deflate"))).arrayBuffer());
+    const ihdr = new Uint8Array(13);
+    const dv = new DataView(ihdr.buffer);
+    dv.setUint32(0, width); dv.setUint32(4, height);
+    ihdr.set([8, 3, 0, 0, 0], 8); // 8 bits, couleur indexée
+    const plte = new Uint8Array(palette.length * 3);
+    palette.forEach((q, k) => plte.set([q[0], q[1], q[2]], k * 3));
+    const parts = [Uint8Array.of(0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A), chunk("IHDR", ihdr), chunk("PLTE", plte)];
+    if (palette.some((q) => q[3] < 255)) parts.push(chunk("tRNS", Uint8Array.from(palette.map((q) => q[3]))));
+    parts.push(chunk("IDAT", zlib), chunk("IEND", new Uint8Array(0)));
+    return concat(parts);
+  }
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  /**
+   * Envoie le logo sur Arweave puis prouve qu'il y est, octet pour octet.
+   * onStep(message) reçoit l'avancement. Renvoie { uri: "ar://…", id, sha256 }.
+   */
+  async function uploadLogo(bytes, onStep, meta){
+    const problem = checkLogo(bytes);
+    if (problem) throw new Error(problem);
+    const localHash = hex(await sha("SHA-256", bytes));
+
+    onStep && onStep("Signing the logo with a one-time key (no wallet popup)…");
+    const wallet = ethers.Wallet.createRandom();
+    const anchor = crypto.getRandomValues(new Uint8Array(32));
+    const tags = [
+      { name: "Content-Type", value: "image/png" },
+      { name: "App-Name", value: "ApexPad-Factory" },
+      { name: "App-Version", value: "1" },
+      { name: "Type", value: "token-logo" },
+    ];
+    if (meta && meta.chainId) tags.push({ name: "Chain-Id", value: String(meta.chainId) });
+    if (meta && meta.symbol) tags.push({ name: "Token-Symbol", value: String(meta.symbol).slice(0, 32) });
+    const item = await createSignedDataItem(bytes, tags, wallet, anchor);
+
+    onStep && onStep("Uploading the logo to Arweave (free under 100 KB)…");
+    const res = await fetch(UPLOAD_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/octet-stream" },
+      body: item.bytes,
+    });
+    if (!res.ok) throw new Error("Arweave upload refused (HTTP " + res.status + "): " + (await res.text()).slice(0, 200));
+    const receipt = await res.json();
+    if (receipt.id !== item.id) throw new Error("Arweave returned an unexpected id (" + receipt.id + " instead of " + item.id + ").");
+
+    // Relecture : jusqu'à ~2 min, le temps que la passerelle serve le fichier
+    for (let attempt = 1; attempt <= 24; attempt++){
+      onStep && onStep("Checking the logo is really on Arweave (" + attempt + "/24)…");
+      try{
+        const r = await fetch(GATEWAY + item.id, { cache: "no-store" });
+        if (r.ok){
+          const got = new Uint8Array(await r.arrayBuffer());
+          const remoteHash = hex(await sha("SHA-256", got));
+          if (remoteHash === localHash) return { uri: "ar://" + item.id, id: item.id, sha256: localHash };
+          throw new Error("The file served by Arweave doesn't match the logo you chose (SHA-256 mismatch).");
+        }
+      }catch(e){
+        if (/mismatch/.test(e.message)) throw e;
+      }
+      await sleep(5000);
+    }
+    throw new Error("The logo was uploaded (ar://" + item.id + ") but arweave.net doesn't serve it yet. Try again in a minute — the launch has NOT been sent.");
+  }
+
+  return { createSignedDataItem, deepHash, serializeTags, pngSize, checkLogo, toPng256, uploadLogo, hex, sha, b64url, LOGO_MAX_BYTES, LOGO_SIZE };
+})();
+
+/* ════════════════════════════════════════════════════════════════════════
+ *  MÉTADONNÉES DU FORMULAIRE (format Pons : logo, description, 5 réseaux)
+ *  Mêmes règles que MemeToken.sol : réseaux en https:// uniquement, 256
+ *  octets max par lien, 512 octets max de description.
+ * ════════════════════════════════════════════════════════════════════════ */
+let logoBytes = null;        // PNG 256×256 prêt à partir sur Arweave
+let uploadedLogo = null;     // { sha256, uri } — évite un 2e envoi si le wallet a refusé
+const byteLen = (s) => new TextEncoder().encode(s).length;
+
 $("logoDrop").addEventListener("click", () => $("logoInput").click());
-$("logoInput").addEventListener("change", (e) => {
+$("logoInput").addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
+  try{
+    let bytes = new Uint8Array(await file.arrayBuffer());
+    let note = "";
+    if (ApexArweave.checkLogo(bytes) !== null){
+      bytes = await ApexArweave.toPng256(file);
+      note = " — converted to 256×256 PNG";
+    }
+    const problem = ApexArweave.checkLogo(bytes);
+    if (problem){
+      logoBytes = null; logoDataUrl = null;
+      $("logoPreview").style.display = "none";
+      $("logoText").textContent = problem + " Try a simpler or smaller image.";
+      return;
+    }
+    logoBytes = bytes;
+    const blobUrl = URL.createObjectURL(new Blob([bytes], { type: "image/png" }));
+    $("logoPreview").src = blobUrl;
+    $("logoPreview").style.display = "block";
+    $("logoText").textContent = file.name + note + " (" + Math.ceil(bytes.length / 1024) + " KB)";
+    // Vignette légère pour l'historique local uniquement
     const img = new Image();
     img.onload = () => {
-      // Downscale to max 128x128 and re-encode as JPEG q=0.8 so each
-      // history entry stays light (avoids blowing the localStorage quota
-      // after a handful of launches — see saveToHistory below).
-      const size = 128;
-      const canvas = document.createElement("canvas");
-      canvas.width = size; canvas.height = size;
-      const ctx = canvas.getContext("2d");
-      const scale = Math.max(size / img.width, size / img.height);
-      const w = img.width * scale, h = img.height * scale;
-      ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
-      logoDataUrl = canvas.toDataURL("image/jpeg", 0.8);
-      $("logoPreview").src = logoDataUrl;
-      $("logoPreview").style.display = "block";
-      $("logoText").textContent = file.name;
+      const c = document.createElement("canvas"); c.width = 64; c.height = 64;
+      c.getContext("2d").drawImage(img, 0, 0, 64, 64);
+      logoDataUrl = c.toDataURL("image/jpeg", 0.8);
     };
-    img.src = reader.result;
-  };
-  reader.readAsDataURL(file);
+    img.src = blobUrl;
+  }catch(err){
+    console.error(err);
+    $("logoText").textContent = "This image couldn't be read. Try a PNG or JPG.";
+  }
 });
+
+$("tokenDescription").addEventListener("input", () => {
+  const n = byteLen($("tokenDescription").value);
+  $("descCount").textContent = n;
+  $("descCount").style.color = n > 512 ? "var(--danger)" : "";
+});
+
+function normalizeLink(raw, kind){
+  let v = raw.trim();
+  if (!v) return "";
+  if (kind === "twitter" && /^@?[A-Za-z0-9_]{1,15}$/.test(v)) v = "https://x.com/" + v.replace(/^@/, "");
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(v)) v = "https://" + v;
+  return v;
+}
+
+/** Lit, normalise et valide les métadonnées. Lève une Error lisible. */
+function collectMetadata(){
+  const description = $("tokenDescription").value.trim();
+  if (byteLen(description) > 512) throw new Error("Description is too long (512 bytes max).");
+  const fields = { twitter: "socialTwitter", telegram: "socialTelegram", discord: "socialDiscord", website: "socialWebsite", farcaster: "socialFarcaster" };
+  const socials = {};
+  for (const [key, id] of Object.entries(fields)){
+    const v = normalizeLink($(id).value, key);
+    $(id).value = v;
+    if (v){
+      let ok = v.startsWith("https://") && v.length > 8 && byteLen(v) <= 256 && !/\s/.test(v);
+      try{ ok = ok && new URL(v).protocol === "https:"; }catch(_){ ok = false; }
+      if (!ok) throw new Error("Invalid " + key + " link — it must start with https:// (256 bytes max).");
+    }
+    socials[key] = v;
+  }
+  if (!$("metaConfirm").checked) throw new Error("Tick the box confirming logo, description and links are final.");
+  return { description, socials };
+}
+
+async function ensureLogoOnArweave(symbol, statusEl){
+  if (!logoBytes) return "";
+  const sha256 = ApexArweave.hex(await ApexArweave.sha("SHA-256", logoBytes));
+  if (uploadedLogo && uploadedLogo.sha256 === sha256) return uploadedLogo.uri;
+  const up = await ApexArweave.uploadLogo(logoBytes, (m) => setStatus(statusEl, m, ""), { chainId: CONFIG.CHAIN_ID, symbol });
+  uploadedLogo = { sha256, uri: up.uri };
+  return up.uri;
+}
 
 /* ════════════════════════════════════════════════════════════════════════
  *  LAUNCH
  * ════════════════════════════════════════════════════════════════════════ */
 $("startBtn").addEventListener("click", launch);
 
-// Publie automatiquement la page de preuve + met à jour le catalogue.
-// Fire-and-forget : ne bloque jamais l'UI et n'affecte pas le lancement
-// lui-même si le Worker est down ou mal configuré (juste un console.warn).
-async function publishLaunchProof(launchResult){
-  if (!CONFIG.WORKER_URL || CONFIG.WORKER_URL.indexOf("TON-SOUS-DOMAINE") !== -1) {
-    console.warn("Catalog: WORKER_URL not configured, skipping proof publish.");
-    return;
-  }
-  try{
-    const res = await fetch(CONFIG.WORKER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        secret: CONFIG.WORKER_SECRET,
-        tokenName: launchResult.name,
-        tokenSymbol: launchResult.symbol,
-        tokenAddress: launchResult.tokenAddr,
-        custodianAddress: launchResult.custodianAddr,
-        poolAddress: launchResult.poolAddr,
-        positionTokenId: launchResult.positionTokenId,
-        deployerAddress: launchResult.creatorAddr,
-        feeRecipientAddress: launchResult.feeSplitterAddr,
-        network: CONFIG.CHAIN_NAME + " Mainnet",
-        chainId: CONFIG.CHAIN_ID,
-        txHashPositionTransfer: launchResult.txHash,
-        launchDate: new Date().toISOString(),
-      }),
-    });
-    if (!res.ok) {
-      console.warn("Catalog: proof publish failed —", await res.text());
-      return;
+// Publie la page de preuve publique via le Worker. La page n'envoie QUE la
+// chaîne et le hash de la transaction : le Worker relit tout on-chain
+// (plus de secret partagé). Ne bloque jamais le lancement lui-même.
+async function publishLaunchProof(txHash){
+  if (!CONFIG.WORKER_URL) return null;
+  for (let attempt = 1; attempt <= 4; attempt++){
+    try{
+      const res = await fetch(CONFIG.WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chainId: CONFIG.CHAIN_ID, txHash }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) return data.proofUrl;
+      console.warn("Catalog: proof publish failed —", res.status, data.error);
+      if (res.status >= 400 && res.status < 500 && res.status !== 404) return null;
+    }catch(e){
+      console.warn("Catalog: proof publish error —", e.message || e);
     }
-    const data = await res.json();
-    console.log("Catalog: proof page published —", data.proofUrl);
-  }catch(e){
-    console.warn("Catalog: proof publish error —", e.message || e);
+    await new Promise((r) => setTimeout(r, 4000 * attempt));
   }
+  return null;
+}
+
+function showProofLink(url){
+  const a = document.createElement("a");
+  a.href = url; a.target = "_blank"; a.rel = "noopener";
+  a.textContent = "Public proof page ↗ (live within ~1 min)";
+  $("resultLinks").appendChild(a);
 }
 
 async function launch(){
@@ -524,11 +897,20 @@ async function launch(){
     const mcapWei = ethers.parseEther(mcapStr);
     const warmUpWei = ethers.parseEther(CONFIG.WARM_UP_AMOUNT_ETH);
 
+    let meta;
+    try{ meta = collectMetadata(); }
+    catch(err){ setStatus(statusEl, err.message, "err"); return; }
+
     $("startBtn").disabled = true;
+
+    // Le logo part sur Arweave AVANT la transaction : son lien ar:// est un
+    // argument du constructeur du token. Relu et comparé octet pour octet.
+    const logoURI = await ensureLogoOnArweave(symbol, statusEl);
+
     setStatus(statusEl, "Confirm the transaction in your wallet…", "");
 
     const factory = new ethers.Contract(CONFIG.FACTORY_ADDRESS, FACTORY_ABI, signer);
-    const tx = await factory.launchToken(name, symbol, supply, mcapWei, warmUpWei, { value: warmUpWei });
+    const tx = await factory.launchToken(name, symbol, supply, mcapWei, warmUpWei, logoURI, meta.description, meta.socials, { value: warmUpWei });
 
     setStatus(statusEl, "Transaction sent (" + tx.hash + "), waiting for confirmation…", "");
     const receipt = await tx.wait();
@@ -556,10 +938,10 @@ async function launch(){
 
     setStatus(statusEl, "Launched successfully ✅", "ok");
     const chainTags = { chainId: CONFIG.CHAIN_ID, chainName: CONFIG.CHAIN_NAME, blockExplorer: CONFIG.BLOCK_EXPLORER, wethAddress: CONFIG.WETH_ADDRESS };
-    showResult({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash, ...chainTags });
-    saveToHistory({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, txHash: tx.hash, date: Date.now(), ...chainTags });
+    showResult({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, logoURI, description: meta.description, socials: meta.socials, txHash: tx.hash, ...chainTags });
+    saveToHistory({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, logoURI, description: meta.description, socials: meta.socials, txHash: tx.hash, date: Date.now(), ...chainTags });
     prefillFeesCard(tokenAddr, custodianAddr, feeSplitterAddr);
-    publishLaunchProof({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, positionTokenId, creatorAddr: userAddress, txHash: tx.hash });
+    publishLaunchProof(tx.hash).then((url) => { if (url) showProofLink(url); });
 
     $("startBtn").disabled = false;
   }catch(e){
@@ -711,10 +1093,10 @@ function renderHistory(){
   $("historyCard").style.display = "block";
   $("historyList").innerHTML = list.map((it, idx) => `
     <div class="history-item">
-      <img src="${it.logo || ''}" onerror="this.style.display='none'">
+      <img src="${esc(it.logo || '')}" onerror="this.style.display='none'">
       <div class="meta">
-        <b>${it.name} ($${it.symbol})</b>
-        <span>${it.tokenAddr}</span>
+        <b>${esc(it.name)} ($${esc(it.symbol)})</b>
+        <span>${esc(it.tokenAddr)}</span>
       </div>
       <button onclick="loadFromHistory(${idx})">Load</button>
       <button onclick="downloadMetadata(${idx})">Export JSON</button>
@@ -962,6 +1344,9 @@ document.getElementById('retry').style.display = 'none';
         <dt>FeeSplitter</dt><dd>${d.feeSplitterAddr}</dd>
         ${d.poolAddr ? `<dt>Pool Uniswap V3</dt><dd>${d.poolAddr}</dd>` : ''}
         ${d.creatorAddr ? `<dt>Creator</dt><dd>${d.creatorAddr}</dd>` : ''}
+        ${d.logoURI ? `<dt>Logo (on-chain)</dt><dd>${esc(d.logoURI)}</dd>` : ''}
+        ${d.description ? `<dt>Description</dt><dd>${esc(d.description)}</dd>` : ''}
+        ${d.socials ? Object.entries(d.socials).filter(([, v]) => v).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('') : ''}
       </dl>
       <button class="copy-btn" id="copyKv">Copy this info</button>
       ${d.logo ? `<button class="copy-btn" id="dlLogo" style="margin-left:8px">Download logo (PNG/JPG)</button>` : ''}
