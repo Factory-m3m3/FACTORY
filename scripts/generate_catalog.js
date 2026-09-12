@@ -9,6 +9,13 @@
  * lancements par chaîne (onglets cliquables, filtrage 100% côté client,
  * un seul fichier, pas de duplication de pages).
  *
+ * 11/09/2026 — Factory à métadonnées : le Worker v2 écrit désormais dans
+ * proofs/data/<chainId>/<adresse>.json (sous-dossier par chaîne). La lecture
+ * est donc RÉCURSIVE ; les anciens fichiers à plat (proofs/data/<ticker>.json)
+ * restent lus tels quels. Les cartes affichent le logo quand le Worker l'a
+ * contrôlé (logoCheck.status === "ok") — sinon l'image ApexPad Forge du site —
+ * et un badge « metadata on-chain ».
+ *
  * Usage: node scripts/generate_catalog.js
  */
 
@@ -48,14 +55,12 @@ function main() {
     return;
   }
 
-  const files = fs
-    .readdirSync(DATA_DIR)
-    .filter((f) => f.endsWith(".json"));
+  const files = listJsonFiles(DATA_DIR);
 
   const entries = files
     .map((f) => {
       try {
-        return JSON.parse(fs.readFileSync(path.join(DATA_DIR, f), "utf8"));
+        return JSON.parse(fs.readFileSync(f, "utf8"));
       } catch (err) {
         console.error(`Fichier invalide ignoré: ${f} (${err.message})`);
         return null;
@@ -69,6 +74,28 @@ function main() {
   fs.writeFileSync(CATALOG_HTML, renderCatalogHtml(entries));
 
   console.log(`Catalogue régénéré: ${entries.length} token(s).`);
+}
+
+function listJsonFiles(dir) {
+  const out = [];
+  for (const d of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, d.name);
+    if (d.isDirectory()) out.push(...listJsonFiles(full));
+    else if (d.isFile() && d.name.endsWith(".json")) out.push(full);
+  }
+  return out.sort();
+}
+
+// N'affiche un logo que s'il a été contrôlé par le Worker (PNG 256×256
+// ≤ 100 Ko, servi par Arweave/IPFS) — jamais une URL arbitraire.
+function logoFor(e) {
+  const c = e.logoCheck;
+  // Sans logo contrôlé (ou lancement de l'ancienne Factory) : image ApexPad
+  // Forge du site, affichage seulement.
+  const FORGE = "apexpad-forge-logo.png";
+  if (!c || c.status !== "ok" || typeof c.gatewayUrl !== "string") return FORGE;
+  if (!/^https:\/\/(arweave\.net|ipfs\.io)\//.test(c.gatewayUrl)) return FORGE;
+  return c.gatewayUrl;
 }
 
 function renderCatalogHtml(entries) {
@@ -100,9 +127,11 @@ function renderCatalogHtml(entries) {
         .map(
           (e) => `
       <a class="card" href="${escapeHtml(e.proofUrl)}">
+        <img class="card-logo" src="${escapeHtml(logoFor(e))}" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">${escapeHtml(e.tokenName || "")}</div>
         <div class="card-ticker">$${escapeHtml(e.tokenSymbol || "")}</div>
         <div class="card-date">${escapeHtml(formatDate(e.launchDate))}</div>
+        ${e.schema >= 2 ? '<div class="card-badge">metadata on-chain</div>' : ""}
       </a>`
         )
         .join("\n");
@@ -126,6 +155,7 @@ function renderCatalogHtml(entries) {
 <style>
   body { font-family: -apple-system, system-ui, sans-serif; background: #0b0e14; color: #e6e6e6; margin: 0; padding: 2rem; }
   h1 { text-align: center; margin-bottom: 0.25rem; }
+  .forge-banner { display: block; width: 100%; max-width: 1100px; height: auto; aspect-ratio: 1794 / 592; object-fit: cover; margin: 0 auto 1.5rem; border-radius: 14px; border: 1px solid #232838; }
   .subtitle { text-align: center; color: #8a92a6; margin-bottom: 1.75rem; }
   .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; max-width: 1100px; margin: 0 auto 2rem; }
   .tab { font-family: inherit; font-size: 0.85rem; background: #131722; color: #8a92a6; border: 1px solid #232838; border-radius: 999px; padding: 0.5rem 1rem; cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease; }
@@ -140,10 +170,13 @@ function renderCatalogHtml(entries) {
   .card-title { font-weight: 600; margin-bottom: 0.25rem; }
   .card-ticker { color: #7cc4ff; font-size: 0.9rem; margin-bottom: 0.5rem; }
   .card-date { color: #8a92a6; font-size: 0.78rem; }
+  .card-logo { width: 40px; height: 40px; border-radius: 10px; float: right; object-fit: cover; border: 1px solid #232838; }
+  .card-badge { display: inline-block; margin-top: 0.5rem; font-size: 0.68rem; color: #6fd39a; border: 1px solid #2d4a3a; border-radius: 999px; padding: 0.1rem 0.5rem; }
   .empty { text-align: center; color: #8a92a6; margin-top: 3rem; }
 </style>
 </head>
 <body>
+  <img class="forge-banner" src="apexpad-forge-banner.jpg" alt="ApexPad Forge" width="1794" height="592">
   <h1>Factory Launch Catalog</h1>
   <div class="subtitle">${entries.length} token(s) launched in total — updated automatically</div>
   <div class="subtitle" style="margin-top:10px"><a href="index.html">Launch a token</a> &middot; <a href="transparency-en.html">Proofs &amp; guarantees</a> &middot; <a href="transparency-fr.html">Preuves (FR)</a></div>
