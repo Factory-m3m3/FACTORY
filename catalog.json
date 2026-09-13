@@ -1,6 +1,54 @@
 [
   {
     "schema": 2,
+    "chainId": 10,
+    "network": "Optimism",
+    "dex": "Uniswap V3",
+    "factoryAddress": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+    "tokenAddress": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+    "tokenName": "FORGE TEST FACTORY",
+    "tokenSymbol": "FTF",
+    "decimals": 18,
+    "totalSupply": "1000000000000000000000000000",
+    "creatorAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+    "deployerAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+    "custodianAddress": "0x119c502a2886d256b84318a8814ff154ab972953",
+    "feeSplitterAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
+    "feeRecipientAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
+    "platformAddress": "0x3a7a125d23689d8f7f218b28f19305d33b6c9b18",
+    "positionManagerAddress": "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+    "poolAddress": "0x985cb3c89c46ae9c0697b24a72f485c4216f62a0",
+    "positionTokenId": "1129269",
+    "tickLower": -887200,
+    "tickUpper": 200600,
+    "launchTxHash": "0x8849e2dc4bedf89d232686a68f37c370bb0c4acc645ac8842b606379cc6be4f6",
+    "launchTxTo": "0xdb9b1e94b5b69df7e401ddbede43491141047db3",
+    "blockNumber": 156851946,
+    "launchDate": "2026-09-13T12:31:09.000Z",
+    "metadata": {
+      "logo": "ar://EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "description": "First launch of the ApexPad Multi-EVM-Chains Forge with on-chain metadata.",
+      "socials": {
+        "twitter": "https://x.com/apexpad_io",
+        "telegram": "",
+        "discord": "",
+        "website": "https://apexpad.io",
+        "farcaster": ""
+      }
+    },
+    "logoCheck": {
+      "status": "ok",
+      "gatewayUrl": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "servedBy": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "bytes": 57201,
+      "sha256": "c14a47d416ff289e7d2496266f162d31f00888ebab86a558dc7a38464e67e1c2",
+      "width": 256,
+      "height": 256
+    },
+    "proofUrl": "proofs/10/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html"
+  },
+  {
+    "schema": 2,
     "chainId": 137,
     "network": "Polygon",
     "dex": "Uniswap V3",
