@@ -1,5 +1,49 @@
 [
   {
+    "schema": 2,
+    "chainId": 4663,
+    "network": "Robinhood Chain",
+    "dex": "Uniswap V3",
+    "factoryAddress": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+    "tokenAddress": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+    "tokenName": "FORGE TEST FACTORY",
+    "tokenSymbol": "FTF",
+    "decimals": 18,
+    "totalSupply": "1000000000000000000000000000",
+    "creatorAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+    "deployerAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+    "custodianAddress": "0x119c502a2886d256b84318a8814ff154ab972953",
+    "feeSplitterAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
+    "feeRecipientAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
+    "platformAddress": "0x3a7a125d23689d8f7f218b28f19305d33b6c9b18",
+    "positionManagerAddress": "0x73991a25c818bf1f1128deaab1492d45638de0d3",
+    "poolAddress": "0x6a7ae2142f1ef1ef360711aabb1cf67b6e5be5e4",
+    "positionTokenId": "1143138",
+    "tickLower": -887200,
+    "tickUpper": 200600,
+    "launchTxHash": "0x7a08f380ca70fd9f762a5bb9e71a3519a928a5a1b0966f30be96fae0e2e0cf22",
+    "launchTxTo": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+    "blockNumber": 61008783,
+    "launchDate": "2026-09-12T09:44:02.000Z",
+    "metadata": {
+      "logo": "ar://EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "description": "First launch of the ApexPad Multi-EVM-Chains Forge with on-chain metadata.",
+      "socials": {
+        "twitter": "https://x.com/apexpad_io",
+        "telegram": "",
+        "discord": "",
+        "website": "https://apexpad.io",
+        "farcaster": ""
+      }
+    },
+    "logoCheck": {
+      "status": "unreachable",
+      "reason": "The operation was aborted due to timeout",
+      "gatewayUrl": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE"
+    },
+    "proofUrl": "proofs/4663/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html"
+  },
+  {
     "slug": "athr",
     "tokenName": "Aetheris",
     "tokenSymbol": "ATHR",

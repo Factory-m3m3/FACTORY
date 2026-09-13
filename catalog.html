@@ -7,6 +7,7 @@
 <style>
   body { font-family: -apple-system, system-ui, sans-serif; background: #0b0e14; color: #e6e6e6; margin: 0; padding: 2rem; }
   h1 { text-align: center; margin-bottom: 0.25rem; }
+  .forge-banner { display: block; width: 100%; max-width: 1100px; height: auto; aspect-ratio: 1794 / 592; object-fit: cover; margin: 0 auto 1.5rem; border-radius: 14px; border: 1px solid #232838; }
   .subtitle { text-align: center; color: #8a92a6; margin-bottom: 1.75rem; }
   .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; max-width: 1100px; margin: 0 auto 2rem; }
   .tab { font-family: inherit; font-size: 0.85rem; background: #131722; color: #8a92a6; border: 1px solid #232838; border-radius: 999px; padding: 0.5rem 1rem; cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease; }
@@ -21,16 +22,20 @@
   .card-title { font-weight: 600; margin-bottom: 0.25rem; }
   .card-ticker { color: #7cc4ff; font-size: 0.9rem; margin-bottom: 0.5rem; }
   .card-date { color: #8a92a6; font-size: 0.78rem; }
+  .card-logo { width: 40px; height: 40px; border-radius: 10px; float: right; object-fit: cover; border: 1px solid #232838; }
+  .card-badge { display: inline-block; margin-top: 0.5rem; font-size: 0.68rem; color: #6fd39a; border: 1px solid #2d4a3a; border-radius: 999px; padding: 0.1rem 0.5rem; }
   .empty { text-align: center; color: #8a92a6; margin-top: 3rem; }
 </style>
 </head>
 <body>
+  <img class="forge-banner" src="apexpad-forge-banner.jpg" alt="ApexPad Forge" width="1794" height="592">
   <h1>Factory Launch Catalog</h1>
-  <div class="subtitle">28 token(s) launched in total — updated automatically</div>
+  <div class="subtitle">29 token(s) launched in total — updated automatically</div>
+  <div class="subtitle" style="margin-top:10px"><a href="index.html">Launch a token</a> &middot; <a href="transparency-en.html">Proofs &amp; guarantees</a> &middot; <a href="transparency-fr.html">Preuves (FR)</a></div>
   <div class="tabs">
     
       <button class="tab active" data-tab="robinhood" onclick="showTab('robinhood')">
-        Robinhood Chain <span class="count">14</span>
+        Robinhood Chain <span class="count">15</span>
       </button>
 
       <button class="tab" data-tab="bsc" onclick="showTab('bsc')">
@@ -65,88 +70,124 @@
     <div class="panel active" id="panel-robinhood">
       <div class="grid">
         
+      <a class="card" href="proofs/4663/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
+        <div class="card-title">FORGE TEST FACTORY</div>
+        <div class="card-ticker">$FTF</div>
+        <div class="card-date">12 sept. 2026, 09:44</div>
+        <div class="card-badge">metadata on-chain</div>
+      </a>
+
       <a class="card" href="proofs/whalecome.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Whalecome to the pod</div>
         <div class="card-ticker">$WHALECOME</div>
         <div class="card-date">21 août 2026, 02:20</div>
+        
       </a>
 
       <a class="card" href="proofs/eur.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Robinhood EUR</div>
         <div class="card-ticker">$EUR</div>
         <div class="card-date">17 août 2026, 11:15</div>
+        
       </a>
 
       <a class="card" href="proofs/bbro.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Beta Broker</div>
         <div class="card-ticker">$BBRO</div>
         <div class="card-date">16 août 2026, 17:15</div>
+        
       </a>
 
       <a class="card" href="proofs/bhood.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Beta Hood</div>
         <div class="card-ticker">$BHOOD</div>
         <div class="card-date">16 août 2026, 17:10</div>
+        
       </a>
 
       <a class="card" href="proofs/wefm.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Welcome Easy Factory M3M3</div>
         <div class="card-ticker">$WEFM</div>
         <div class="card-date">6 août 2026, 06:51</div>
+        
       </a>
 
       <a class="card" href="proofs/tc.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Test Catalogue</div>
         <div class="card-ticker">$TC</div>
         <div class="card-date">6 août 2026, 06:44</div>
+        
       </a>
 
       <a class="card" href="proofs/hood.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Robin M3M3 Hood</div>
         <div class="card-ticker">$HOOD</div>
         <div class="card-date">6 août 2026, 05:39</div>
+        
       </a>
 
       <a class="card" href="proofs/take.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Take From The Rich</div>
         <div class="card-ticker">$TAKE</div>
         <div class="card-date">6 août 2026, 05:39</div>
+        
       </a>
 
       <a class="card" href="proofs/flufflord.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Fluff Lord</div>
         <div class="card-ticker">$FLUFFLORD</div>
         <div class="card-date">6 août 2026, 05:39</div>
+        
       </a>
 
       <a class="card" href="proofs/sniff.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Sniffy The Bloodhound</div>
         <div class="card-ticker">$SNIFF</div>
         <div class="card-date">6 août 2026, 05:39</div>
+        
       </a>
 
       <a class="card" href="proofs/wagdog.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">WAGDOG</div>
         <div class="card-ticker">$WAGDOG</div>
         <div class="card-date">6 août 2026, 05:39</div>
+        
       </a>
 
       <a class="card" href="proofs/hairball.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">HAIRBALL</div>
         <div class="card-ticker">$HAIRBALL</div>
         <div class="card-date">6 août 2026, 05:39</div>
+        
       </a>
 
       <a class="card" href="proofs/guac.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">AVOCADO BRO</div>
         <div class="card-ticker">$GUAC</div>
         <div class="card-date">6 août 2026, 05:39</div>
+        
       </a>
 
       <a class="card" href="proofs/rascal.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">RASCAL THE RACCOON</div>
         <div class="card-ticker">$RASCAL</div>
         <div class="card-date">6 août 2026, 05:39</div>
+        
       </a>
       </div>
       
@@ -156,39 +197,51 @@
       <div class="grid">
         
       <a class="card" href="proofs/athr.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Aetheris</div>
         <div class="card-ticker">$ATHR</div>
         <div class="card-date">21 août 2026, 16:52</div>
+        
       </a>
 
       <a class="card" href="proofs/clu.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">CLU</div>
         <div class="card-ticker">$CLU</div>
         <div class="card-date">16 août 2026, 16:28</div>
+        
       </a>
 
       <a class="card" href="proofs/wizzair.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Wizz Air Coin</div>
         <div class="card-ticker">$WIZZAIR</div>
         <div class="card-date">16 août 2026, 14:29</div>
+        
       </a>
 
       <a class="card" href="proofs/swiss.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Switerland bank vault on BNB Network Safe</div>
         <div class="card-ticker">$SWISS</div>
         <div class="card-date">16 août 2026, 13:38</div>
+        
       </a>
 
       <a class="card" href="proofs/test.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">test book</div>
         <div class="card-ticker">$TEST</div>
         <div class="card-date">7 août 2026, 10:22</div>
+        
       </a>
 
       <a class="card" href="proofs/m3m3.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">M3M3 BSC</div>
         <div class="card-ticker">$M3M3</div>
         <div class="card-date">7 août 2026, 09:02</div>
+        
       </a>
       </div>
       
@@ -198,9 +251,11 @@
       <div class="grid">
         
       <a class="card" href="proofs/ethm3m3.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">ETH_MEME</div>
         <div class="card-ticker">$ETHM3M3</div>
         <div class="card-date">9 août 2026, 07:41</div>
+        
       </a>
       </div>
       
@@ -210,9 +265,11 @@
       <div class="grid">
         
       <a class="card" href="proofs/arbm3m3.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">M3M3 ARBITRUM</div>
         <div class="card-ticker">$ARBM3M3</div>
         <div class="card-date">9 août 2026, 10:07</div>
+        
       </a>
       </div>
       
@@ -222,21 +279,27 @@
       <div class="grid">
         
       <a class="card" href="proofs/zeus.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Buy ZEUS Today, Ride the AI Wave to the Moon Tomorrow!</div>
         <div class="card-ticker">$ZEUS</div>
         <div class="card-date">15 août 2026, 19:40</div>
+        
       </a>
 
       <a class="card" href="proofs/par.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">The mother of Coins PAR</div>
         <div class="card-ticker">$PAR</div>
         <div class="card-date">15 août 2026, 16:10</div>
+        
       </a>
 
       <a class="card" href="proofs/bmeme.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">BASE_M3M3</div>
         <div class="card-ticker">$BMEME</div>
         <div class="card-date">10 août 2026, 04:11</div>
+        
       </a>
       </div>
       
@@ -246,9 +309,11 @@
       <div class="grid">
         
       <a class="card" href="proofs/polm3m3.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">POLYGON MEME</div>
         <div class="card-ticker">$POLM3M3</div>
         <div class="card-date">10 août 2026, 09:09</div>
+        
       </a>
       </div>
       
@@ -258,15 +323,19 @@
       <div class="grid">
         
       <a class="card" href="proofs/stayop.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">Stay Optimistic</div>
         <div class="card-ticker">$STAYOP</div>
         <div class="card-date">15 août 2026, 07:37</div>
+        
       </a>
 
       <a class="card" href="proofs/opm3m3.html">
+        <img class="card-logo" src="apexpad-forge-logo.png" alt="" loading="lazy" width="40" height="40">
         <div class="card-title">OP_MEME</div>
         <div class="card-ticker">$OPM3M3</div>
         <div class="card-date">10 août 2026, 10:06</div>
+        
       </a>
       </div>
       
