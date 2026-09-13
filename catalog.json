@@ -1,6 +1,54 @@
 [
   {
     "schema": 2,
+    "chainId": 56,
+    "network": "BNB Smart Chain",
+    "dex": "PancakeSwap V3",
+    "factoryAddress": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+    "tokenAddress": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+    "tokenName": "FORGE TEST FACTORY",
+    "tokenSymbol": "FTF",
+    "decimals": 18,
+    "totalSupply": "1000000000000000000000000000",
+    "creatorAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+    "deployerAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+    "custodianAddress": "0x119c502a2886d256b84318a8814ff154ab972953",
+    "feeSplitterAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
+    "feeRecipientAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
+    "platformAddress": "0x3a7a125d23689d8f7f218b28f19305d33b6c9b18",
+    "positionManagerAddress": "0x46a15b0b27311cedf172ab29e4f4766fbe7f4364",
+    "poolAddress": "0x745ea092bc58f0f9f0bf2cce7f4bd8893b0955ca",
+    "positionTokenId": "7426494",
+    "tickLower": -187800,
+    "tickUpper": 887200,
+    "launchTxHash": "0x3363412de0171dce021c4ff6baabfd551a1bee8fee0649517a5ab00b689ebe4e",
+    "launchTxTo": "0xdb9b1e94b5b69df7e401ddbede43491141047db3",
+    "blockNumber": 121642751,
+    "launchDate": "2026-09-13T12:05:26.000Z",
+    "metadata": {
+      "logo": "ar://EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "description": "First launch of the ApexPad Multi-EVM-Chains Forge with on-chain metadata.",
+      "socials": {
+        "twitter": "https://x.com/apexpad_io",
+        "telegram": "",
+        "discord": "",
+        "website": "https://apexpad.io",
+        "farcaster": ""
+      }
+    },
+    "logoCheck": {
+      "status": "ok",
+      "gatewayUrl": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "servedBy": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "bytes": 57201,
+      "sha256": "c14a47d416ff289e7d2496266f162d31f00888ebab86a558dc7a38464e67e1c2",
+      "width": 256,
+      "height": 256
+    },
+    "proofUrl": "proofs/56/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html"
+  },
+  {
+    "schema": 2,
     "chainId": 4663,
     "network": "Robinhood Chain",
     "dex": "Uniswap V3",
