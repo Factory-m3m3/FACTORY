@@ -44,6 +44,50 @@
     "proofUrl": "proofs/4663/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html"
   },
   {
+    "schema": 2,
+    "chainId": 8453,
+    "network": "Base",
+    "dex": "Uniswap V3",
+    "factoryAddress": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+    "tokenAddress": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+    "tokenName": "FORGE TEST FACTORY",
+    "tokenSymbol": "FTF",
+    "decimals": 18,
+    "totalSupply": "1000000000000000000000000000",
+    "creatorAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+    "deployerAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+    "custodianAddress": "0x119c502a2886d256b84318a8814ff154ab972953",
+    "feeSplitterAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
+    "feeRecipientAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
+    "platformAddress": "0x3a7a125d23689d8f7f218b28f19305d33b6c9b18",
+    "positionManagerAddress": "0x03a520b32c04bf3beef7beb72e919cf822ed34f1",
+    "poolAddress": "0x8e5111db48ac1ad4e4a190d6278e53ca5484ac0c",
+    "positionTokenId": "5987212",
+    "tickLower": -887200,
+    "tickUpper": 200600,
+    "launchTxHash": "0x3426973ba9257970d8ff251142757dabe807015aa7a342489b20447a895fdfc3",
+    "launchTxTo": "0xdb9b1e94b5b69df7e401ddbede43491141047db3",
+    "blockNumber": 51200719,
+    "launchDate": "2026-09-12T05:26:25.000Z",
+    "metadata": {
+      "logo": "ar://EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "description": "First launch of the ApexPad Multi-EVM-Chains Forge with on-chain metadata.",
+      "socials": {
+        "twitter": "https://x.com/apexpad_io",
+        "telegram": "",
+        "discord": "",
+        "website": "https://apexpad.io",
+        "farcaster": ""
+      }
+    },
+    "logoCheck": {
+      "status": "unreachable",
+      "reason": "The operation was aborted due to timeout",
+      "gatewayUrl": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE"
+    },
+    "proofUrl": "proofs/8453/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html"
+  },
+  {
     "slug": "athr",
     "tokenName": "Aetheris",
     "tokenSymbol": "ATHR",
