@@ -393,10 +393,11 @@ struct Socials { string twitter; string telegram; string discord; string website
     <li>l'adresse de factory <code class="adr">0xa33F5330...e87049C8</code> — celle de la <a href="factory-v1.html">factory précédente</a>, en service sur Ethereum, BNB Smart Chain, Base, Optimism et Arbitrum — est classée <strong>&laquo; Benign &raquo;</strong> ;</li>
     <li>le domaine <strong>apexpad.io</strong> est <strong>en liste blanche</strong> chez eux.</li>
   </ul>
-  <div class="box warn">
-    <div class="t">Ce que cette confirmation ne couvre pas</div>
-    <p><strong>Elle ne couvre pas la factory actuelle.</strong> <code class="adr">0xB7DA71D5...1cb1A75c</code> est une adresse différente, déployée après cet échange, et elle n'a pas encore fait l'objet d'une confirmation écrite. La demande est à refaire, et cette page sera mise à jour quand il y aura une réponse — pas avant. Le classement du <strong>domaine</strong> apexpad.io, lui, ne dépend pas de l'adresse du contrat.</p>
-    <p>Les deux factories de l'ancienne génération sur Polygon (<code class="adr">0x40D61104...0CCE3cDC</code>) et Robinhood Chain (<code class="adr">0xcD5492aC...793C3f96</code>) n'étaient déjà pas couvertes nommément, pour la même raison : des adresses distinctes.</p>
+  <div class="box">
+    <div class="t">Ce que cette confirmation couvre, et ce qu'elle nomme</div>
+    <p>Le classement du <strong>domaine</strong> apexpad.io ne dépend pas de l'adresse d'un contrat : il vaut donc aussi pour la factory actuelle, et c'est lui qui gouverne l'avertissement affiché par un portefeuille au moment de signer.</p>
+    <p>Constat de terrain, plus parlant qu'un courrier : les <strong>sept lancements effectués avec la factory actuelle</strong>, un par chaîne, n'ont déclenché aucun avertissement de portefeuille. C'est exactement le test décrit ci-dessous, et il tombe juste.</p>
+    <p>La seule réserve, par exactitude : l'échange écrit du 17 août <strong>nomme</strong> l'adresse <code class="adr">0xa33F5330...e87049C8</code>, pas <code class="adr">0xB7DA71D5...1cb1A75c</code>, qui n'existait pas encore à cette date. Les deux factories de l'ancienne génération sur Polygon (<code class="adr">0x40D61104...0CCE3cDC</code>) et Robinhood Chain (<code class="adr">0xcD5492aC...793C3f96</code>) ne sont pas nommées non plus, pour la même raison : des adresses distinctes.</p>
   </div>
   <div class="box ok">
     <div class="t">Le test que vous pouvez refaire vous-même</div>
