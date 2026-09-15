@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ApexPad Factory — Verifiable proofs</title>
-<meta name="description" content="What the ApexPad Meme Coin Factory guarantees in code, and what it does not: identified founder, contracts verified on 7 chains, ownership renounced inside the launch transaction, 50% of fees to the creator." />
+<meta name="description" content="What ApexPad's Meme Coin Factory guarantees in code, and what it does not: identified founder, contracts verified on 7 chains, ownership renounced inside the launch transaction, metadata written on-chain, 50% of fees to the creator." />
 <link rel="alternate" hreflang="en" href="transparency-en.html" />
 <link rel="alternate" hreflang="fr" href="transparency-fr.html" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -93,18 +93,26 @@ footer a{color:var(--muted)}
   <div class="lang"><a href="transparency-fr.html">FR</a><a href="transparency-en.html" class="on">EN</a></div>
   <div class="eyebrow" style="margin-top:22px">Proofs</div>
   <h1>What the code <span class="accent">guarantees</span></h1>
-  <p class="lede">The ApexPad Meme Coin Factory launches a token in a single transaction, then gives up every power over it inside that same transaction. This page shows where that is written, and what it does not cover.</p>
-  <div class="stamp">7 chains &nbsp;·&nbsp; contracts publicly <b>verified</b> &nbsp;·&nbsp; 28 launches to date</div>
+  <p class="lede">ApexPad's Meme Coin Factory launches a token in a single transaction, writes its metadata into the token contract, then renounces all power over it inside that same transaction. This page shows where that is written, and what it does not cover.</p>
+  <div class="stamp">7 chains &nbsp;·&nbsp; one single factory address &nbsp;·&nbsp; contracts <b>verified</b> publicly &nbsp;·&nbsp; 35 launches to date</div>
 </header>
 
 <div class="box ok" style="margin-top:34px">
   <div class="t">The founder is not anonymous</div>
-  <p>My identity was verified by <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" rel="noopener"><strong>SolidProof</strong></a>, a third-party provider based in Germany, as part of the $MHT project on BNB Chain.</p>
-  <p>All seven <code>MemeCoinFactory</code> contracts on this page were deployed from the same address: <code class="adr">0x9969927832109E604A33749cA78C605Dea011bFB</code>. That is not a claim: it is the <em>Contract Creator</em> field displayed by every explorer, on each of the seven chains.</p>
+  <p>My identity has been verified by <a href="https://app.solidproof.io/projects/milestone-hodl-token" target="_blank" rel="noopener"><strong>SolidProof</strong></a>, a third-party provider based in Germany, as part of the $MHT project on BNB Chain. The address carrying that verification is <code class="adr">0x9969927832109E604A33749cA78C605Dea011bFB</code>.</p>
   <p>What this commits me to is not a promise on my part: it is written into <a href="https://solidproof.io/terms-of-service" target="_blank" rel="noopener">their terms</a>.</p>
   <p style="border-left:2px solid rgba(245,200,66,.3);padding-left:14px;color:var(--muted);font-style:italic">"You expressly agree that SolidProof.io is entitled to pass on your personal data to government agencies, law enforcement authorities, regulatory authorities and injured third parties if fraud is suspected or damage has been proven."</p>
   <p>In other words: if I misappropriated anyone's funds, an independent third party can hand my identity to the authorities and to the injured parties. <strong>I cannot become anonymous again.</strong></p>
-  <p>Two honest caveats. First, this is a right SolidProof reserves, not an automatic procedure. Second, this KYC verification covers <strong>my identity</strong>, not the code of this factory: <strong>it is not an audit</strong>. See section 11.</p>
+  <p>Two honest caveats. First, this is a right SolidProof reserves, not an automatic procedure. Second, this KYC verification covers <strong>my identity</strong>, not the code of this factory: <strong>it is not an audit</strong>. See section 12.</p>
+</div>
+
+<div class="box" style="border-left-color:var(--warn)">
+  <div class="t" style="color:var(--warn)">What changed on 12 September 2026 — read this before you check anything</div>
+  <p>The seven original factories, in service from August to September 2026, were all deployed directly from <code class="adr">0x9969…011bFB</code>, the address above. <strong>That is no longer true of the current factory.</strong></p>
+  <p>The factory in service today was deployed from a wallet created for that single purpose: <code class="adr">0x0850a43B5EaEdBbbBdD317d0C030b83191dbdB56</code>. It is therefore <em>that</em> address, not the previous one, that the <em>Contract Creator</em> field shows on all seven explorers.</p>
+  <p>The reason is technical and not mysterious: a contract address depends only on the deploying address and its transaction counter. We needed a wallet whose very first transaction, on each of the seven chains, was the factory deployment — that is the only way to get <strong>the same factory address on all seven chains</strong> (section 09). <code class="adr">0x9969…011bFB</code> already had a different history, and therefore a different counter, on every chain.</p>
+  <p>The link between the two addresses is public: <code class="adr">0x0850…dbdB56</code> was funded by <code class="adr">0x9969…011bFB</code>, and its incoming transaction history is readable on every explorer (on Ethereum the funds came through a bridge, so the incoming entry shows the bridge contract). <strong>Nothing is hidden — it is simply one click further than before, and that is exactly why it is written here rather than left to be discovered.</strong></p>
+  <p>The previous factory's contracts are still online, unchanged, and the tokens they created have lost none of their guarantees: <a href="factory-v1.html">see the page dedicated to them</a>.</p>
 </div>
 
 <nav class="toc">
@@ -112,32 +120,33 @@ footer a{color:var(--muted)}
   <ol>
     <li><a href="#quoi">What this page proves</a></li>
     <li><a href="#owner">The factory has no owner</a></li>
-    <li><a href="#atomique">One transaction, ten steps</a></li>
+    <li><a href="#atomique">One transaction, twelve steps</a></li>
     <li><a href="#renonce">Renouncing happens in the transaction</a></li>
     <li><a href="#fees">The 50%, line by line</a></li>
     <li><a href="#liquidite">Liquidity cannot come back out</a></li>
     <li><a href="#jeton">The token: no mint, no tax</a></li>
-    <li><a href="#chaines">The 7 chains, the 7 links</a></li>
+    <li><a href="#metadata">Metadata lives in the contract</a></li>
+    <li><a href="#chaines">The 7 chains, one address</a></li>
     <li><a href="#tiers">What a third party says</a></li>
-    <li><a href="#catalogue">The 28 launches</a></li>
+    <li><a href="#catalogue">The 35 launches</a></li>
     <li><a href="#limites">What remains on you</a></li>
-    <li><a href="#verifier">Check it yourself, in 6 clicks</a></li>
+    <li><a href="#verifier">Check it yourself, in 7 clicks</a></li>
   </ol>
 </nav>
 
 <!-- 1 -->
 <section id="quoi">
   <h2><span class="num">01</span>What this page proves</h2>
-  <p class="sub">And, just as importantly, what it does not.</p>
-  <p>A memecoin launcher asks for enormous trust over an operation that lasts a few seconds: you sign a transaction, and a contract you did not write takes control of your token's entire supply. The only acceptable answer to that demand is to make the trust unnecessary.</p>
+  <p class="sub">And, just as importantly, what it does not prove.</p>
+  <p>A memecoin launcher asks for enormous trust over an operation that lasts a few seconds: you sign a transaction, and a contract you did not write takes control of your token's entire supply. The only acceptable answer to that demand is to make trust unnecessary.</p>
   <p>So this page asks you to believe none of my claims. Each one points either to a line of source code publicly verified on the explorer, or to a value you can read yourself on-chain, in a few clicks, with no terminal and no wallet connection.</p>
   <div class="box">
     <div class="t">The rule we hold ourselves to</div>
-    <p>Nothing is asserted here that a third party cannot verify. Where a limitation exists — and several do — it is written as such, not left out. Section 11 is devoted entirely to them.</p>
+    <p>Nothing is asserted here that a third party cannot check. Where a limit exists — and there are several — it is written as such, not glossed over. Section 12 is devoted entirely to them.</p>
   </div>
   <div class="box warn">
     <div class="t">Said up front</div>
-    <p><strong>These contracts are not audited.</strong> "Verified" on an explorer means the published source code matches the deployed bytecode exactly. It does not mean an independent firm has reviewed it. The two words are used separately throughout this page, and never one for the other.</p>
+    <p><strong>These contracts are not audited.</strong> "Verified" on an explorer means the published source matches the deployed bytecode exactly. It does not mean an independent firm has reviewed it. The two words are used separately throughout this page, and never one for the other.</p>
   </div>
 </section>
 
@@ -148,7 +157,7 @@ footer a{color:var(--muted)}
   <p>Most launchers keep an admin able to change fees, pause things, redirect funds. The <code>MemeCoinFactory</code> contract has none of that. Its contract declaration is bare:</p>
   <pre>contract MemeCoinFactory {</pre>
   <p>No <code>Ownable</code> inheritance, no <code>onlyOwner</code> modifier anywhere in the file, no admin function at all. There is therefore no address in the world with any special power over this factory — not mine, not any other.</p>
-  <p>What is set is set permanently, at deployment, as <code>immutable</code> — that is, burned into the bytecode, unreadable other than through the code itself and impossible to rewrite:</p>
+  <p>What is fixed is fixed for good, at deployment, as <code>immutable</code> values — burned into the bytecode, unreadable except by the code itself and impossible to rewrite:</p>
   <div class="tw"><table>
     <thead><tr><th>Frozen value</th><th>What it is</th></tr></thead>
     <tbody>
@@ -156,34 +165,37 @@ footer a{color:var(--muted)}
       <tr><td><code>POSITION_MANAGER</code></td><td>The official Uniswap v3 position manager</td></tr>
       <tr><td><code>WETH</code></td><td>The chain's official WETH</td></tr>
       <tr><td><code>SWAP_ROUTER</code></td><td>The official Uniswap v3 swap router</td></tr>
-      <tr><td><code>PLATFORM</code></td><td>The address receiving the platform's 50% — see section 05</td></tr>
+      <tr><td><code>PLATFORM</code></td><td>The address receiving the platform 50% — see section 05</td></tr>
       <tr><td><code>POOL_FEE = 10_000</code></td><td>Uniswap v3 fee tier of 1% per swap</td></tr>
+      <tr><td><code>TICK_SPACING = 200</code></td><td>The tick spacing imposed by that fee tier</td></tr>
     </tbody>
   </table></div>
-  <p>You can see this without reading me: open the factory address on your chain's explorer (section 08), <em>Read Contract</em> tab. There is no <code>owner()</code> function. <em>Write Contract</em> tab: there is exactly one function, <code>launchToken</code>, and anyone can call it.</p>
+  <p>You can see this without reading me: open the factory address on your chain's explorer (section 09), <em>Read Contract</em> tab. There is no <code>owner()</code> function — only reads: the immutables above, the <code>tokenCount()</code> counter, the <code>allTokens()</code> list, and the <code>isLaunchedHere()</code> registry from section 08. <em>Write Contract</em> tab: <strong>there is exactly one function, <code>launchToken</code></strong>, and anyone can call it.</p>
 </section>
 
 <!-- 3 -->
 <section id="atomique">
-  <h2><span class="num">03</span>One transaction, ten steps</h2>
+  <h2><span class="num">03</span>One transaction, twelve steps</h2>
   <p class="sub">Everything succeeds together, or nothing exists.</p>
-  <p><code>launchToken()</code> runs the whole sequence in a single transaction. That is the central point: there is no gap between steps during which anyone — me included — could step in.</p>
+  <p><code>launchToken()</code> runs the whole sequence in one transaction. That is the central point: there is no gap between steps during which anyone — me included — could slip in.</p>
   <ol class="steps">
-    <li><b>Token deployment</b> — 100% of the supply is minted at once, to the factory.</li>
-    <li><b>Pool creation and initialization</b> — Uniswap v3, token/WETH, 1% tier.</li>
-    <li><b>Reading the real tick</b> computed by the pool itself — no home-made reimplementation of Uniswap's maths.</li>
-    <li><b>FeeSplitter deployment</b> with <code>creator = msg.sender</code>, meaning you.</li>
+    <li><b>Token deployment</b> — 100% of the supply is minted at once, to the factory, and the metadata (logo, description, links) is written in the constructor.</li>
+    <li><b>Registration in <code>isLaunchedHere</code></b> — the token ↔ factory link is true from the instant the token exists, including for the rest of this transaction.</li>
+    <li><b>Creation and initialisation of the Uniswap v3 pool</b>, token/WETH, 1% tier.</li>
+    <li><b>Reading the real tick</b> computed by the pool itself — no in-house reimplementation of Uniswap maths.</li>
+    <li><b>FeeSplitter deployment</b> with <code>creator = msg.sender</code>, that is, you.</li>
     <li><b>LiquidityCustodian deployment</b>, with its fee recipient already pointing at that FeeSplitter.</li>
-    <li><b>Position mint</b> on Uniswap v3, 100% single-sided, then an explicit transfer of the NFT to the custodian.</li>
-    <li><b>Dust sweep</b> of any token left on the factory, into the FeeSplitter — not to an arbitrary address.</li>
-    <li><b>Warm-up: a real buy then a real sell</b>, in that same transaction. If they fail, the whole transaction reverts.</li>
-    <li><b>Renouncing ownership of the token.</b></li>
-    <li><b>Renouncing ownership of the custodian.</b></li>
+    <li><b>Recording the pool in the token</b> (<code>setPool</code>), before the mint — no window between the two.</li>
+    <li><b>Minting the position</b>, Uniswap v3, 100% single-sided, then explicit transfer of the NFT to the custodian.</li>
+    <li><b>Sweeping token dust</b> left on the factory to the FeeSplitter — not to some arbitrary address.</li>
+    <li><b>Warm-up: a real buy then a real sell</b>, in this same transaction. If they fail, the whole transaction reverts.</li>
+    <li><b>Renouncing token ownership.</b></li>
+    <li><b>Renouncing custodian ownership.</b></li>
   </ol>
   <div class="box ok">
     <div class="t">What the warm-up guarantees</div>
-    <p>Step 8 buys then sells back a small amount of the token before any renouncing happens. If the swap fails for any reason — malformed pool, invalid tick range, incompatible router — <strong>the entire transaction reverts</strong> and the token never existed.</p>
-    <p>Consequence: <strong>no stillborn token can come out of this factory.</strong> A token that exists is a token with on-chain proof that it was bought and sold at least once — in the very block of its creation, before anyone lost their powers over it. The WETH recovered on the sell, minus both swap fees, is sent back to the creator.</p>
+    <p>Step 10 buys then sells back a small amount of the token before any renouncing. If the swap fails for any reason — malformed pool, invalid tick range, incompatible router — <strong>the entire transaction reverts</strong> and the token never existed.</p>
+    <p>Consequence: <strong>no stillborn token can come out of this factory.</strong> A token that exists is a token with on-chain proof that it was bought and sold at least once — in the very block of its creation, before anyone lost any power over it. The WETH recovered on the sell, minus both swap fees, is returned to the creator.</p>
   </div>
 </section>
 
@@ -192,20 +204,20 @@ footer a{color:var(--muted)}
   <h2><span class="num">04</span>Renouncing happens in the transaction</h2>
   <p class="sub">Not an intention announced for "later".</p>
   <p>"Ownership renounced" is the easiest sentence to write in a whitepaper, and the easiest never to honour. Here it is not written in a whitepaper: it is written in the contract, two lines before the end of the launch function.</p>
-  <pre>// 10. Renounce ownership of the token
+  <pre>// 10. Renounce token ownership
 token.renounceOwnership();
 
-// 10bis. Renounce ownership of the custodian too
+// 10bis. Renounce custodian ownership too
 custodian.renounceOwnership();</pre>
-  <p>Both calls sit inside the body of <code>launchToken()</code>. They are not in a script to run later, nor in a function the creator would have to remember to call.</p>
+  <p>Both calls are inside the body of <code>launchToken()</code>. They are not in a script to run later, nor in a function the creator would have to remember to call.</p>
   <div class="box ok">
-    <div class="t">The consequence, verifiable</div>
+    <div class="t">The verifiable consequence</div>
     <p>For every token out of this factory, <code>owner()</code> returns <code>0x0000...0000</code> <strong>from its very first block of existence</strong>. There has never been a single block during which a human address controlled a token launched here.</p>
   </div>
   <h3>Why the factory owns the custodian, and not you</h3>
-  <p>At step 5, the custodian is created with the factory as owner — not the creator. That is not power retention; it is the opposite.</p>
-  <p>The only power a custodian's owner has is to change the fee recipient. If the creator owned it, they could at any moment redirect 100% of the fees to themselves and simply delete the platform's share. And if the platform kept ownership, it could do the reverse at your expense.</p>
-  <p>So the factory holds it for a few instructions, then gives it up at step 10bis, in the same transaction. Result: the fee recipient stays pointed at the FeeSplitter <strong>forever</strong>, and <em>nobody</em> — not you, not me, not the factory — can call <code>setFeeRecipient()</code> any more. The 50/50 rule becomes a property of the contract, not a commitment.</p>
+  <p>At step 6, the custodian is created with the factory as owner — not the creator. That is not power retention, it is the opposite.</p>
+  <p>The only power a custodian owner has is changing the fee recipient. If the creator owned it, they could redirect 100% of the fees to themselves at any time and simply delete the platform share. And if the platform kept ownership, it could do the reverse at your expense.</p>
+  <p>So the factory holds it for a few instructions, then renounces at step 12, in the same transaction. Result: the fee recipient stays pointed at the FeeSplitter <strong>forever</strong>, and <em>nobody</em> — not you, not me, not the factory — can call <code>setFeeRecipient()</code> any more. The 50/50 rule becomes a property of the contract, not a commitment.</p>
 </section>
 
 <!-- 5 -->
@@ -220,29 +232,30 @@ custodian.renounceOwnership();</pre>
       <tr><td><code>platform</code></td><td><span class="adr">0x3a7a125D23689d8F7f218B28f19305d33b6c9B18</span></td><td><strong>immutable</strong></td></tr>
     </tbody>
   </table></div>
-  <p>The split itself is three lines, and there is no other way out for funds in this contract:</p>
+  <p>This platform address is <strong>the same one as under the previous factory</strong>: the factory change moved nothing on that side.</p>
+  <p>The split itself is three lines, and there is no other exit path for funds in this contract:</p>
   <pre>uint256 creatorAmount  = balance / 2;
 uint256 platformAmount = balance - creatorAmount;
 
 transfer(creator,  creatorAmount);
 transfer(platform, platformAmount);</pre>
   <div class="box">
-    <div class="t">The detail missing everywhere else</div>
-    <p>On an odd balance, <code>balance / 2</code> rounds down, so the platform receives <strong>1 wei more</strong> than the creator. A wei is 0.000000000000000001 ETH. It is written here because "50/50" is false to the wei, and a proof page that rounds its own numbers is worthless.</p>
+    <div class="t">The precision that is missing everywhere else</div>
+    <p>On an odd balance, <code>balance / 2</code> rounds down, so the platform receives <strong>1 wei more</strong> than the creator. A wei is 0.000000000000000001 ETH. It is written here because "50/50" is false to the wei, and a proof page that rounds its own figures is worthless.</p>
   </div>
   <h3>Nobody can withhold your share</h3>
-  <p><code>release()</code> is permissionless: anyone can trigger it, including you, including a stranger. The destinations, meanwhile, are frozen. So you depend on no action of mine to receive your half — and I cannot hold it back.</p>
-  <p>Same upstream: <code>collect()</code> on the custodian, which pulls the fees accumulated in the Uniswap pool into the FeeSplitter, is likewise callable by anyone.</p>
+  <p><code>release()</code> is permissionless: anyone can trigger it, including you, including a stranger. The destinations, however, are frozen. So you depend on no action of mine to get your half — and I cannot hold it back.</p>
+  <p>Same upstream: <code>collect()</code> on the custodian, which pulls the fees accumulated in the Uniswap pool into the FeeSplitter, is also callable by anyone.</p>
   <h3>An example you can open right now</h3>
-  <p>FeeSplitter <a href="https://etherscan.io/address/0x287c63A18A5d5aa1EAA45b4DB3C8836a529e473f#code" target="_blank" rel="noopener"><span class="adr">0x287c63A1...529e473f</span></a> on Ethereum, verified "Exact Match", shows its constructor arguments in plain text at the bottom of the <em>Contract</em> tab:</p>
-  <pre>Arg [0] creator_  : 0x9969927832109E604A33749cA78C605Dea011bFB
+  <p>The first launch of the current factory, <strong>FORGE TEST FACTORY</strong>, produced the FeeSplitter <a href="https://basescan.org/address/0xa6669197295947E65FD43a39B9987854cF33e950#code" target="_blank" rel="noopener"><span class="adr">0xa6669197...cF33e950</span></a>, verified "Exact Match" on Basescan. Its constructor arguments are displayed in the clear, at the bottom of the <em>Contract</em> tab:</p>
+  <pre>Arg [0] creator_  : 0x0850a43B5EaEdBbbBdD317d0C030b83191dbdB56
 Arg [1] platform_ : 0x3a7a125D23689d8F7f218B28f19305d33b6c9B18</pre>
-  <p>An amusing and verifiable detail: that same FeeSplitter address exists identically on Ethereum, Arbitrum, Base and Optimism. It is not a coincidence — the address of a contract created by another contract depends only on the creating address and its transaction counter. Same factory, same launch rank, hence the same address. It is a mechanical consequence of the EVM, checkable on all four explorers.</p>
+  <p>A verifiable and non-trivial detail: <strong>that same FeeSplitter address exists identically on all seven chains</strong>, as do the token <code class="adr">0x715E215b…18652CE</code> and the custodian <code class="adr">0x119C502a…AB972953</code> of that launch. It is not a coincidence — the address of a contract created by another contract depends only on the creating address and its counter. Same factory at the same address, same launch rank, therefore the same addresses. It is a mechanical consequence of the EVM, checkable on all seven explorers.</p>
   <div class="box warn">
-    <div class="t">Three limitations, said plainly</div>
-    <p>The fees in question are Uniswap v3 swap fees (1% per trade). <strong>With no volume there are no fees</strong> — 50% of zero is still zero. This factory does not create volume.</p>
-    <p><code>creator</code> is frozen. <strong>If you lose the key to the address that signed the launch, your share becomes unreachable</strong>, permanently, for everyone.</p>
-    <p>Fees sit in the pool until <code>collect()</code> is called, then in the FeeSplitter until <code>release()</code> is called. Neither fires on its own.</p>
+    <div class="t">Three limits, stated plainly</div>
+    <p>The fees in question are Uniswap v3 swap fees (1% per trade). <strong>If there is no volume, there are no fees</strong> — 50% of zero is still zero. This factory does not create volume.</p>
+    <p><code>creator</code> is frozen. <strong>If you lose the key of the address that signed the launch, your share becomes unreachable</strong>, permanently, for everyone.</p>
+    <p>Fees stay in the pool until <code>collect()</code> is called, then in the FeeSplitter until <code>release()</code> is called. Neither fires on its own.</p>
   </div>
 </section>
 
@@ -250,7 +263,7 @@ Arg [1] platform_ : 0x3a7a125D23689d8F7f218B28f19305d33b6c9B18</pre>
 <section id="liquidite">
   <h2><span class="num">06</span>Liquidity cannot come back out</h2>
   <p class="sub">Verifiable by absence of code, not by commitment.</p>
-  <p>The Uniswap v3 position NFT is held by the launch's <code>LiquidityCustodian</code>. That contract can do three things, and three only: receive the position once, collect accumulated fees, and change the fee recipient for as long as it has an owner — which, as we saw, ends inside the launch transaction. It also exposes one public read, <code>currentLiquidity()</code>, which changes nothing.</p>
+  <p>The Uniswap v3 position NFT is held by the launch's <code>LiquidityCustodian</code>. That contract can do three things, and three only: receive the position once, collect accumulated fees, and change the fee recipient while it has an owner — which, as we saw, stops inside the launch transaction. It also exposes a public read, <code>currentLiquidity()</code>, which changes nothing.</p>
   <p>What matters here is not what it does, but what it does not contain:</p>
   <div class="tw"><table>
     <thead><tr><th>Function</th><th>Present?</th><th>Consequence</th></tr></thead>
@@ -262,12 +275,12 @@ Arg [1] platform_ : 0x3a7a125D23689d8F7f218B28f19305d33b6c9B18</pre>
       <tr><td>Proxy / upgrade</td><td><strong>Absent</strong></td><td>The code cannot be replaced</td></tr>
     </tbody>
   </table></div>
-  <p>A guarantee by absence is stronger than a guarantee by promise: it depends on no future behaviour. The public <code>currentLiquidity()</code> function lets anyone read the position's liquidity at any time and confirm it never goes down.</p>
+  <p>A guarantee by absence is stronger than a guarantee by promise: it depends on no future behaviour. The public <code>currentLiquidity()</code> function lets anyone read the position's liquidity at any time and confirm that it never goes down.</p>
   <div class="box warn">
     <div class="t">What "locked liquidity" does NOT mean here</div>
-    <p>The position is <strong>100% single-sided</strong>: at launch, only the token's entire supply is deposited into the pool. <strong>No ETH is deposited by the creator or by the platform.</strong> The ETH sitting in the pool is the buyers' ETH, arriving purchase by purchase.</p>
-    <p>Concretely: there is no treasury guaranteeing a price floor, and some scanners will display "LP locked: 0%" because they look for LP tokens locked with a third-party service, which is not the mechanism used here.</p>
-    <p>On the other hand — and this is the point that matters — <strong>that accumulated ETH cannot be taken out by anyone except the sellers themselves</strong>, by selling back into the market. Neither the creator nor I can pull it from the pool: the only function that would allow it, <code>decreaseLiquidity()</code>, does not exist in the contract holding the position.</p>
+    <p>The position is <strong>100% single-sided</strong>: at launch, only the token's entire supply is deposited into the pool. <strong>No ETH is deposited by the creator or by the platform.</strong> The ETH in the pool is the buyers', arriving purchase by purchase.</p>
+    <p>Concretely: there is no "treasury" backing a price floor, and some scanners will show "LP locked: 0%" because they look for LP tokens locked with a third-party service, which is not the mechanism used here.</p>
+    <p>On the other hand — and this is the point — <strong>that accumulated ETH cannot be taken out by anyone other than sellers themselves</strong>, by selling into the market. Neither the creator nor I can pull it from the pool: the only function that would allow it, <code>decreaseLiquidity()</code>, does not exist in the contract holding the position.</p>
   </div>
 </section>
 
@@ -275,7 +288,7 @@ Arg [1] platform_ : 0x3a7a125D23689d8F7f218B28f19305d33b6c9B18</pre>
 <section id="jeton">
   <h2><span class="num">07</span>The token: no mint, no tax</h2>
   <p class="sub">A deliberately boring ERC-20.</p>
-  <p>The <code>MemeToken</code> contract deployed at each launch is a plain ERC-20, with no extra layer. The total supply is minted once, in the constructor, and stored as <code>immutable</code>.</p>
+  <p>The <code>MemeToken</code> contract deployed at each launch is a standard ERC-20, with no overlay. The total supply is minted once, in the constructor, and stored as <code>immutable</code>.</p>
   <div class="tw"><table>
     <thead><tr><th>Usual mechanism</th><th>Present?</th></tr></thead>
     <tbody>
@@ -283,133 +296,191 @@ Arg [1] platform_ : 0x3a7a125D23689d8F7f218B28f19305d33b6c9B18</pre>
       <tr><td>Buy or sell tax</td><td><strong>None</strong></td></tr>
       <tr><td>Address blacklist / whitelist</td><td><strong>None</strong></td></tr>
       <tr><td>Transfer pause</td><td><strong>None</strong></td></tr>
-      <tr><td>Maximum per wallet</td><td><strong>None</strong></td></tr>
-      <tr><td>Cooldown between transactions</td><td><strong>None</strong></td></tr>
+      <tr><td>Maximum amount per wallet</td><td><strong>None</strong></td></tr>
+      <tr><td>Delay between two transactions</td><td><strong>None</strong></td></tr>
     </tbody>
   </table></div>
-  <p>None of these are disabled by configuration: the transfer logic is simply not overridden. What applies is the standard ERC-20 transfer, without a single condition tied to the pool, the clock or the block number.</p>
-  <p>Apart from the ownership functions themselves, the only owner-restricted function this token ever had is <code>setPool()</code>, which records the pool address once and for all, purely for information — and it is called at step 6, before the renouncing. After that, nobody can call it.</p>
+  <p>None of these is disabled by configuration: the transfer logic is simply not overridden. Standard ERC-20 transfer applies, without a single condition tied to the pool, the clock or the block number.</p>
+  <p>Apart from the ownership functions themselves, the only owner-restricted function this token ever had is <code>setPool()</code>, which records the pool address once and for all, purely for information — and it is called at step 7, before the position mint and well before the renouncing. Afterwards, nobody can call it.</p>
   <div class="box">
     <div class="t">A deliberate absence: no anti-sniping</div>
     <p>There is intentionally no anti-bot delay at launch. Two reasons, and the first is the less flattering one: <strong>a fixed delay protects nobody</strong>. Once the countdown ends, a bot is still faster than a human — the delay moves the race, it does not cancel it.</p>
-    <p>The second: these temporary transfer-blocking mechanisms trigger "honeypot" false positives on several scanners, which damages the contract's readability for a careful buyer. We preferred a contract anyone can read in full over a protection that is not one.</p>
+    <p>The second: those temporary transfer-blocking mechanisms trigger "honeypot" false positives on several scanners, which damages the contract's readability for a careful buyer. We preferred a contract anyone can read in full over a protection that is not one.</p>
   </div>
 </section>
 
 <!-- 8 -->
-<section id="chaines">
-  <h2><span class="num">08</span>The 7 chains, the 7 links</h2>
-  <p class="sub">No screenshots: the addresses, and you go look for yourself.</p>
-  <p>A verified contract displays its full source code on the explorer, with a note that the deployed bytecode matches that source exactly. That is what you should see on each of these seven pages, under the <em>Contract</em> tab:</p>
+<section id="metadata">
+  <h2><span class="num">08</span>Metadata lives in the contract</h2>
+  <p class="sub">This is the entire reason the factory deployed on 12 September 2026 exists.</p>
+  <p>A memecoin coming out of a launcher almost always arrives naked at the aggregators: no logo, no description, no links, and no way to tell where it came from. All of that is then submitted by hand, form after form, by someone with nothing to prove they are the creator.</p>
+  <p>The current factory writes that information <strong>into the token contract, in the constructor</strong>, inside the launch transaction. It is readable by anyone, without going through our pages, and the factory renounces ownership of the token in that same transaction: <strong>there is no window during which anyone could rewrite it.</strong></p>
+  <h3>One function, in the Pons launchpad format</h3>
+  <p>The signature is taken character for character from the Pons launchpad's, which Mobula and Bitquery already know how to decode. That is deliberate, and it is the whole point: an integrator has no decoder to write, they add our factory address to their existing adapter.</p>
+  <pre>function getTokenInfo() external view returns (
+    address tokenDeployer,
+    string  memory tokenLogo,
+    string  memory tokenDescription,
+    Socials memory tokenSocials
+);
+
+struct Socials { string twitter; string telegram; string discord; string website; string farcaster; }</pre>
+  <h3>The link goes both ways</h3>
+  <p>It is this pair that lets anyone attribute a token to a launchpad without relying on an off-chain claim:</p>
+  <ul>
+    <li>the token names its factory: <code>MemeToken.factory()</code>, <code>immutable</code>, set in the constructor;</li>
+    <li>the factory confirms the token: <code>MemeCoinFactory.isLaunchedHere(token)</code> returns <code>true</code>.</li>
+  </ul>
+  <p>Both must agree. A contract claiming to come from here without being registered gives itself away in one call — and vice versa.</p>
+  <h3>What the contract refuses to write</h3>
   <div class="tw"><table>
-    <thead><tr><th>Chain</th><th>Chain ID</th><th>Factory address</th><th>Launches</th></tr></thead>
+    <thead><tr><th>Field</th><th>Rule enforced by the contract</th><th>Why</th></tr></thead>
     <tbody>
-      <tr><td><strong>Robinhood Chain</strong></td><td>4663</td><td><a class="adr" href="https://robinhoodchain.blockscout.com/address/0xcD5492aC68d12C4f992eDC67DF2EF5Ac793C3f96?tab=contract" target="_blank" rel="noopener">0xcD5492aC68d12C4f992eDC67DF2EF5Ac793C3f96</a></td><td>14</td></tr>
-      <tr><td><strong>BNB Smart Chain</strong></td><td>56</td><td><a class="adr" href="https://bscscan.com/address/0xa33F5330F6C126a014fe113733E1e380e87049C8#code" target="_blank" rel="noopener">0xa33F5330F6C126a014fe113733E1e380e87049C8</a></td><td>6</td></tr>
-      <tr><td><strong>Base</strong></td><td>8453</td><td><a class="adr" href="https://basescan.org/address/0xa33F5330F6C126a014fe113733E1e380e87049C8#code" target="_blank" rel="noopener">0xa33F5330F6C126a014fe113733E1e380e87049C8</a></td><td>3</td></tr>
-      <tr><td><strong>Optimism</strong></td><td>10</td><td><a class="adr" href="https://optimistic.etherscan.io/address/0xa33F5330F6C126a014fe113733E1e380e87049C8#code" target="_blank" rel="noopener">0xa33F5330F6C126a014fe113733E1e380e87049C8</a></td><td>2</td></tr>
-      <tr><td><strong>Ethereum</strong></td><td>1</td><td><a class="adr" href="https://etherscan.io/address/0xa33F5330F6C126a014fe113733E1e380e87049C8#code" target="_blank" rel="noopener">0xa33F5330F6C126a014fe113733E1e380e87049C8</a></td><td>1</td></tr>
-      <tr><td><strong>Arbitrum One</strong></td><td>42161</td><td><a class="adr" href="https://arbiscan.io/address/0xa33F5330F6C126a014fe113733E1e380e87049C8#code" target="_blank" rel="noopener">0xa33F5330F6C126a014fe113733E1e380e87049C8</a></td><td>1</td></tr>
-      <tr><td><strong>Polygon PoS</strong></td><td>137</td><td><a class="adr" href="https://polygonscan.com/address/0x40D6110435f5d5680032267b38a488FE0CCE3cDC#code" target="_blank" rel="noopener">0x40D6110435f5d5680032267b38a488FE0CCE3cDC</a></td><td>1</td></tr>
+      <tr><td><code>tokenLogo</code></td><td><code>ar://</code> or <code>ipfs://</code> only, 256 bytes max. <strong><code>https://</code> is rejected.</strong></td><td>An <code>https</code> URL can silently change its content after launch. A content-addressed identifier can only die, never change — and dying is recoverable: anyone can re-host the same bytes under the same identifier.</td></tr>
+      <tr><td>Socials</td><td><code>https://</code> only, 256 bytes max, case-sensitive (<code>HTTPS://</code> is rejected)</td><td>These strings are injected back into <code>&lt;a href&gt;</code> tags by the catalogue and the proof pages. Without this guard, a <code>javascript:</code> or <code>data:</code> URI would mean script execution on our own pages — and on those of any consumer of this data.</td></tr>
+      <tr><td><code>tokenDescription</code></td><td>512 bytes max</td><td>A cost bound: the field is stored on-chain, on seven chains including Ethereum.</td></tr>
     </tbody>
   </table></div>
-  <p>All factories are compiled with <code>solc v0.8.34+commit.80d5c536</code>, optimizer enabled at 200 runs.</p>
-  <h3>Why the same address on five chains</h3>
-  <p>Five of these seven factories share the address <code class="adr">0xa33F5330...e87049C8</code>. Same mechanics as in section 05: a contract's address depends only on the deploying address and its transaction counter. Same deployer, same rank, hence the same address. Robinhood Chain and Polygon differ simply because the address's counter was not at the same rank there.</p>
-  <p>The two exceptions read as proof in their own right: on each of the seven pages, the <em>Contract Creator</em> field shows the same address <code class="adr">0x9969927832109E604A33749cA78C605Dea011bFB</code> — the founder verified by SolidProof at the top of this page.</p>
-  <h3>Contracts deployed by the factory are verified too</h3>
-  <p>Verification does not stop at the factory. The contracts created at every launch — <code>MemeToken</code>, <code>LiquidityCustodian</code>, <code>FeeSplitter</code> — are verified on their chain's explorer. The FeeSplitter given as an example in section 05 is one of them: open it, its full source is there.</p>
+  <div class="box warn">
+    <div class="t">Optional, but permanent</div>
+    <p>All of these fields can be left empty at launch. But since nothing can be modified afterwards, <strong>empty at launch means empty forever</strong>. It is written on the launch form, and it is repeated here.</p>
+    <p>And one thing that cannot be glossed over: the contract guarantees this information <strong>will never change</strong>. It does not guarantee that it is <strong>true</strong>. Nobody checks that a Telegram link leads anywhere, or that a description states anything accurate. See section 12.</p>
+  </div>
+  <div class="box ok">
+    <div class="t">Open this to see what it looks like</div>
+    <p>The <strong>FORGE TEST FACTORY</strong> token (<code class="adr">0x715E215bAe459FC065c68AE8d1ec68e2818652CE</code>, the same address on all seven chains), <em>Read Contract</em> tab, <code>getTokenInfo()</code>: the Arweave logo, the description and the links are there, written on-chain on launch day.</p>
+  </div>
 </section>
 
 <!-- 9 -->
-<section id="tiers">
-  <h2><span class="num">09</span>What a third party says</h2>
-  <p class="sub">And, as everywhere else on this page, what it does not say.</p>
-  <p><a href="https://www.blockaid.io/" target="_blank" rel="noopener">Blockaid</a> is a security provider whose classifications feed the warnings several wallets display at the moment you sign a transaction. On <strong>17 August 2026</strong>, after review, their team confirmed two things in writing:</p>
+<section id="chaines">
+  <h2><span class="num">09</span>The 7 chains, one address</h2>
+  <p class="sub">No screenshots: the address, and you go and look.</p>
+  <p>A verified contract displays its full source on the explorer, with a statement that the deployed bytecode matches that source exactly. That is what you should see on each of these seven pages, under the <em>Contract</em> tab:</p>
+  <div class="tw"><table>
+    <thead><tr><th>Chain</th><th>Chain ID</th><th>Factory address</th><th>Launches</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Robinhood Chain</strong></td><td>4663</td><td><a class="adr" href="https://robinhoodchain.blockscout.com/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c?tab=contract" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
+      <tr><td><strong>BNB Smart Chain</strong></td><td>56</td><td><a class="adr" href="https://bscscan.com/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
+      <tr><td><strong>Base</strong></td><td>8453</td><td><a class="adr" href="https://basescan.org/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
+      <tr><td><strong>Optimism</strong></td><td>10</td><td><a class="adr" href="https://optimistic.etherscan.io/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
+      <tr><td><strong>Ethereum</strong></td><td>1</td><td><a class="adr" href="https://etherscan.io/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
+      <tr><td><strong>Arbitrum One</strong></td><td>42161</td><td><a class="adr" href="https://arbiscan.io/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
+      <tr><td><strong>Polygon PoS</strong></td><td>137</td><td><a class="adr" href="https://polygonscan.com/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
+    </tbody>
+  </table></div>
+  <p>All factories are compiled with <code>solc 0.8.36</code>, optimiser enabled at 200 runs, and verified on all seven explorers.</p>
+  <p>The "Launches" column counts only those of the current factory, in service since 12 September 2026. The 28 earlier launches belong to the previous factory: they remain fully documented and reachable, <a href="factory-v1.html">on their own page</a> and in the <a href="catalog.html">catalogue</a>. The total across both generations is broken down in section 11.</p>
+  <h3>Why the same address on all seven chains</h3>
+  <p>A contract address depends only on the deploying address and its transaction counter. The factory was therefore deployed from a wallet created for that sole purpose, <code class="adr">0x0850a43B5EaEdBbbBdD317d0C030b83191dbdB56</code>, whose deployment was the <strong>first transaction on each of the seven chains</strong> — counter at zero everywhere, hence an identical address everywhere.</p>
+  <p>This is not cosmetic: it is what lets anyone add a single address to their adapter to cover all seven chains, and lets you confirm at a glance that you are on the right factory, whatever the chain. The <em>Contract Creator</em> field shows that same address on all seven explorers; the box at the top of this page explains its link to the address verified by SolidProof.</p>
+  <h3>Contracts deployed by the factory: where verification stands</h3>
+  <p>Verifying the <em>child</em> contracts — <code>MemeToken</code>, <code>LiquidityCustodian</code>, <code>FeeSplitter</code> — is a manual step, done once per chain. It is not finished, and here is the real state:</p>
   <ul>
-    <li>the factory address <code class="adr">0xa33F5330...e87049C8</code> — the one used on Ethereum, BNB Smart Chain, Base, Optimism and Arbitrum — is classified <strong>"Benign"</strong>;</li>
-    <li>the domain <strong>apexpad.io</strong> is <strong>whitelisted</strong> on their end.</li>
+    <li><strong>Base</strong>: all three contracts verified, "Exact Match" (that is the FeeSplitter given as an example in section 05).</li>
+    <li><strong>Robinhood Chain</strong>: the token is recognised by bytecode match on Blockscout; the custodian and the FeeSplitter are not yet verified.</li>
+    <li><strong>The other five chains</strong>: verification in progress.</li>
   </ul>
-  <div class="box ok">
-    <div class="t">The test you can run yourself</div>
-    <p>A copy of an email proves nothing: it takes three minutes to fabricate. The check that matters is within your reach and does not depend on my word — open <a href="index.html">the launch tool</a> and connect your wallet. <strong>No "deceptive request" or "untrusted site" warning should appear.</strong> That is exactly what a classification like the one above produces, and it is observable live, right now.</p>
-  </div>
-  <div class="box warn">
-    <div class="t">Four caveats, because they matter</div>
-    <p><strong>Blockaid is not an auditor</strong> and does not present itself as one. "Benign" means no known malicious pattern was detected, not that the code was reviewed line by line. Section 11 stands in full.</p>
-    <p><strong>The technical description in that ticket is mine</strong>, not a Blockaid conclusion: it is the body of my own report, quoted back verbatim in the thread. The facts it states are accurate and verifiable — sections 02 to 07 show you where — but they were not validated one by one by Blockaid.</p>
-    <p><strong>A classification is not permanent.</strong> It can be revised at any time, in either direction. That is why the date appears above rather than a badge.</p>
-    <p><strong>Two factories are not named in that confirmation</strong>, because they have distinct addresses: the Polygon one (<code class="adr">0x40D61104...0CCE3cDC</code>) and the Robinhood Chain one (<code class="adr">0xcD5492aC...793C3f96</code>).</p>
-  </div>
+  <p>This changes nothing about what those contracts do — their bytecode is identical across the seven chains, which the identical addresses are enough to establish — but as long as the box is not ticked on a given explorer, this page will not claim that it is.</p>
 </section>
 
 <!-- 10 -->
-<section id="catalogue">
-  <h2><span class="num">10</span>The 28 launches</h2>
-  <p class="sub">Including the ones that are not mine.</p>
-  <p>Every token launched from this factory gets a public, automatically generated proof sheet listing everything needed to trace it: the token address, the Uniswap v3 pool, the custodian, the FeeSplitter, the Uniswap position number, the wallet that launched it, and the transaction transferring the NFT to the custodian.</p>
-  <p>The full catalogue is here: <a href="catalog.html"><strong>catalog.html</strong></a>. The raw source, usable by any third-party tool without going through this page, is here: <a href="catalog.json"><strong>catalog.json</strong></a>.</p>
-  <div class="tw"><table>
-    <thead><tr><th>Chain</th><th>Tokens launched</th><th>Period</th></tr></thead>
-    <tbody>
-      <tr><td>Robinhood Chain</td><td>14</td><td>6 &rarr; 21 August 2026</td></tr>
-      <tr><td>BNB Smart Chain</td><td>6</td><td>7 &rarr; 21 August 2026</td></tr>
-      <tr><td>Base</td><td>3</td><td>10 &rarr; 15 August 2026</td></tr>
-      <tr><td>Optimism</td><td>2</td><td>10 &rarr; 15 August 2026</td></tr>
-      <tr><td>Ethereum</td><td>1</td><td>9 August 2026</td></tr>
-      <tr><td>Arbitrum One</td><td>1</td><td>9 August 2026</td></tr>
-      <tr><td>Polygon PoS</td><td>1</td><td>10 August 2026</td></tr>
-    </tbody>
-  </table></div>
-  <p>These 28 launches were signed by two different addresses. The factory makes no distinction between them: it has no whitelist, no queue, no prior approval. The only condition for launching is paying the gas and the warm-up amount.</p>
-  <div class="box">
-    <div class="t">What the catalogue is not</div>
-    <p>A proof sheet documents the <strong>mechanics</strong> of a launch — not the quality, honesty or intentions of the project behind it. A token's presence in this catalogue is not a recommendation to buy it. See section 11.</p>
+<section id="tiers">
+  <h2><span class="num">10</span>What a third party says</h2>
+  <p class="sub">And, as everywhere else on this page, what it does not say.</p>
+  <p><a href="https://www.blockaid.io/" target="_blank" rel="noopener">Blockaid</a> is a security provider whose classifications feed the warnings several wallets display when you sign a transaction. On <strong>17 August 2026</strong>, after review, their team confirmed two things in writing:</p>
+  <ul>
+    <li>the factory address <code class="adr">0xa33F5330...e87049C8</code> — that of the <a href="factory-v1.html">previous factory</a>, in service on Ethereum, BNB Smart Chain, Base, Optimism and Arbitrum — is classified <strong>"Benign"</strong>;</li>
+    <li>the domain <strong>apexpad.io</strong> is <strong>whitelisted</strong> on their side.</li>
+  </ul>
+  <div class="box warn">
+    <div class="t">What that confirmation does not cover</div>
+    <p><strong>It does not cover the current factory.</strong> <code class="adr">0xB7DA71D5...1cb1A75c</code> is a different address, deployed after that exchange, and it has not yet been the subject of a written confirmation. The request is to be filed again, and this page will be updated when there is an answer — not before. The classification of the <strong>domain</strong> apexpad.io does not depend on the contract address.</p>
+    <p>The two previous-generation factories on Polygon (<code class="adr">0x40D61104...0CCE3cDC</code>) and Robinhood Chain (<code class="adr">0xcD5492aC...793C3f96</code>) were already not covered by name, for the same reason: distinct addresses.</p>
+  </div>
+  <div class="box ok">
+    <div class="t">The test you can redo yourself</div>
+    <p>A copy of an email proves nothing: it can be forged in three minutes. The check that matters is within your reach and does not depend on my word — open <a href="index.html">the launch tool</a> and connect your wallet. <strong>No "deceptive request" or "untrusted site" warning should appear.</strong> That is observable live, right now.</p>
+  </div>
+  <div class="box warn">
+    <div class="t">Three caveats, because they matter</div>
+    <p><strong>Blockaid is not an auditor</strong> and does not present itself as one. "Benign" means no known malicious pattern was detected, not that the code was reviewed line by line. Section 12 remains entirely valid.</p>
+    <p><strong>The technical description in that ticket is mine</strong>, not a Blockaid conclusion: it is the body of my report, quoted as-is in the thread. The facts it states are accurate and verifiable — sections 02 to 08 show you where — but they were not validated one by one by Blockaid.</p>
+    <p><strong>A classification is not permanent.</strong> It can be revised at any time, in either direction. That is why the date appears above rather than a logo.</p>
   </div>
 </section>
 
 <!-- 11 -->
-<section id="limites">
-  <h2><span class="num">11</span>What remains on you</h2>
-  <p class="sub">The most important section on this page.</p>
-  <p>Everything above is about one thing: what the code prevents. Here, in the same spirit, is what it does not.</p>
-  <h3>These contracts are not audited</h3>
-  <p>They are verified on seven explorers, which guarantees that the code you read is the code that runs. <strong>No independent firm has reviewed them.</strong> The source file itself carries a <code>NOT AUDITED</code> notice at the top, and the launch interface displays it. A bug remains possible, including one that would falsify one of the guarantees above. You have my good faith and the code — not a third party's signature.</p>
-  <h3>A memecoin can go to zero</h3>
-  <p>None of the guarantees on this page concern price. Liquidity that cannot be withdrawn is not liquidity that supports a price. A token launched here can lose all of its value, and most do.</p>
-  <h3>The factory does not vet projects</h3>
-  <p>The name, ticker, supply and starting market cap are chosen freely by whoever launches. Nothing is checked: not the originality of the name, not the existence of a team, not the slightest intention. <strong>A token launched by this factory is not endorsed by ApexPad.</strong> The mechanism is safe; what the creator does with it afterwards is not up to us.</p>
-  <h3>The creator keeps their token — and can sell it</h3>
-  <p>The step-8 warm-up returns their WETH, and nothing stops them from buying their own token on the market like anyone else. What the contract guarantees is that they receive <strong>no free allocation</strong> at creation: the entire supply goes into the pool, bar rounding dust, which is itself swept into the FeeSplitter at step 7 and therefore split 50/50 like any other fee. Whatever they buy afterwards, they buy at market price, visible on-chain to everyone.</p>
-  <h3>Never send ETH directly to the factory</h3>
-  <p>The factory accepts native ETH, because it must be able to receive some during the warm-up. It has <strong>no withdrawal function</strong>. ETH sent straight to its address, outside a call to <code>launchToken()</code>, would stay stuck there forever — including for me. Always go through the launch interface.</p>
-  <h3>The 50% depends on a key only you hold</h3>
-  <p>Already said in section 05, repeated here because it is irreversible: the creator's share is locked to the address that signed the launch. Lost, it is lost for everyone.</p>
+<section id="catalogue">
+  <h2><span class="num">11</span>The 35 launches</h2>
+  <p class="sub">Including the ones that are not mine.</p>
+  <p>Every token launched from an ApexPad factory gets a public proof page, generated automatically, listing everything needed to trace it: the token address, the Uniswap v3 pool, the custodian, the FeeSplitter, the Uniswap position id, the address of the wallet that launched, and the transaction transferring the NFT to the custodian. For launches from the current factory, the page is published only <strong>after an on-chain check</strong> of the values it displays.</p>
+  <p>The full catalogue is here: <a href="catalog.html"><strong>catalog.html</strong></a>. The raw source, usable by any third-party tool without going through this page, is here: <a href="catalog.json"><strong>catalog.json</strong></a>. Entries from the current factory carry a <code>factoryAddress</code> field and <code>schema: 2</code>; earlier entries do not.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Chain</th><th>Previous factory</th><th>Current factory</th><th>Total</th></tr></thead>
+    <tbody>
+      <tr><td>Robinhood Chain</td><td>14</td><td>1</td><td><strong>15</strong></td></tr>
+      <tr><td>BNB Smart Chain</td><td>6</td><td>1</td><td><strong>7</strong></td></tr>
+      <tr><td>Base</td><td>3</td><td>1</td><td><strong>4</strong></td></tr>
+      <tr><td>Optimism</td><td>2</td><td>1</td><td><strong>3</strong></td></tr>
+      <tr><td>Ethereum</td><td>1</td><td>1</td><td><strong>2</strong></td></tr>
+      <tr><td>Arbitrum One</td><td>1</td><td>1</td><td><strong>2</strong></td></tr>
+      <tr><td>Polygon PoS</td><td>1</td><td>1</td><td><strong>2</strong></td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>28</strong></td><td><strong>7</strong></td><td><strong>35</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p>Period covered: <strong>6 August to 13 September 2026</strong>. These 35 launches were signed by <strong>three different addresses</strong>, one of which is not mine. The factory makes no distinction between them: it has no whitelist, no queue, no prior approval. The only requirement to launch is paying the gas and the warm-up amount.</p>
+  <div class="box">
+    <div class="t">What the catalogue is not</div>
+    <p>A proof page documents the <strong>mechanism</strong> of a launch — not the quality, honesty or intentions of the project behind it. A token's presence in this catalogue is not a recommendation to buy it. See section 12.</p>
+  </div>
 </section>
 
 <!-- 12 -->
+<section id="limites">
+  <h2><span class="num">12</span>What remains on you</h2>
+  <p class="sub">The most important section of this page.</p>
+  <p>Everything above is about one thing: what the code prevents. Here, in the same spirit, is what it does not prevent.</p>
+  <h3>These contracts are not audited</h3>
+  <p>They are verified on seven explorers, which guarantees that the code you read is the code that runs. <strong>No independent firm has reviewed them.</strong> The source file itself carries the <code>NOT AUDITED</code> notice at the top, and the launch interface displays it. A bug remains possible, including one that would falsify one of the guarantees above. You have my good faith and the code — not a third party's signature.</p>
+  <h3>Metadata is frozen, not verified</h3>
+  <p>Section 08 guarantees that a logo, a description and links written at launch can never be modified again. <strong>It never guarantees that they are accurate.</strong> Nobody checks that a link leads anywhere, that a name does not copy another project's, or that a description is anything other than fiction. Immutable, false metadata stays false, permanently.</p>
+  <h3>A memecoin can be worth zero</h3>
+  <p>None of the guarantees on this page concern price. Liquidity that cannot be withdrawn is not liquidity that supports a price. A token launched here can lose all its value, and most do.</p>
+  <h3>The factory does not vet projects</h3>
+  <p>The name, ticker, supply and starting market cap are chosen freely by whoever launches. Nothing is checked: not the originality of the name, not the existence of a team, not any intention whatsoever. <strong>A token launched by this factory is not endorsed by ApexPad.</strong> The mechanism is sound; what the creator does with it afterwards is not up to us.</p>
+  <h3>The creator keeps their token — and can sell it</h3>
+  <p>The step-10 warm-up returns their WETH, and nothing stops them buying their own token on the market like anyone else. What the contract guarantees is that they receive <strong>no free allocation</strong> at creation: the entire supply goes into the pool, bar rounding dust, which is itself swept to the FeeSplitter at step 9 and therefore split 50/50 like any other fee. What they buy afterwards, they buy at market price, visible on-chain to everyone.</p>
+  <h3>Never send ETH directly to the factory</h3>
+  <p>The factory accepts native ETH, because it must be able to receive it during the warm-up. It has <strong>no withdrawal function</strong>. ETH sent directly to its address, outside a call to <code>launchToken()</code>, would stay stuck there forever — including for me. Always go through the launch interface.</p>
+  <h3>The 50% depends on a key only you hold</h3>
+  <p>Already said in section 05, repeated here because it is irreversible: the creator share is locked to the address that signed the launch. Lost, it is lost for everyone.</p>
+</section>
+
+<!-- 13 -->
 <section id="verifier">
-  <h2><span class="num">12</span>Check it yourself, in 6 clicks</h2>
-  <p class="sub">No terminal, nothing to install, no wallet connection.</p>
-  <p>Take any token from the <a href="catalog.html">catalogue</a> and its proof sheet, which gives you its addresses. Then, on its chain's explorer:</p>
+  <h2><span class="num">13</span>Check it yourself, in 7 clicks</h2>
+  <p class="sub">No terminal, nothing to install, no wallet to connect.</p>
+  <p>Take any token from the <a href="catalog.html">catalogue</a> and its proof page, which gives you its addresses. Then, on its chain's explorer:</p>
   <ol class="steps">
-    <li><b>The factory</b> — open its address (section 08), <em>Contract</em> tab. You should see the green verification check and the full source code. Scroll down: the constructor arguments show <code>_platform</code> = <code class="adr">0x3a7a125D...3b6c9B18</code>.</li>
+    <li><b>The factory</b> — open its address (section 09), <em>Contract</em> tab. You should see the green verification tick and the full source. Scroll down: the constructor arguments show <code>_platform</code> = <code class="adr">0x3a7a125D...3b6c9B18</code>.</li>
     <li><b>Still the factory</b>, <em>Read Contract</em> tab. Go through the list: there is no <code>owner()</code>. <em>Write Contract</em> tab: there is only <code>launchToken</code>.</li>
-    <li><b>The token</b> — open its address, <em>Read Contract</em> tab, click <code>owner()</code>. Expected answer: <code>0x0000000000000000000000000000000000000000</code>.</li>
-    <li><b>The custodian</b> — same operation. <code>owner()</code> returns <code>0x0000...0000</code>, and <code>feeRecipient()</code> returns the FeeSplitter address of that same launch. Nobody can change it any more.</li>
-    <li><b>The FeeSplitter</b> — <em>Read Contract</em>, then <code>creator()</code> and <code>platform()</code>. The first is the address that launched the token, the second is the platform address, identical across all launches.</li>
-    <li><b>The Uniswap position</b> — look up the sheet's position number on the chain's <em>NonfungiblePositionManager</em>: its holder is the custodian. Then, on the custodian, <code>currentLiquidity()</code>: come back and read it whenever you like, it will never go down.</li>
+    <li><b>The two-way link</b> — on the factory, <code>isLaunchedHere</code> with the token address: <code>true</code>. Then on the token, <code>factory()</code>: the factory address. The two must agree.</li>
+    <li><b>The token</b> — <em>Read Contract</em> tab, <code>owner()</code>. Expected answer: <code>0x0000000000000000000000000000000000000000</code>. Then <code>getTokenInfo()</code>: the logo, description and links, exactly as written at launch.</li>
+    <li><b>The custodian</b> — same thing. <code>owner()</code> returns <code>0x0000...0000</code>, and <code>feeRecipient()</code> returns the FeeSplitter address of that same launch. Nobody can change it any more.</li>
+    <li><b>The FeeSplitter</b> — <em>Read Contract</em>, then <code>creator()</code> and <code>platform()</code>. The first is the address that launched the token, the second is the platform address, identical for every launch.</li>
+    <li><b>The Uniswap position</b> — look up the position id from the proof page on the chain's <em>NonfungiblePositionManager</em>: its holder is the custodian. Then, on the custodian, <code>currentLiquidity()</code>: come back and read it whenever you like, it will never go down.</li>
   </ol>
   <div class="box ok">
-    <div class="t">If a single one of these six points does not hold</div>
-    <p>Then this page is lying, and you have public proof of where. Say so publicly. That is exactly the point of writing proofs rather than promises: they can be refuted.</p>
+    <div class="t">If a single one of these seven points does not check out</div>
+    <p>Then this page is lying, and you have public proof of where. Say so publicly. That is exactly the point of writing proofs rather than promises: they are refutable.</p>
   </div>
 </section>
 
 <footer>
   <p><strong>ApexPad — Meme Coin Factory.</strong> Contracts verified, not audited. This page is neither investment advice nor a recommendation to buy any token. Memecoins are very high-risk assets: only commit what you can afford to lose entirely.</p>
-  <p><a href="index.html">Launch on Robinhood Chain</a> &nbsp;·&nbsp; <a href="catalog.html">Launch catalogue</a> &nbsp;·&nbsp; <a href="guide.html">Guide</a> &nbsp;·&nbsp; <a href="https://apexpad.io/" target="_blank" rel="noopener">apexpad.io</a></p>
-  <p style="font-size:.8rem">Last updated: 4 September 2026. French version: <a href="transparency-fr.html">Francais</a>.</p>
+  <p><a href="index.html">Launch a token</a> &nbsp;·&nbsp; <a href="catalog.html">Launch catalogue</a> &nbsp;·&nbsp; <a href="factory-v1.html">Previous factory</a> &nbsp;·&nbsp; <a href="guide.html">Guide</a> &nbsp;·&nbsp; <a href="https://apexpad.io/" target="_blank" rel="noopener">apexpad.io</a></p>
+  <p style="font-size:.8rem">Last updated: 15 September 2026. French version: <a href="transparency-fr.html">Français</a>.</p>
 </footer>
 
 </div>
