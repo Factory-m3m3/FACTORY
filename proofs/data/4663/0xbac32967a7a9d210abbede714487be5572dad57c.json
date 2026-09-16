@@ -1,0 +1,48 @@
+{
+  "schema": 2,
+  "chainId": 4663,
+  "network": "Robinhood Chain",
+  "dex": "Uniswap V3",
+  "factoryAddress": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+  "tokenAddress": "0xbac32967a7a9d210abbede714487be5572dad57c",
+  "tokenName": "Woodpeck — Flight of Sherwood",
+  "tokenSymbol": "WOODPECK",
+  "decimals": 18,
+  "totalSupply": "1000000000000000000000000000",
+  "creatorAddress": "0x10c9d834e60260dc29aeca0d5dff0a705cec1b00",
+  "deployerAddress": "0x10c9d834e60260dc29aeca0d5dff0a705cec1b00",
+  "custodianAddress": "0x967dd31349e9ce42685568ee9893d4b718cd7e50",
+  "feeSplitterAddress": "0x06b17b09dcedf1a334d8945efe1d30421acef3d3",
+  "feeRecipientAddress": "0x06b17b09dcedf1a334d8945efe1d30421acef3d3",
+  "platformAddress": "0x3a7a125d23689d8f7f218b28f19305d33b6c9b18",
+  "positionManagerAddress": "0x73991a25c818bf1f1128deaab1492d45638de0d3",
+  "poolAddress": "0xf4ce03e1e6ba77278f067e0e844a375663000917",
+  "positionTokenId": "1186289",
+  "tickLower": -887200,
+  "tickUpper": 200600,
+  "launchTxHash": "0xa0e88f6b637f60bb0074247dba7d856ac1a40deb89ec3595afe03817a6c91f15",
+  "launchTxTo": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+  "blockNumber": 64175077,
+  "launchDate": "2026-09-16T03:09:03.000Z",
+  "metadata": {
+    "logo": "ar://EBcrtYIqZT1j27YS2tCBYRM1a5YK67g6KN-q-j2lhwI",
+    "description": "Robin stole from the rich — now Woodpeck flies with him.",
+    "socials": {
+      "twitter": "",
+      "telegram": "",
+      "discord": "",
+      "website": "",
+      "farcaster": ""
+    }
+  },
+  "logoCheck": {
+    "status": "ok",
+    "gatewayUrl": "https://arweave.net/EBcrtYIqZT1j27YS2tCBYRM1a5YK67g6KN-q-j2lhwI",
+    "servedBy": "https://ar-io.dev/EBcrtYIqZT1j27YS2tCBYRM1a5YK67g6KN-q-j2lhwI",
+    "bytes": 86378,
+    "sha256": "ab6618e13bc16337d8e226219965a60e82d52dee4ad5c0e6e66bd0f40307f8df",
+    "width": 256,
+    "height": 256
+  },
+  "proofUrl": "proofs/4663/0xbac32967a7a9d210abbede714487be5572dad57c.html"
+}
