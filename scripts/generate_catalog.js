@@ -40,6 +40,7 @@ const CHAINS = [
   { key: "base", label: "Base", chainId: 8453 },
   { key: "polygon", label: "Polygon", chainId: 137 },
   { key: "optimism", label: "Optimism", chainId: 10 },
+  { key: "arc", label: "Arc", chainId: 5042 }, // ajouté le 17/09/2026 (Factory Arc dédiée)
 ];
 
 function chainKeyFor(entry) {
