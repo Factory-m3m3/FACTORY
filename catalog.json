@@ -1,66 +1,6 @@
 [
   {
     "schema": 2,
-    "chainId": 5042,
-    "network": "Arc",
-    "dex": "Uniswap V3",
-    "factoryAddress": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
-    "tokenAddress": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
-    "tokenName": "FORGE TEST FACTORY",
-    "tokenSymbol": "FTF",
-    "decimals": 18,
-    "totalSupply": "1000000000000000000000000000",
-    "creatorAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
-    "deployerAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
-    "custodianAddress": "0x119c502a2886d256b84318a8814ff154ab972953",
-    "feeSplitterAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
-    "feeRecipientAddress": "0xa6669197295947e65fd43a39b9987854cf33e950",
-    "platformAddress": "0x3a7a125d23689d8f7f218b28f19305d33b6c9b18",
-    "positionManagerAddress": "0x39654a85a4c05127f5fd6ed22caec077a0fb1377",
-    "poolAddress": "0xbbfec2b1ffc51906f0d8923253983b4ece854519",
-    "positionTokenId": "37126",
-    "tickLower": -887200,
-    "tickUpper": 398200,
-    "launchTxHash": "0x796e5d57a8c7ac3adbda8a17927331a619c009b7938c22f809285f00eb94620f",
-    "launchTxTo": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
-    "blockNumber": 21436387,
-    "launchDate": "2026-09-18T03:47:08.000Z",
-    "metadata": {
-      "logo": "ar://EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
-      "description": "First launch of the ApexPad Multi-EVM-Chains Forge with on-chain metadata.",
-      "socials": {
-        "twitter": "https://x.com/apexpad_io",
-        "telegram": "",
-        "discord": "",
-        "website": "https://apexpad.io",
-        "farcaster": ""
-      }
-    },
-    "logoCheck": {
-      "status": "ok",
-      "gatewayUrl": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
-      "servedBy": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
-      "bytes": 57201,
-      "sha256": "c14a47d416ff289e7d2496266f162d31f00888ebab86a558dc7a38464e67e1c2",
-      "width": 256,
-      "height": 256
-    },
-    "proofUrl": "proofs/5042/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
-    "verification": {
-      "MemeToken": {
-        "error": "Blockscout verify 0x715e215bae459fc065c68ae8d1ec68e2818652ce: 403 {}"
-      },
-      "FeeSplitter": {
-        "error": "Blockscout verify 0xa6669197295947e65fd43a39b9987854cf33e950: 403 {}"
-      },
-      "LiquidityCustodian": {
-        "error": "Blockscout verify 0x119c502a2886d256b84318a8814ff154ab972953: 403 {}"
-      }
-    },
-    "verificationAttemptedAt": "2026-09-18T04:18:51.890Z"
-  },
-  {
-    "schema": 2,
     "chainId": 4663,
     "network": "Robinhood Chain",
     "dex": "Uniswap V3",
