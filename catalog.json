@@ -56,7 +56,8 @@
       "LiquidityCustodian": {
         "error": "Blockscout verify 0x119c502a2886d256b84318a8814ff154ab972953: 403 {}"
       }
-    }
+    },
+    "verificationAttemptedAt": "2026-09-18T04:18:51.890Z"
   },
   {
     "schema": 2,
