@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8QCRZ3N9KS"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-8QCRZ3N9KS');
+    gtag('config', 'G-55GLFJLMM8');
   </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1078,6 +1078,10 @@ async function launch(){
     const positionTokenId = parsed.args.tokenId ? parsed.args.tokenId.toString() : undefined;
 
     setStatus(statusEl, "Launched successfully ✅", "ok");
+    // Mesure de conversion : un lancement reellement abouti.
+    try { if (typeof gtag === 'function') gtag('event', 'token_launched', {
+      chain_id: CONFIG.CHAIN_ID, chain_name: CONFIG.CHAIN_NAME, symbol: symbol, token_address: tokenAddr
+    }); } catch(e) { /* analytics ne doit jamais casser un lancement */ }
     const chainTags = { chainId: CONFIG.CHAIN_ID, chainName: CONFIG.CHAIN_NAME, blockExplorer: CONFIG.BLOCK_EXPLORER, wethAddress: CONFIG.WETH_ADDRESS };
     showResult({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, logoURI, description: meta.description, socials: meta.socials, txHash: tx.hash, ...chainTags });
     saveToHistory({ name, symbol, tokenAddr, custodianAddr, feeSplitterAddr, poolAddr, creatorAddr: userAddress, supply: supply.toString(), logo: logoDataUrl, logoURI, description: meta.description, socials: meta.socials, txHash: tx.hash, date: Date.now(), ...chainTags });

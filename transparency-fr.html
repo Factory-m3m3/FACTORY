@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-55GLFJLMM8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-55GLFJLMM8');
+  </script>
+
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ApexPad Factory — Preuves vérifiables</title>
-<meta name="description" content="Ce que la Meme Coin Factory d'ApexPad garantit par le code, et ce qu'elle ne garantit pas : fondateur identifié, contrats vérifiés sur 7 chaînes, ownership renoncée dans la transaction de lancement, métadonnées écrites on-chain, 50% des frais au créateur." />
+<meta name="description" content="Ce que la Meme Coin Factory d'ApexPad garantit par le code, et ce qu'elle ne garantit pas : fondateur identifié, contrats vérifiés sur 8 chaînes, ownership renoncée dans la transaction de lancement, métadonnées écrites on-chain, 50% des frais au créateur." />
 <link rel="alternate" hreflang="en" href="transparency-en.html" />
 <link rel="alternate" hreflang="fr" href="transparency-fr.html" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -94,7 +103,7 @@ footer a{color:var(--muted)}
   <div class="eyebrow" style="margin-top:22px">Preuves</div>
   <h1>Ce que le code <span class="accent">garantit</span></h1>
   <p class="lede">La Meme Coin Factory d'ApexPad lance un jeton en une seule transaction, écrit ses métadonnées dans son contrat, puis renonce à tout pouvoir dessus dans cette même transaction. Cette page montre où c'est écrit, et ce que cela ne couvre pas.</p>
-  <div class="stamp">7 chaînes &nbsp;·&nbsp; une seule adresse de factory &nbsp;·&nbsp; contrats <b>vérifiés</b> publiquement &nbsp;·&nbsp; 35 lancements à ce jour</div>
+  <div class="stamp">8 chaînes &nbsp;·&nbsp; une seule adresse de factory &nbsp;·&nbsp; contrats <b>vérifiés</b> publiquement &nbsp;·&nbsp; 37 lancements à ce jour</div>
 </header>
 
 <div class="box ok" style="margin-top:34px">
@@ -109,8 +118,8 @@ footer a{color:var(--muted)}
 <div class="box" style="border-left-color:var(--warn)">
   <div class="t" style="color:var(--warn)">Le détail qui change depuis le 12 septembre 2026 — à lire avant de vérifier</div>
   <p>Les sept premières factories, en service d'août à septembre 2026, avaient toutes été déployées directement depuis <code class="adr">0x9969…011bFB</code>, l'adresse ci-dessus. <strong>Ce n'est plus le cas de la factory actuelle.</strong></p>
-  <p>La factory en service aujourd'hui a été déployée depuis un portefeuille créé pour cet unique usage : <code class="adr">0x0850a43B5EaEdBbbBdD317d0C030b83191dbdB56</code>. C'est donc <em>cette</em> adresse, et non la précédente, que le champ <em>Contract Creator</em> affiche sur les sept explorateurs.</p>
-  <p>La raison est technique et sans mystère : une adresse de contrat ne dépend que de l'adresse qui déploie et de son compteur de transactions. Il fallait un portefeuille dont la toute première transaction, sur chacune des sept chaînes, soit le déploiement de la factory — c'est la seule façon d'obtenir <strong>la même adresse de factory sur les sept chaînes</strong> (section 09). <code class="adr">0x9969…011bFB</code> avait déjà un historique différent sur chaque chaîne, donc un compteur différent.</p>
+  <p>La factory en service aujourd'hui a été déployée depuis un portefeuille créé pour cet unique usage : <code class="adr">0x0850a43B5EaEdBbbBdD317d0C030b83191dbdB56</code>. C'est donc <em>cette</em> adresse, et non la précédente, que le champ <em>Contract Creator</em> affiche sur les huit explorateurs.</p>
+  <p>La raison est technique et sans mystère : une adresse de contrat ne dépend que de l'adresse qui déploie et de son compteur de transactions. Il fallait un portefeuille dont la toute première transaction, sur chacune des huit chaînes, soit le déploiement de la factory — c'est la seule façon d'obtenir <strong>la même adresse de factory sur les huit chaînes</strong> (section 09). <code class="adr">0x9969…011bFB</code> avait déjà un historique différent sur chaque chaîne, donc un compteur différent.</p>
   <p>Le lien entre les deux adresses est public : <code class="adr">0x0850…dbdB56</code> a été financé par <code class="adr">0x9969…011bFB</code>, et l'historique des transactions entrantes est lisible sur chaque explorateur (sur Ethereum, les fonds sont passés par un pont, l'entrée y affiche donc le contrat du pont). <strong>Ce n'est pas caché, c'est simplement un clic de plus qu'avant — et c'est pour cela que c'est écrit ici plutôt que laissé à découvrir.</strong></p>
   <p>Les contrats de l'ancienne factory sont toujours en ligne, inchangés, et les jetons qu'ils ont créés n'ont rien perdu de leurs garanties : <a href="factory-v1.html">voir la page qui leur est consacrée</a>.</p>
 </div>
@@ -126,9 +135,9 @@ footer a{color:var(--muted)}
     <li><a href="#liquidite">La liquidité ne peut pas ressortir</a></li>
     <li><a href="#jeton">Le jeton : pas de mint, pas de taxe</a></li>
     <li><a href="#metadata">Les métadonnées sont dans le contrat</a></li>
-    <li><a href="#chaines">Les 7 chaînes, une seule adresse</a></li>
+    <li><a href="#chaines">Les 8 chaînes, une seule adresse</a></li>
     <li><a href="#tiers">Ce qu'un tiers en dit</a></li>
-    <li><a href="#catalogue">Les 35 lancements</a></li>
+    <li><a href="#catalogue">Les 37 lancements</a></li>
     <li><a href="#limites">Ce qui reste à votre charge</a></li>
     <li><a href="#verifier">Vérifier vous-même, en 7 clics</a></li>
   </ol>
@@ -250,7 +259,7 @@ transfer(platform, platformAmount);</pre>
   <p>Le premier lancement de la factory actuelle, <strong>FORGE TEST FACTORY</strong>, a produit le FeeSplitter <a href="https://basescan.org/address/0xa6669197295947E65FD43a39B9987854cF33e950#code" target="_blank" rel="noopener"><span class="adr">0xa6669197...cF33e950</span></a>, vérifié « Exact Match » sur Basescan. Ses arguments de constructeur s'affichent en clair, en bas de l'onglet <em>Contract</em> :</p>
   <pre>Arg [0] creator_  : 0x0850a43B5EaEdBbbBdD317d0C030b83191dbdB56
 Arg [1] platform_ : 0x3a7a125D23689d8F7f218B28f19305d33b6c9B18</pre>
-  <p>Détail vérifiable et non trivial : <strong>cette même adresse de FeeSplitter existe à l'identique sur les sept chaînes</strong>, tout comme le jeton <code class="adr">0x715E215b…18652CE</code> et le custodian <code class="adr">0x119C502a…AB972953</code> de ce lancement. Ce n'est pas une coïncidence — une adresse de contrat créé par un autre contrat dépend uniquement de l'adresse créatrice et de son compteur. Même factory à la même adresse, même rang de lancement, donc mêmes adresses. C'est une conséquence mécanique de l'EVM, vérifiable sur les sept explorateurs.</p>
+  <p>Détail vérifiable et non trivial : <strong>cette même adresse de FeeSplitter existe à l'identique sur les huit chaînes</strong>, tout comme le jeton <code class="adr">0x715E215b…18652CE</code> et le custodian <code class="adr">0x119C502a…AB972953</code> de ce lancement. Ce n'est pas une coïncidence — une adresse de contrat créé par un autre contrat dépend uniquement de l'adresse créatrice et de son compteur. Même factory à la même adresse, même rang de lancement, donc mêmes adresses. C'est une conséquence mécanique de l'EVM, vérifiable sur les huit explorateurs.</p>
   <div class="box warn">
     <div class="t">Trois limites, dites franchement</div>
     <p>Les frais dont on parle sont les frais de swap Uniswap v3 (1 % par transaction). <strong>S'il n'y a aucun volume, il n'y a aucun frais</strong> — 50 % de zéro reste zéro. Cette factory ne crée pas de volume.</p>
@@ -338,7 +347,7 @@ struct Socials { string twitter; string telegram; string discord; string website
     <tbody>
       <tr><td><code>tokenLogo</code></td><td><code>ar://</code> ou <code>ipfs://</code> uniquement, 256 octets max. <strong><code>https://</code> est refusé.</strong></td><td>Une URL <code>https</code> peut changer de contenu en silence après le lancement. Un identifiant content-addressé ne peut que mourir, jamais changer — et mourir se rattrape : n'importe qui peut ré-héberger les mêmes octets sous le même identifiant.</td></tr>
       <tr><td>Réseaux sociaux</td><td><code>https://</code> uniquement, 256 octets max, casse sensible (<code>HTTPS://</code> est refusé)</td><td>Ces chaînes sont réinjectées dans des <code>&lt;a href&gt;</code> par le catalogue et les pages de preuve. Sans ce garde-fou, une URI <code>javascript:</code> ou <code>data:</code> donnerait une exécution de script sur nos propres pages — et sur celles de tout consommateur de ces données.</td></tr>
-      <tr><td><code>tokenDescription</code></td><td>512 octets max</td><td>Borne de coût : le champ est stocké on-chain, sur sept chaînes dont Ethereum.</td></tr>
+      <tr><td><code>tokenDescription</code></td><td>512 octets max</td><td>Borne de coût : le champ est stocké on-chain, sur huit chaînes dont Ethereum.</td></tr>
     </tbody>
   </table></div>
   <div class="box warn">
@@ -348,13 +357,13 @@ struct Socials { string twitter; string telegram; string discord; string website
   </div>
   <div class="box ok">
     <div class="t">À ouvrir pour voir à quoi ça ressemble</div>
-    <p>Le jeton <strong>FORGE TEST FACTORY</strong> (<code class="adr">0x715E215bAe459FC065c68AE8d1ec68e2818652CE</code>, la même adresse sur les sept chaînes), onglet <em>Read Contract</em>, fonction <code>getTokenInfo()</code> : le logo Arweave, la description et les liens y sont, écrits on-chain le jour du lancement.</p>
+    <p>Le jeton <strong>FORGE TEST FACTORY</strong> (<code class="adr">0x715E215bAe459FC065c68AE8d1ec68e2818652CE</code>, la même adresse sur les huit chaînes), onglet <em>Read Contract</em>, fonction <code>getTokenInfo()</code> : le logo Arweave, la description et les liens y sont, écrits on-chain le jour du lancement.</p>
   </div>
 </section>
 
 <!-- 9 -->
 <section id="chaines">
-  <h2><span class="num">09</span>Les 7 chaînes, une seule adresse</h2>
+  <h2><span class="num">09</span>Les 8 chaînes, une seule adresse</h2>
   <p class="sub">Aucune capture d'écran : l'adresse, et vous allez voir vous-même.</p>
   <p>Un contrat vérifié affiche son code source complet sur l'explorateur, avec la mention que le bytecode déployé correspond exactement à ce source. C'est ce que vous devez constater sur chacune de ces sept pages, dans l'onglet <em>Contract</em> :</p>
   <div class="tw"><table>
@@ -367,13 +376,14 @@ struct Socials { string twitter; string telegram; string discord; string website
       <tr><td><strong>Ethereum</strong></td><td>1</td><td><a class="adr" href="https://etherscan.io/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
       <tr><td><strong>Arbitrum One</strong></td><td>42161</td><td><a class="adr" href="https://arbiscan.io/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
       <tr><td><strong>Polygon PoS</strong></td><td>137</td><td><a class="adr" href="https://polygonscan.com/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
+      <tr><td><strong>Arc</strong></td><td>5042</td><td><a class="adr" href="https://explorer.arc.io/address/0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c#code" target="_blank" rel="noopener">0xB7DA71D51a6946f3c5616181Ec84e7501cb1A75c</a></td><td>1</td></tr>
     </tbody>
   </table></div>
-  <p>Toutes les factories sont compilées avec <code>solc 0.8.36</code>, optimiseur activé à 200 passes, et vérifiées sur les sept explorateurs.</p>
+  <p>Toutes les factories sont compilées avec <code>solc 0.8.36</code>, optimiseur activé à 200 passes, et vérifiées sur les huit explorateurs.</p>
   <p>La colonne « Lancements » ne compte que ceux de la factory actuelle, mise en service le 12 septembre 2026. Les 28 lancements antérieurs sont ceux de la factory précédente : ils restent intégralement documentés et accessibles, <a href="factory-v1.html">sur leur propre page</a> et dans le <a href="catalog.html">catalogue</a>. Le total des deux générations est détaillé à la section 11.</p>
-  <h3>Pourquoi la même adresse sur les sept chaînes</h3>
-  <p>Une adresse de contrat dépend uniquement de l'adresse qui déploie et de son compteur de transactions. La factory a donc été déployée depuis un portefeuille créé pour ce seul usage, <code class="adr">0x0850a43B5EaEdBbbBdD317d0C030b83191dbdB56</code>, dont le déploiement était la <strong>première transaction sur chacune des sept chaînes</strong> — compteur à zéro partout, donc adresse identique partout.</p>
-  <p>Ce n'est pas un détail cosmétique : c'est ce qui permet à quiconque d'ajouter une seule adresse à son adaptateur pour couvrir les sept chaînes, et à vous de vérifier en un coup d'œil que vous êtes bien sur la bonne factory, quelle que soit la chaîne. Le champ <em>Contract Creator</em> affiche cette même adresse sur les sept explorateurs ; l'encadré du haut de page explique son lien avec l'adresse vérifiée par SolidProof.</p>
+  <h3>Pourquoi la même adresse sur les huit chaînes</h3>
+  <p>Une adresse de contrat dépend uniquement de l'adresse qui déploie et de son compteur de transactions. La factory a donc été déployée depuis un portefeuille créé pour ce seul usage, <code class="adr">0x0850a43B5EaEdBbbBdD317d0C030b83191dbdB56</code>, dont le déploiement était la <strong>première transaction sur chacune des huit chaînes</strong> — compteur à zéro partout, donc adresse identique partout.</p>
+  <p>Ce n'est pas un détail cosmétique : c'est ce qui permet à quiconque d'ajouter une seule adresse à son adaptateur pour couvrir les huit chaînes, et à vous de vérifier en un coup d'œil que vous êtes bien sur la bonne factory, quelle que soit la chaîne. Le champ <em>Contract Creator</em> affiche cette même adresse sur les huit explorateurs ; l'encadré du haut de page explique son lien avec l'adresse vérifiée par SolidProof.</p>
   <h3>Les contrats déployés par la factory : où en est la vérification</h3>
   <p>La vérification des contrats <em>enfants</em> — <code>MemeToken</code>, <code>LiquidityCustodian</code>, <code>FeeSplitter</code> — est une démarche manuelle, à faire une fois par chaîne. Elle n'est pas terminée, et voici l'état réel :</p>
   <ul>
@@ -381,7 +391,7 @@ struct Socials { string twitter; string telegram; string discord; string website
     <li><strong>Robinhood Chain</strong> : le jeton est reconnu par correspondance de bytecode sur Blockscout ; le custodian et le FeeSplitter ne sont pas encore vérifiés.</li>
     <li><strong>Les cinq autres chaînes</strong> : vérification en cours.</li>
   </ul>
-  <p>Cela ne change rien à ce que ces contrats font — leur bytecode est identique sur les sept chaînes, ce que l'identité des adresses suffit à établir — mais tant que la case n'est pas cochée sur un explorateur donné, cette page ne prétendra pas qu'elle l'est.</p>
+  <p>Cela ne change rien à ce que ces contrats font — leur bytecode est identique sur les huit chaînes, ce que l'identité des adresses suffit à établir — mais tant que la case n'est pas cochée sur un explorateur donné, cette page ne prétendra pas qu'elle l'est.</p>
 </section>
 
 <!-- 10 -->
@@ -413,24 +423,25 @@ struct Socials { string twitter; string telegram; string discord; string website
 
 <!-- 11 -->
 <section id="catalogue">
-  <h2><span class="num">11</span>Les 35 lancements</h2>
+  <h2><span class="num">11</span>Les 37 lancements</h2>
   <p class="sub">Y compris ceux qui ne sont pas les miens.</p>
   <p>Chaque jeton lancé depuis une factory ApexPad reçoit une fiche de preuve publique, générée automatiquement, qui liste tout ce qu'il faut pour le suivre à la trace : l'adresse du jeton, celle de la pool Uniswap v3, celle du custodian, celle du FeeSplitter, le numéro de la position Uniswap, l'adresse du portefeuille qui a lancé, et la transaction de transfert du NFT au custodian. Pour les lancements de la factory actuelle, la fiche n'est publiée qu'<strong>après une vérification on-chain</strong> des valeurs qu'elle affiche.</p>
   <p>Le catalogue complet est ici : <a href="catalog.html"><strong>catalog.html</strong></a>. La source brute, exploitable par n'importe quel outil tiers sans passer par cette page, est ici : <a href="catalog.json"><strong>catalog.json</strong></a>. Les entrées issues de la factory actuelle portent un champ <code>factoryAddress</code> et <code>schema: 2</code> ; les entrées antérieures n'en ont pas.</p>
   <div class="tw"><table>
     <thead><tr><th>Chaîne</th><th>Factory précédente</th><th>Factory actuelle</th><th>Total</th></tr></thead>
     <tbody>
-      <tr><td>Robinhood Chain</td><td>14</td><td>1</td><td><strong>15</strong></td></tr>
+      <tr><td>Robinhood Chain</td><td>14</td><td>2</td><td><strong>16</strong></td></tr>
       <tr><td>BNB Smart Chain</td><td>6</td><td>1</td><td><strong>7</strong></td></tr>
       <tr><td>Base</td><td>3</td><td>1</td><td><strong>4</strong></td></tr>
       <tr><td>Optimism</td><td>2</td><td>1</td><td><strong>3</strong></td></tr>
       <tr><td>Ethereum</td><td>1</td><td>1</td><td><strong>2</strong></td></tr>
       <tr><td>Arbitrum One</td><td>1</td><td>1</td><td><strong>2</strong></td></tr>
       <tr><td>Polygon PoS</td><td>1</td><td>1</td><td><strong>2</strong></td></tr>
-      <tr><td><strong>Total</strong></td><td><strong>28</strong></td><td><strong>7</strong></td><td><strong>35</strong></td></tr>
+      <tr><td>Arc</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>28</strong></td><td><strong>9</strong></td><td><strong>37</strong></td></tr>
     </tbody>
   </table></div>
-  <p>Période couverte : du <strong>6 août au 13 septembre 2026</strong>. Ces 35 lancements ont été signés par <strong>trois adresses différentes</strong>, dont une qui n'est pas la mienne. La factory ne fait aucune différence entre elles : elle n'a ni liste blanche, ni file d'attente, ni validation préalable. La seule condition pour lancer est de payer le gaz et le montant du warm-up.</p>
+  <p>Période couverte : du <strong>6 août au 18 septembre 2026</strong>. Ces 37 lancements ont été signés par <strong>quatre adresses différentes</strong>, dont une qui n'est pas la mienne. La factory ne fait aucune différence entre elles : elle n'a ni liste blanche, ni file d'attente, ni validation préalable. La seule condition pour lancer est de payer le gaz et le montant du warm-up.</p>
   <div class="box">
     <div class="t">Ce que le catalogue n'est pas</div>
     <p>Une fiche de preuve documente le <strong>mécanisme</strong> d'un lancement — pas la qualité, l'honnêteté ou les intentions du projet qui l'a fait. La présence d'un jeton dans ce catalogue n'est pas une recommandation de l'acheter. Voir la section 12.</p>
