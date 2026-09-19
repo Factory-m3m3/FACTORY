@@ -1,0 +1,532 @@
+{
+  "name": "ApexPad Forge",
+  "timestamp": "2026-09-18T03:47:08.000Z",
+  "version": {
+    "major": 1,
+    "minor": 37,
+    "patch": 0
+  },
+  "logoURI": "https://factory.apexpad.io/apexpad-forge-logo.png",
+  "keywords": [
+    "apexpad",
+    "launchpad",
+    "memecoin",
+    "multichain",
+    "fair launch"
+  ],
+  "tokens": [
+    {
+      "chainId": 5042,
+      "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+      "name": "FORGE TEST FACTORY",
+      "symbol": "FTF",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0xbbfec2b1ffc51906f0d8923253983b4ece854519",
+        "launchTx": "0x796e5d57a8c7ac3adbda8a17927331a619c009b7938c22f809285f00eb94620f",
+        "proof": "https://factory.apexpad.io/proofs/5042/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
+        "website": "https://apexpad.io",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xbac32967a7a9d210abbede714487be5572dad57c",
+      "name": "Woodpeck Flight of Sherwood",
+      "symbol": "WOODPECK",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EBcrtYIqZT1j27YS2tCBYRM1a5YK67g6KN-q-j2lhwI",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0xf4ce03e1e6ba77278f067e0e844a375663000917",
+        "launchTx": "0xa0e88f6b637f60bb0074247dba7d856ac1a40deb89ec3595afe03817a6c91f15",
+        "proof": "https://factory.apexpad.io/proofs/4663/0xbac32967a7a9d210abbede714487be5572dad57c.html"
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+      "name": "FORGE TEST FACTORY",
+      "symbol": "FTF",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0x138ed8914aa3df3383070af84c735f04fe3e2f05",
+        "launchTx": "0x1144c8f8cafa9c80785c67884205ed2afe63fb62660900ccdbb29da0ceda5992",
+        "proof": "https://factory.apexpad.io/proofs/1/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
+        "website": "https://apexpad.io",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
+    {
+      "chainId": 10,
+      "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+      "name": "FORGE TEST FACTORY",
+      "symbol": "FTF",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0x985cb3c89c46ae9c0697b24a72f485c4216f62a0",
+        "launchTx": "0x8849e2dc4bedf89d232686a68f37c370bb0c4acc645ac8842b606379cc6be4f6",
+        "proof": "https://factory.apexpad.io/proofs/10/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
+        "website": "https://apexpad.io",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
+    {
+      "chainId": 137,
+      "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+      "name": "FORGE TEST FACTORY",
+      "symbol": "FTF",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0x37dcb7f47feafcc2dbff4ef7a18ec6a115e2a63f",
+        "launchTx": "0x1b612d44b44d02c4c7ea7ba8a67c18a572d0f89a597e3124895db6730ad6cbc0",
+        "proof": "https://factory.apexpad.io/proofs/137/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
+        "website": "https://apexpad.io",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
+    {
+      "chainId": 42161,
+      "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+      "name": "FORGE TEST FACTORY",
+      "symbol": "FTF",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0x4b21bf371a2c2e0a931a0dd21f54e9022d6ce10b",
+        "launchTx": "0x1add389402698eebe67281d5793c93d283839893dc031cc953bf8e224220313f",
+        "proof": "https://factory.apexpad.io/proofs/42161/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
+        "website": "https://apexpad.io",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+      "name": "FORGE TEST FACTORY",
+      "symbol": "FTF",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0x745ea092bc58f0f9f0bf2cce7f4bd8893b0955ca",
+        "launchTx": "0x3363412de0171dce021c4ff6baabfd551a1bee8fee0649517a5ab00b689ebe4e",
+        "proof": "https://factory.apexpad.io/proofs/56/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
+        "website": "https://apexpad.io",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+      "name": "FORGE TEST FACTORY",
+      "symbol": "FTF",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0x6a7ae2142f1ef1ef360711aabb1cf67b6e5be5e4",
+        "launchTx": "0x7a08f380ca70fd9f762a5bb9e71a3519a928a5a1b0966f30be96fae0e2e0cf22",
+        "proof": "https://factory.apexpad.io/proofs/4663/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
+        "website": "https://apexpad.io",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
+    {
+      "chainId": 8453,
+      "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
+      "name": "FORGE TEST FACTORY",
+      "symbol": "FTF",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/EcNieFrhDIRWIKu6xw2GElb4frp4YIvb_BN_B9oxsYE",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0x8e5111db48ac1ad4e4a190d6278e53ca5484ac0c",
+        "launchTx": "0x3426973ba9257970d8ff251142757dabe807015aa7a342489b20447a895fdfc3",
+        "proof": "https://factory.apexpad.io/proofs/8453/0x715e215bae459fc065c68ae8d1ec68e2818652ce.html",
+        "website": "https://apexpad.io",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0xbdf5a038a88bcf0e99fd3091a3d9a6f376a74345",
+      "name": "Aetheris",
+      "symbol": "ATHR",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xe08e1cf39ea71adbe2937a6b1be3facf19604f3f",
+        "launchTx": "0x52337319d78c84777c5a69ce063b7d353a86a15ac04791eed37aca1fb9aebf9c",
+        "proof": "https://factory.apexpad.io/proofs/athr.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xc6c2f45f57fdaae0fc81dd537d604d304bca53bf",
+      "name": "Whalecome to the pod",
+      "symbol": "WHALECOME",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xff7196ffcb9c529bb5293ac2f2bf84607c55ff03",
+        "launchTx": "0x89f21e3a0f94db6557d0f3a5d4df407d25a0477c3535dfc7aecec4ac7cd7756b",
+        "proof": "https://factory.apexpad.io/proofs/whalecome.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x78aeaf6343e8d77e31a8a9362776f66838fef05a",
+      "name": "Robinhood EUR",
+      "symbol": "EUR",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xc0d1728b71f918cce8edee8a0712b5b3fa6d7211",
+        "launchTx": "0x83fbef243e5449874b34ad192c699147f673c93b58c591d263e97cf00520530e",
+        "proof": "https://factory.apexpad.io/proofs/eur.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xc0b4582f4e6ea78fde67aba8a6d2770b6280916d",
+      "name": "Beta Broker",
+      "symbol": "BBRO",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xf1c94f528eeba2901e6a4ffd05c6db4b90e4ddcb",
+        "launchTx": "0xd43e28ca006aa585a724b840ff81c5e13964afb9779f36cc3989b1f9c0bf62fb",
+        "proof": "https://factory.apexpad.io/proofs/bbro.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x007fc054c3d85fb3a23e687810a0a083d4d1500a",
+      "name": "Beta Hood",
+      "symbol": "BHOOD",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xfd3a1a6893073a3b813a3b690796c19848aff805",
+        "launchTx": "0x806341620e69a914d22570d14620283987a7a8a1b9b1ebd2711f8194442ee678",
+        "proof": "https://factory.apexpad.io/proofs/bhood.html"
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0x27daaa1d79ff7a435050a2ac7ac4c6e8281d3349",
+      "name": "CLU",
+      "symbol": "CLU",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xbd159fd18fa306ae811ceee2ce9736678a8a5508",
+        "launchTx": "0xf2d904bc39663ab270dc7c8633eb3b10d25f9809d07617ca59f3cda6f4e0df75",
+        "proof": "https://factory.apexpad.io/proofs/clu.html"
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0x81bb661312e7c9f7f66d5c23112c354453a77bd4",
+      "name": "Wizz Air Coin",
+      "symbol": "WIZZAIR",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xddbec263b667c31b06ed102c4c179859bcf33c5b",
+        "launchTx": "0xab7110d927aa5010532ebafbeaf73d0293cd47b8f239155109b3e13dfba2644c",
+        "proof": "https://factory.apexpad.io/proofs/wizzair.html"
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0xbd90d13358ec457886b26a5d09a2c0ec003b8876",
+      "name": "Switerland bank vault on BNB Network Saf",
+      "symbol": "SWISS",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x2bc2a884bd11e832b5c31116968770869cf29382",
+        "launchTx": "0x413b7b0e2aef7aa09c781d1a8063d0c6f86d59ee4c3f88d591496fc302493ed1",
+        "proof": "https://factory.apexpad.io/proofs/swiss.html"
+      }
+    },
+    {
+      "chainId": 8453,
+      "address": "0xfe8f32ad026147e9cad8f52eccf2e91b8ef54c33",
+      "name": "Buy ZEUS Today Ride the AI Wave to the M",
+      "symbol": "ZEUS",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x6944d1a9f4b8892165451e4abbc13ff0930b1280",
+        "launchTx": "0x156fde429e111ff16085e51406daf27f71136e5903ea44f87adc44f11818a6d0",
+        "proof": "https://factory.apexpad.io/proofs/zeus.html"
+      }
+    },
+    {
+      "chainId": 8453,
+      "address": "0xd96de34bb96bbff864162061fd996bc5ec3acf80",
+      "name": "The mother of Coins PAR",
+      "symbol": "PAR",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xde1bdc800babf7be0da40b7670d5b0a04448653f",
+        "launchTx": "0xe715e49fd8c4a28126574485fda12273649a39bed2467b00f00d18afbb5f7114",
+        "proof": "https://factory.apexpad.io/proofs/par.html"
+      }
+    },
+    {
+      "chainId": 10,
+      "address": "0xd96de34bb96bbff864162061fd996bc5ec3acf80",
+      "name": "Stay Optimistic",
+      "symbol": "STAYOP",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x7fb3f815be9a6a8c575543166f0edb07a945ee7c",
+        "launchTx": "0x098ebe918157d6c8da72427c24657b616acbb9dd68248e31c73d56d55ebeee13",
+        "proof": "https://factory.apexpad.io/proofs/stayop.html"
+      }
+    },
+    {
+      "chainId": 10,
+      "address": "0x66f4b11b8aacb39069f253b9246a1a49c2bca010",
+      "name": "OP_MEME",
+      "symbol": "OPM3M3",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x633aeb6e1b410a9d4ce65fef883355d2f8dd320a",
+        "launchTx": "0xd3e845c32dac7666584c9c2654eda5b62dfb562b207db3e8e51ff0ab0175732d",
+        "proof": "https://factory.apexpad.io/proofs/opm3m3.html"
+      }
+    },
+    {
+      "chainId": 137,
+      "address": "0x1c47abdde1ee413335cefd6ac6fe8680a88b3ff5",
+      "name": "POLYGON MEME",
+      "symbol": "POLM3M3",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x60d46e133e6773bc5aaa0ed3dabfab65b79b4f88",
+        "launchTx": "0x247803bfbe878f19f459787fe88ac4b8a62b51aa8ae984239cc5e93a01daa885",
+        "proof": "https://factory.apexpad.io/proofs/polm3m3.html"
+      }
+    },
+    {
+      "chainId": 8453,
+      "address": "0x66f4b11b8aacb39069f253b9246a1a49c2bca010",
+      "name": "BASE_M3M3",
+      "symbol": "BMEME",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xd4f7899274e9f30666abe59c332540c630ccaf82",
+        "launchTx": "0x82d9e799374fdaeaafdbe12d6be97f4e38e8ce26519ac4868f5cd11582678f07",
+        "proof": "https://factory.apexpad.io/proofs/bmeme.html"
+      }
+    },
+    {
+      "chainId": 42161,
+      "address": "0x66f4b11b8aacb39069f253b9246a1a49c2bca010",
+      "name": "M3M3 ARBITRUM",
+      "symbol": "ARBM3M3",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xa02b05862f01f9a2c5171c6ed0fdd47f11691326",
+        "launchTx": "0x89621228b46db3bdd517938140ab0d0f860cd1f551aba806551649b9d248fb72",
+        "proof": "https://factory.apexpad.io/proofs/arbm3m3.html"
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x66f4b11b8aacb39069f253b9246a1a49c2bca010",
+      "name": "ETH_MEME",
+      "symbol": "ETHM3M3",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x2bf472a51001d095628a59e3553f549235a27d22",
+        "launchTx": "0x27f5e3b7e711b84dee9361bc66118d2f40d4a3780d701b928032d4e68d50d88c",
+        "proof": "https://factory.apexpad.io/proofs/ethm3m3.html"
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0xd2e6462a99569c309cedc87b8fc19d5820c1ab8a",
+      "name": "test book",
+      "symbol": "TEST",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x4657f629c22ea87ade329b08f5d383311afa27b4",
+        "launchTx": "0x497be4074f35e595a4291161f42822659e58c3d84af9b103323a0404a26428fb",
+        "proof": "https://factory.apexpad.io/proofs/test.html"
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0xfe8f32ad026147e9cad8f52eccf2e91b8ef54c33",
+      "name": "M3M3 BSC",
+      "symbol": "M3M3",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x643ef26520e54539f7a9f33a63f0287a7176106b",
+        "launchTx": "0x736badb99342f44e07100be736a18a8db49ac64eda63aef00bca06ddd04a9db8",
+        "proof": "https://factory.apexpad.io/proofs/m3m3.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x2464f580c95fcfe8041cb8cb170e750067f803ab",
+      "name": "Welcome Easy Factory M3M3",
+      "symbol": "WEFM",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "proof": "https://factory.apexpad.io/proofs/wefm.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xc79666f7efc381094601f97905e918558a918d90",
+      "name": "Test Catalogue",
+      "symbol": "TC",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x7df66b5169a601806b1c933469300171bd2e328c",
+        "launchTx": "0xf907ea9b9d04ff8659b52f7fd2419fce0e0f888be97dd2ef89c4b4a671f8f896",
+        "proof": "https://factory.apexpad.io/proofs/tc.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x089ba435cb0feca5d1d45ba2afd9221b511e4fdf",
+      "name": "Robin M3M3 Hood",
+      "symbol": "HOOD",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x775b836f322b1fc106de5e31b987c6cbe7c56383",
+        "launchTx": "0xac7889c469d800d019f6fe5da89375b861bb561f7ff362781100340ca68d8ed5",
+        "proof": "https://factory.apexpad.io/proofs/hood.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x4ae29a57dbb79f11a7007baab8f47deed43d2d86",
+      "name": "Take From The Rich",
+      "symbol": "TAKE",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xf222105ea00dd78981c5b7897cf9a1ff257604a7",
+        "launchTx": "0xf51116b8babd718391f1e7bf2423625a57d4fda7c31bee2b48ed2c95179b7491",
+        "proof": "https://factory.apexpad.io/proofs/take.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xabbe7be31f0a62be900151eb1d70730252a48efd",
+      "name": "Fluff Lord",
+      "symbol": "FLUFFLORD",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x6515a137377000ee0bb76c3f16cedcacf8593757",
+        "launchTx": "0x69a2a401056530fcc7fe4efad662815638cdb435c054d8e4bb51e8514677e857",
+        "proof": "https://factory.apexpad.io/proofs/flufflord.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xb8e9681ebd53c4afda20c31a0fa730fd44f0e17a",
+      "name": "Sniffy The Bloodhound",
+      "symbol": "SNIFF",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x900ea1d859179db2397930c8d02049711469b854",
+        "launchTx": "0x7214e92956a810de9f611840eb6c63eff30c5865a1c82784ec2daf1319fba832",
+        "proof": "https://factory.apexpad.io/proofs/sniff.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x896bbebd177ac5227d95768007f433c1f34f2223",
+      "name": "WAGDOG",
+      "symbol": "WAGDOG",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xc48ab7ca5ae40cea12a19784654cb81c3e59be7e",
+        "launchTx": "0x57c92d512a21f1e7cbf2d71bc04be4f41e487ab3bcd89f2c955650f5a3141b74",
+        "proof": "https://factory.apexpad.io/proofs/wagdog.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x895ffcdaded1e7af13202f6cc5d7d4c2303a4535",
+      "name": "HAIRBALL",
+      "symbol": "HAIRBALL",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xe9c1d5a61e50600c6f0c362279e295d42eedef30",
+        "launchTx": "0xef8905fbc848ebabe0503a58b9d9a9484542ae0a07d86b922f5616f4fb1c4532",
+        "proof": "https://factory.apexpad.io/proofs/hairball.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x12e6315e6c86cbc74580ed84953b0474d6b1baa9",
+      "name": "AVOCADO BRO",
+      "symbol": "GUAC",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0x77abe033a0c5636b0c14f3915413016d18a06000",
+        "launchTx": "0x0cef90fcff22a2fb6ea406677f94dc591b8ace311a1409d68f82b5bdc4d6a380",
+        "proof": "https://factory.apexpad.io/proofs/guac.html"
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xd3ded904a8a0501f89f3d880ed092b00ec0243bb",
+      "name": "RASCAL THE RACCOON",
+      "symbol": "RASCAL",
+      "decimals": 18,
+      "extensions": {
+        "launchpad": "ApexPad",
+        "pool": "0xc63af54e128e13a517a5846234e0e3bf3c666c1c",
+        "launchTx": "0xef97e0d173e1211d49db21f554a9c34d1bafa5c465bc428f0b69b5e2e754355e",
+        "proof": "https://factory.apexpad.io/proofs/rascal.html"
+      }
+    }
+  ]
+}

@@ -26,6 +26,11 @@ const ROOT = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(ROOT, "proofs", "data");
 const CATALOG_JSON = path.join(ROOT, "catalog.json");
 const CATALOG_HTML = path.join(ROOT, "catalog.html");
+const TOKENLIST_JSON = path.join(ROOT, "tokenlist.json");
+// Base publique du site, utilisée pour les URL absolues de tokenlist.json
+// (un agrégateur lit ce fichier depuis chez lui : les chemins relatifs
+// ne lui servent à rien).
+const SITE = "https://factory.apexpad.io";
 
 // Chaînes du projet, dans l'ordre d'affichage des onglets. Un onglet est
 // toujours affiché même à 0 lancement — ça sert de "réservation de place"
@@ -53,6 +58,7 @@ function main() {
     console.log(`Aucun dossier ${DATA_DIR} trouvé, rien à générer.`);
     fs.writeFileSync(CATALOG_JSON, JSON.stringify([], null, 2));
     fs.writeFileSync(CATALOG_HTML, renderCatalogHtml([]));
+    fs.writeFileSync(TOKENLIST_JSON, renderTokenList([]));
     return;
   }
 
@@ -73,8 +79,10 @@ function main() {
 
   fs.writeFileSync(CATALOG_JSON, JSON.stringify(entries, null, 2));
   fs.writeFileSync(CATALOG_HTML, renderCatalogHtml(entries));
+  fs.writeFileSync(TOKENLIST_JSON, renderTokenList(entries));
 
   console.log(`Catalogue régénéré: ${entries.length} token(s).`);
+  console.log(`tokenlist.json régénéré depuis les mêmes entrées.`);
 }
 
 function listJsonFiles(dir) {
@@ -183,7 +191,7 @@ function renderCatalogHtml(entries) {
   <img class="forge-banner" src="apexpad-forge-banner.jpg" alt="ApexPad Forge" width="1794" height="592">
   <h1>Factory Launch Catalog</h1>
   <div class="subtitle">${entries.length} token(s) launched in total — updated automatically</div>
-  <div class="subtitle" style="margin-top:10px"><a href="index.html">Launch a token</a> &middot; <a href="transparency-en.html">Proofs &amp; guarantees</a> &middot; <a href="transparency-fr.html">Preuves (FR)</a></div>
+  <div class="subtitle" style="margin-top:10px"><a href="https://apexpad.io/">Launch a token</a> &middot; <a href="transparency-en.html">Proofs &amp; guarantees</a> &middot; <a href="transparency-fr.html">Preuves (FR)</a></div>
   <div class="tabs">
     ${tabButtons}
   </div>
@@ -220,6 +228,122 @@ function escapeHtml(str) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  tokenlist.json — format Uniswap Token List (schéma tokenlist.org)
+//
+//  POURQUOI CE FICHIER EXISTE
+//  catalog.json est un format maison. Aucun agrégateur n'écrira un
+//  adaptateur pour un format qu'il est seul à rencontrer : c'est
+//  exactement le frein constaté chez Bitquery, Mobula et DexScreener.
+//  tokenlist.json contient les MÊMES données dans l'emballage que tout
+//  le monde sait déjà lire (portefeuilles, DEX, agrégateurs, Ave.ai).
+//  La demande d'intégration cesse d'être « écrivez un décodeur pour
+//  nous » et devient « voici un fichier standard, servez-vous ».
+//
+//  URL stable attendue : https://factory.apexpad.io/tokenlist.json
+//
+//  Deux conversions obligatoires, sinon le fichier est inutilisable :
+//   1. Le logo est stocké on-chain en ar:// (choix délibéré : contenu
+//      adressé, il ne peut pas changer après le lancement). Aucun
+//      consommateur de token list ne sait résoudre ar:// — on publie
+//      donc l'URL de passerelle https, qui sert exactement le même
+//      octet-pour-octet puisque l'identifiant EST l'empreinte.
+//   2. Le schéma tokenlist impose des motifs stricts sur `name` et
+//      `symbol`. Un nom on-chain qui sort du motif ne doit pas rendre
+//      TOUT le fichier invalide : on nettoie ce champ-là, on ne jette
+//      pas le jeton.
+// ═══════════════════════════════════════════════════════════════════════
+
+// ar://<43 car.> et ipfs://<cid> → URL https. Même contenu, adresse
+// lisible par un client HTTP ordinaire.
+function gatewayUrlFor(uri) {
+  if (typeof uri !== "string") return "";
+  const ar = /^ar:\/\/([A-Za-z0-9_-]{43})$/.exec(uri);
+  if (ar) return "https://arweave.net/" + ar[1];
+  const ip = /^ipfs:\/\/([A-Za-z0-9]+(?:\/[A-Za-z0-9._-]+)*)$/.exec(uri);
+  if (ip) return "https://ipfs.io/ipfs/" + ip[1];
+  return "";
+}
+
+// Motif `name` du schéma tokenlist, longueur max 40.
+function tokenListName(v) {
+  return String(v || "")
+    .replace(/[^ \w.'+\-%/:&\[\]()À-ÖØ-öø-ÿ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 40);
+}
+
+// Motif `symbol` du schéma tokenlist, longueur max 20.
+function tokenListSymbol(v) {
+  return String(v || "").replace(/[^a-zA-Z0-9+\-%/$.]/g, "").slice(0, 20);
+}
+
+// `extensions` est plafonné à 10 clés par le schéma : on garde ce qu'un
+// intégrateur utilise vraiment, dans cet ordre de priorité.
+function tokenListExtensions(e) {
+  const md = e.metadata || {};
+  const so = md.socials || {};
+  const ext = { launchpad: "ApexPad" };
+  if (e.factoryAddress) ext.factory = String(e.factoryAddress).toLowerCase();
+  if (e.poolAddress) ext.pool = String(e.poolAddress).toLowerCase();
+  const tx = e.launchTxHash || e.txHashPositionTransfer;
+  if (tx) ext.launchTx = String(tx).toLowerCase();
+  if (e.proofUrl) ext.proof = SITE + "/" + String(e.proofUrl).replace(/^\/+/, "");
+  if (so.website) ext.website = so.website;
+  if (so.twitter) ext.twitter = so.twitter;
+  if (so.telegram) ext.telegram = so.telegram;
+  return ext;
+}
+
+function renderTokenList(entries) {
+  const tokens = entries
+    .map((e) => {
+      const address = String(e.tokenAddress || "").toLowerCase();
+      const name = tokenListName(e.tokenName);
+      const symbol = tokenListSymbol(e.tokenSymbol);
+      if (!/^0x[a-f0-9]{40}$/.test(address) || !name || !symbol) return null;
+      const t = {
+        chainId: Number(e.chainId),
+        address,
+        name,
+        symbol,
+        decimals: e.decimals == null ? 18 : Number(e.decimals),
+      };
+      // Le logo n'est publié que s'il est content-addressé (ar:// ou
+      // ipfs://), c'est-à-dire tel que le contrat l'a figé. On ne
+      // remplace jamais par l'image générique du site : une token list
+      // qui prétend qu'un jeton a un logo alors qu'il n'en a pas est
+      // pire qu'une entrée sans logo.
+      const logo = gatewayUrlFor((e.metadata || {}).logo);
+      if (logo) t.logoURI = logo;
+      t.extensions = tokenListExtensions(e);
+      return t;
+    })
+    .filter(Boolean);
+
+  // L'horodatage vient du lancement le plus récent, PAS de Date.now().
+  // Sinon chaque exécution du GitHub Action produirait un diff et donc
+  // un commit, même sans nouveau jeton.
+  let latest = 0;
+  for (const e of entries) {
+    const d = Date.parse(e.launchDate || "");
+    if (!Number.isNaN(d) && d > latest) latest = d;
+  }
+
+  const list = {
+    name: "ApexPad Forge",
+    timestamp: new Date(latest || 0).toISOString(),
+    // `minor` = nombre de jetons : croît mécaniquement à chaque
+    // lancement, donc pas d'état à conserver entre deux exécutions.
+    version: { major: 1, minor: tokens.length, patch: 0 },
+    logoURI: SITE + "/apexpad-forge-logo.png",
+    keywords: ["apexpad", "launchpad", "memecoin", "multichain", "fair launch"],
+    tokens,
+  };
+  return JSON.stringify(list, null, 2) + "\n";
 }
 
 main();
