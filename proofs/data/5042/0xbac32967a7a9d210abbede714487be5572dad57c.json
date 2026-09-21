@@ -1,0 +1,59 @@
+{
+  "schema": 2,
+  "chainId": 5042,
+  "network": "Arc",
+  "dex": "Uniswap V3",
+  "factoryAddress": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+  "tokenAddress": "0xbac32967a7a9d210abbede714487be5572dad57c",
+  "tokenName": "Custodian Locked LP",
+  "tokenSymbol": "SAFE-LP",
+  "decimals": 18,
+  "totalSupply": "1000000000000000000000000000",
+  "creatorAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+  "deployerAddress": "0x0850a43b5eaedbbbbdd317d0c030b83191dbdb56",
+  "custodianAddress": "0x967dd31349e9ce42685568ee9893d4b718cd7e50",
+  "feeSplitterAddress": "0x06b17b09dcedf1a334d8945efe1d30421acef3d3",
+  "feeRecipientAddress": "0x06b17b09dcedf1a334d8945efe1d30421acef3d3",
+  "platformAddress": "0x3a7a125d23689d8f7f218b28f19305d33b6c9b18",
+  "positionManagerAddress": "0x39654a85a4c05127f5fd6ed22caec077a0fb1377",
+  "poolAddress": "0x2479c73d6020c036c3d20271a9034216f9229bf7",
+  "positionTokenId": "42025",
+  "tickLower": -887200,
+  "tickUpper": 398200,
+  "launchTxHash": "0x889af679e565585f1a163d9e17eb05a4b2222323025105c18e5415bd0e694a45",
+  "launchTxTo": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+  "blockNumber": 21798847,
+  "launchDate": "2026-09-20T06:51:23.000Z",
+  "metadata": {
+    "logo": "ar://-ETR4jgHuB2K49SFJLKZF982avSH5CiH8GiEAt15uvs",
+    "description": "LP rug-pull impossible by design. 100% of the supply is in the liquidity pool from the first block. The LP position is held by a Custodian contract with no function to withdraw or burn liquidity. Fixed supply, no mint, no tax, ownership renounced: read the contract and verify it yourself.",
+    "socials": {
+      "twitter": "https://x.com/apexpad_io",
+      "telegram": "",
+      "discord": "",
+      "website": "https://apexpad.io/",
+      "farcaster": ""
+    }
+  },
+  "logoCheck": {
+    "status": "ok",
+    "gatewayUrl": "https://arweave.net/-ETR4jgHuB2K49SFJLKZF982avSH5CiH8GiEAt15uvs",
+    "servedBy": "https://ar-io.dev/-ETR4jgHuB2K49SFJLKZF982avSH5CiH8GiEAt15uvs",
+    "bytes": 84495,
+    "sha256": "3fdc760310198036f9b1c48f884f253eb68c46591bdf537a8760d851e0d423e7",
+    "width": 256,
+    "height": 256
+  },
+  "proofUrl": "proofs/5042/0xbac32967a7a9d210abbede714487be5572dad57c.html",
+  "verification": {
+    "MemeToken": {
+      "error": "Blockscout verify 0xbac32967a7a9d210abbede714487be5572dad57c: 403 {}"
+    },
+    "FeeSplitter": {
+      "error": "Blockscout verify 0x06b17b09dcedf1a334d8945efe1d30421acef3d3: 403 {}"
+    },
+    "LiquidityCustodian": {
+      "error": "Blockscout verify 0x967dd31349e9ce42685568ee9893d4b718cd7e50: 403 {}"
+    }
+  }
+}

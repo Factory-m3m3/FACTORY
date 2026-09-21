@@ -1,9 +1,9 @@
 {
   "name": "ApexPad Forge",
-  "timestamp": "2026-09-18T03:47:08.000Z",
+  "timestamp": "2026-09-20T06:51:23.000Z",
   "version": {
     "major": 1,
-    "minor": 37,
+    "minor": 38,
     "patch": 0
   },
   "logoURI": "https://factory.apexpad.io/apexpad-forge-logo.png",
@@ -15,6 +15,23 @@
     "fair launch"
   ],
   "tokens": [
+    {
+      "chainId": 5042,
+      "address": "0xbac32967a7a9d210abbede714487be5572dad57c",
+      "name": "Custodian Locked LP",
+      "symbol": "SAFE-LP",
+      "decimals": 18,
+      "logoURI": "https://arweave.net/-ETR4jgHuB2K49SFJLKZF982avSH5CiH8GiEAt15uvs",
+      "extensions": {
+        "launchpad": "ApexPad",
+        "factory": "0xb7da71d51a6946f3c5616181ec84e7501cb1a75c",
+        "pool": "0x2479c73d6020c036c3d20271a9034216f9229bf7",
+        "launchTx": "0x889af679e565585f1a163d9e17eb05a4b2222323025105c18e5415bd0e694a45",
+        "proof": "https://factory.apexpad.io/proofs/5042/0xbac32967a7a9d210abbede714487be5572dad57c.html",
+        "website": "https://apexpad.io/",
+        "twitter": "https://x.com/apexpad_io"
+      }
+    },
     {
       "chainId": 5042,
       "address": "0x715e215bae459fc065c68ae8d1ec68e2818652ce",
